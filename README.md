@@ -2,7 +2,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/team13eng1/piazza-panic/">
+  <a href="ttps://github.com/Lucky13dev/PiazzaPanic">
     <img src="assets/Chef/Chef_normal.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -11,10 +11,10 @@
   <p align="center">
     A LibGDX game for ENG1
     <br />
-    <a href="https://github.com/team13eng1/piazza-panic"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Lucky13dev/PiazzaPanic"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://team13eng1.github.io/">View Website</a>
+    <a href="https://lucky13dev.github.io">View Website</a>
   </p>
 </div>
 
@@ -39,7 +39,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Piazza Panic][product-screenshot]](https://github.com/team13eng1/piazza-panic)
+[![Piazza Panic][product-screenshot]](https://github.com/Lucky13dev/PiazzaPanic)
 
 Piazza Panic is a degree-level project built for the second year module Engineering 1.
 It's a fun little game with serious software engineering principles.
@@ -64,11 +64,13 @@ It's a fun little game with serious software engineering principles.
 <!-- ACKNOWLEDGMENTS -->
 ## Contributers
 
-* [Bailey Findlay](https://github.com/bailey-f)
-* [Chenxi Wu](https://github.com/Chenxwu)
-* [Yuxin Wu](https://github.com/Hereward1883)
-* [Elizabeth Edwards](https://github.com/lizzy02g)
-* [Alex McRobie](https://github.com/PovRos)
+* [Jack Hardy](https://github.com/jjh599)
+* [Ben Young](https://github.com/Benji-Young)
+* [Wiliam Gracie-Langrick](https://github.com/WiliamGLYork)
+* [Joe Fuller](https://github.com/thetopnerd)
+* [Bailey Uniacke](https://github.com/bpu500)
+* [Yousif Al-Rufaye](https://github.com/yaar500)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
