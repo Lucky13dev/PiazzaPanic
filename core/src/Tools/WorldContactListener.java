@@ -23,22 +23,24 @@ public class WorldContactListener implements ContactListener {
 
         // if either of the fixtures is the Chef object
         if (fixA.getUserData() instanceof Chef || fixB.getUserData() instanceof Chef) {
-            // determine which fixture is the Chef
-            Fixture chefFixt = fixA.getUserData() instanceof Chef ? fixA : fixB;
-            Fixture objectFixt = fixA.getUserData() instanceof Chef ? fixB: fixA;
-
             // if both fixtures are Chef objects
             if(fixA.getUserData() instanceof Chef && fixB.getUserData() instanceof Chef){
                 // call the chefsColliding method on both Chef objects
-                Chef chef = ((Chef) fixA.getUserData());
-                Chef chefb = ((Chef) fixB.getUserData());
-                chef.chefsColliding();
-                chefb.chefsColliding();
+                Chef chefA = ((Chef) fixA.getUserData());
+                Chef chefB = ((Chef) fixB.getUserData());
+                chefA.chefsColliding();
+                chefB.chefsColliding();
             }
-            // if the object fixture is an InteractiveTileObject
-            else if(objectFixt.getUserData() != null && objectFixt.getUserData() instanceof InteractiveTileObject){
-                // set the InteractiveTileObject for the Chef
-                ((Chef) chefFixt.getUserData()).setTouchingTile(objectFixt);
+            //Only one object is a chef
+            else{
+                // determine which fixture is the Chef
+                Fixture chefFixture = fixA.getUserData() instanceof Chef ? fixA : fixB;
+                Fixture objectFixture = fixA.getUserData() instanceof Chef ? fixB: fixA;
+                // if the object fixture is an InteractiveTileObject
+                if(objectFixture.getUserData() != null && objectFixture.getUserData() instanceof InteractiveTileObject){
+                    // set the InteractiveTileObject for the Chef
+                    ((Chef) chefFixture.getUserData()).setTouchingTile(objectFixture);
+                }
             }
         }
     }
@@ -57,26 +59,24 @@ public class WorldContactListener implements ContactListener {
         // if either of the fixtures is the Chef object
         if (fixA.getUserData() instanceof Chef || fixB.getUserData() instanceof Chef) {
             // determine which fixture is the Chef
-            Fixture chefFixt = fixA.getUserData() instanceof Chef ? fixA : fixB;
-            Fixture objectFixt = fixA.getUserData() instanceof Chef ? fixB: fixA;
+            Fixture chefFixture = fixA.getUserData() instanceof Chef ? fixA : fixB;
+            Fixture objectFixture = fixA.getUserData() instanceof Chef ? fixB: fixA;
 
             // if the object fixture is an InteractiveTileObject
-            if(objectFixt.getUserData() != null && objectFixt.getUserData() instanceof InteractiveTileObject){
+            if(objectFixture.getUserData() != null && objectFixture.getUserData() instanceof InteractiveTileObject){
                 // remove the InteractiveTileObject for the Chef
-                ((Chef) chefFixt.getUserData()).setTouchingTile(null);
+                ((Chef) chefFixture.getUserData()).setTouchingTile(null);
             }
         }
     }
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-        // TODO Auto-generated method stub
-        
+
     }
 }

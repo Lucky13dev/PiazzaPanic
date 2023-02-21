@@ -23,15 +23,27 @@ import com.team13.piazzapanic.MainGame;
  */
 
 public class Chef extends Sprite{
+    private final static Texture TEXTURE_NORMAL_CHEF = new Texture("Chef/Chef_normal.png");
+    private final static Texture TEXTURE_BUNS_CHEF = new Texture("Chef/Chef_holding_buns.png");
+    private final static Texture TEXTURE_BUNS_TOASTED_CHEF = new Texture("Chef/Chef_holding_buns_toasted.png");
+    private final static Texture TEXTURE_BURGER_CHEF = new Texture("Chef/Chef_holding_burger.png");
+    private final static Texture TEXTURE_LETTUCE_CHEF = new Texture("Chef/Chef_holding_lettuce.png");
+    private final static Texture TEXTURE_ONION_CHEF = new Texture("Chef/Chef_holding_onion.png");
+    private final static Texture TEXTURE_TOMATO_CHEF = new Texture("Chef/Chef_holding_tomato.png");
+    private final static Texture TEXTURE_CHOPPED_LETTUCE_CHEF = new Texture("Chef/Chef_holding_chopped_lettuce.png");
+    private final static Texture TEXTURE_CHOPPED_ONION_CHEF = new Texture("Chef/Chef_holding_chopped_onion.png");
+    private final static Texture TEXTURE_CHOPPED_TOMATO_CHEF = new Texture("Chef/Chef_holding_chopped_tomato.png");
+    private final static Texture TEXTURE_PATTY_CHEF = new Texture("Chef/Chef_holding_patty.png");
+    private final static Texture TEXTURE_COMPLETED_BURGER_CHEF = new Texture("Chef/Chef_holding_front.png");
+    private final static Texture TEXTURE_MEAT_CHEF = new Texture("Chef/Chef_holding_meat.png");
+    private final static Texture TEXTURE_SALAD_CHEF = new Texture("Chef/Chef_holding_salad.png");
     private static class Identifier{
         public Sprite sprite;
-
-        private Identifier(){
+        private Identifier(Orientation orientation){
             Texture identifierTexture = new Texture("Chef/chefIdentifier.png");
             this.sprite = new Sprite(identifierTexture);
-            this.setOrientation(Orientation.DOWN);
+            this.setOrientation(orientation);
         }
-
         private void setOrientation(Orientation orientation) {
 
             float width = 0;
@@ -53,6 +65,9 @@ public class Chef extends Sprite{
             }
             this.sprite.setBounds(this.sprite.getX(), this.sprite.getY(), width, height);
         }
+        private void setPosition(float x, float y){
+            this.sprite.setPosition(x, y);
+        }
 
     }
     private final Identifier identifier;
@@ -64,40 +79,23 @@ public class Chef extends Sprite{
     private float waitTimer;
 
     private float putDownWaitTimer;
-    public boolean chefOnChefCollision;
-    private final Texture normalChef = new Texture("Chef/Chef_normal.png");
-    private final Texture bunsChef = new Texture("Chef/Chef_holding_buns.png");
-    private final Texture bunsToastedChef = new Texture("Chef/Chef_holding_buns_toasted.png");
-    private final Texture burgerChef = new Texture("Chef/Chef_holding_burger.png");
-    private final Texture lettuceChef = new Texture("Chef/Chef_holding_lettuce.png");
-    private final Texture onionChef = new Texture("Chef/Chef_holding_onion.png");
-    private final Texture tomatoChef = new Texture("Chef/Chef_holding_tomato.png");
-    private final Texture choppedLettuceChef = new Texture("Chef/Chef_holding_chopped_lettuce.png");
-    private final Texture choppedOnionChef = new Texture("Chef/Chef_holding_chopped_onion.png");
-    private final Texture choppedTomatoChef = new Texture("Chef/Chef_holding_chopped_tomato.png");
-    private final Texture pattyChef = new Texture("Chef/Chef_holding_patty.png");
-    private final Texture completedBurgerChef = new Texture("Chef/Chef_holding_front.png");
-    private final Texture meatChef = new Texture("Chef/Chef_holding_meat.png");
-    private final Texture saladChef = new Texture("Chef/Chef_holding_salad.png");
+    private boolean chefOnChefCollision;
 
     public enum Orientation {UP, DOWN, LEFT, RIGHT}
 
-    public Orientation currentOrientation;
+    private Orientation orientation;
 
     private Texture currentTexture;
 
-    private Fixture whatTouching;
+    private Fixture touchingFixture;
 
-    private Ingredient inHandsIng;
+    private Ingredient inHandsIngredient;
     private Recipe inHandsRecipe;
 
-    private Boolean isSelectedChef;
-    private float identifierX;
-    private float identifierY;
+    private Boolean isControllable;
 
     private CompletedDishStation completedStation;
 
-    public int nextOrderAppearTime;
     public Recipe previousInHandRecipe;
 
     /**
@@ -108,32 +106,28 @@ public class Chef extends Sprite{
      */
 
     public Chef(World world, float startX, float startY) {
-        currentTexture = normalChef;
+        this.currentTexture = TEXTURE_NORMAL_CHEF;
 
         this.world = world;
-        this.currentOrientation = Orientation.DOWN;
+        this.orientation = Orientation.DOWN;
 
-        float initialX = startX / MainGame.PPM;
-        float initialY = startY / MainGame.PPM;
-        this.defineChef(initialX, initialY);
+        this.defineChef(startX/MainGame.PPM, startY/MainGame.PPM);
 
         float chefWidth = 13 / MainGame.PPM;
         float chefHeight = 20 / MainGame.PPM;
-        setBounds(0, 0, chefWidth, chefHeight);
-        chefOnChefCollision = false;
-        waitTimer = 0;
-        putDownWaitTimer = 0;
-        startVector = new Vector2(0, 0);
-        whatTouching = null;
-        inHandsIng = null;
-        inHandsRecipe = null;
-        isSelectedChef = true;
+        this.setBounds(0, 0, chefWidth, chefHeight);
+        this.chefOnChefCollision = false;
+        this.waitTimer = 0;
+        this.putDownWaitTimer = 0;
+        this.startVector = new Vector2(0, 0);
+        this.touchingFixture = null;
+        this.inHandsIngredient = null;
+        this.inHandsRecipe = null;
+        this.isControllable = true;
 
-        this.identifier = new Identifier();
-        this.identifier.setOrientation(Orientation.DOWN);
+        this.identifier = new Identifier(this.orientation);
 
-        nextOrderAppearTime = 3;
-        completedStation = null;
+        this.completedStation = null;
     }
 
 
@@ -145,78 +139,105 @@ public class Chef extends Sprite{
     public void update(float dt) {
         this.setPosition(this.b2body.getPosition().x - getWidth() / 2, this.b2body.getPosition().y - getHeight() / 2);
 
+        //Update orientation based on the current velocity
+        if (b2body.getLinearVelocity().y > 0)
+            this.orientation = Orientation.UP;
+        if (b2body.getLinearVelocity().y < 0)
+            this.orientation = Orientation.DOWN;
+        if (b2body.getLinearVelocity().x > 0)
+            this.orientation = Orientation.RIGHT;
+        if (b2body.getLinearVelocity().x < 0)
+            this.orientation = Orientation.LEFT;
+
         TextureRegion currentSkin = this.getSkin();
         this.setRegion(currentSkin);
 
-        switch (currentOrientation) {
+        //update the C identifier on chef
+        float identifierX, identifierY;
+        float chefX = this.b2body.getPosition().x;
+        float chefY = this.b2body.getPosition().y;
+        boolean emptyHands = (this.inHandsIngredient == null && this.inHandsRecipe == null);
+
+        switch (this.orientation) {
             case UP:
-                if (this.inHandsIng == null && this.inHandsRecipe == null) {
-                    this.identifierX = b2body.getPosition().x - (1.75f / MainGame.PPM);
-                    this.identifierY = b2body.getPosition().y - (7.7f / MainGame.PPM);
+                if (emptyHands) {
+                    identifierX = chefX-(1.75f/MainGame.PPM);
+                    identifierY = chefY-(7.7f/MainGame.PPM);
                 } else {
-                    this.identifierX = b2body.getPosition().x - (0.67f / MainGame.PPM);
-                    this.identifierY = b2body.getPosition().y - (7.2f / MainGame.PPM);
+                    identifierX = chefX-(0.67f/MainGame.PPM);
+                    identifierY = chefY-(7.2f/MainGame.PPM);
                 }
                 break;
             case DOWN:
-                if (this.inHandsIng == null && this.inHandsRecipe == null) {
-                    this.identifierX = b2body.getPosition().x + (0.95f / MainGame.PPM);
-                    this.identifierY = b2body.getPosition().y - (5.015f / MainGame.PPM);
+                if (emptyHands) {
+                    identifierX = chefX+(0.95f/MainGame.PPM);
+                    identifierY = chefY-(5.015f/MainGame.PPM);
                 } else {
-                    this.identifierX = b2body.getPosition().x + (0.55f / MainGame.PPM);
-                    this.identifierY = b2body.getPosition().y - (5.3f / MainGame.PPM);
+                    identifierX = chefX+(0.55f/MainGame.PPM);
+                    identifierY = chefY-(5.3f/MainGame.PPM);
                 }
                 break;
             case LEFT:
-                if (this.inHandsIng == null && this.inHandsRecipe == null) {
-                    this.identifierX = b2body.getPosition().x;
-                    this.identifierY = b2body.getPosition().y - (5.015f / MainGame.PPM);
+                if (emptyHands) {
+                    identifierX = chefX;
+                    identifierY = chefY-(5.015f/MainGame.PPM);
                 } else {
-                    this.identifierX = b2body.getPosition().x - (1.92f / MainGame.PPM);
-                    this.identifierY = b2body.getPosition().y - (4.6f / MainGame.PPM);
+                    identifierX = chefX-(1.92f/MainGame.PPM);
+                    identifierY = chefY-(4.6f/MainGame.PPM);
                 }
                 break;
             case RIGHT:
-                if (this.inHandsIng == null && this.inHandsRecipe == null) {
-                    this.identifierX = b2body.getPosition().x + (0.5f / MainGame.PPM);
-                    this.identifierY = b2body.getPosition().y - (5.015f / MainGame.PPM);
+                if (emptyHands) {
+                    identifierX = chefX+(0.5f / MainGame.PPM);
+                    identifierY = chefY-(5.015f / MainGame.PPM);
                 } else {
-                    this.identifierX = b2body.getPosition().x + (0.17f / MainGame.PPM);
-                    this.identifierY = b2body.getPosition().y - (4.63f / MainGame.PPM);
+                    identifierX = chefX+(0.17f / MainGame.PPM);
+                    identifierY = chefY-(4.63f / MainGame.PPM);
                 }
                 break;
+            default: //this should never happen
+                identifierX = this.identifier.sprite.getX();
+                identifierY = this.identifier.sprite.getY();
         }
+        this.identifier.setPosition(identifierX, identifierY);
+        this.identifier.setOrientation(this.orientation);
 
+        //handle the chef when it is not controllable
+        if (!this.isControllable){
+            this.waitTimer += dt;
 
-        if (!isSelectedChef && chefOnChefCollision) {
-            waitTimer += dt;
-            b2body.setLinearVelocity(new Vector2(startVector.x * -1, startVector.y * -1));
-            if (waitTimer > 0.3f) {
-                b2body.setLinearVelocity(new Vector2(0, 0));
-                chefOnChefCollision = false;
-                isSelectedChef = true;
-                waitTimer = 0;
-                if (inHandsIng != null) {
-                    setChefSkin(inHandsIng);
+            //handle chefs colliding
+            if (this.chefOnChefCollision) {
+                this.b2body.setLinearVelocity(new Vector2(startVector.x * -1, startVector.y * -1));
+                if (this.waitTimer > 0.3f) { //end the collision
+                    this.b2body.setLinearVelocity(new Vector2(0, 0));
+                    this.chefOnChefCollision = false;
+                    this.isControllable = true;
+                    this.waitTimer = 0;
+                    if (inHandsIngredient != null) {
+                        this.setChefSkin(inHandsIngredient);
+                    }
                 }
-            }
-        } else if (!isSelectedChef && getInHandsIng().prepareTime > 0) {
-            waitTimer += dt;
-            if (waitTimer > inHandsIng.prepareTime) {
-                inHandsIng.prepareTime = 0;
-                inHandsIng.setPrepared();
-                isSelectedChef = true;
-                waitTimer = 0;
-                setChefSkin(inHandsIng);
-            }
-        } else if (!isSelectedChef && !chefOnChefCollision && getInHandsIng().isPrepared() && inHandsIng.cookTime > 0) {
-            waitTimer += dt;
-            if (waitTimer > inHandsIng.cookTime) {
-                inHandsIng.cookTime = 0;
-                inHandsIng.setCooked();
-                isSelectedChef = true;
-                waitTimer = 0;
-                setChefSkin(inHandsIng);
+
+            //handle preparing ingredients
+            } else if (this.inHandsIngredient.prepareTime > 0) {
+                if (this.waitTimer > this.inHandsIngredient.prepareTime) { //the ingredient preparation is finished
+                    this.inHandsIngredient.prepareTime = 0;
+                    this.inHandsIngredient.setPrepared();
+                    this.isControllable = true;
+                    this.waitTimer = 0;
+                    this.setChefSkin(inHandsIngredient);
+                }
+
+            //handle cooking ingredients
+            } else if (this.inHandsIngredient.isPrepared() && this.inHandsIngredient.cookTime > 0) {
+                if (this.waitTimer > this.inHandsIngredient.cookTime) {
+                    this.inHandsIngredient.cookTime = 0;
+                    this.inHandsIngredient.setCooked();
+                    this.isControllable = true;
+                    this.waitTimer = 0;
+                    this.setChefSkin(inHandsIngredient);
+                }
             }
         }
     }
@@ -227,10 +248,7 @@ public class Chef extends Sprite{
      @param batch The sprite batch that the notification should be drawn with.
      */
     public void drawIdentifier(SpriteBatch batch) {
-        if (this.getIsSelectedChef()) {
-            this.identifier.sprite.setX(identifierX);
-            this.identifier.sprite.setY(identifierY);
-            this.identifier.setOrientation(this.getOrientation());
+        if (this.isControllable) {
             this.identifier.sprite.draw(batch);
         }
     }
@@ -242,38 +260,18 @@ public class Chef extends Sprite{
      */
 
     private TextureRegion getSkin() {
-        currentOrientation = getOrientation();
-
-        switch (currentOrientation) {
+        switch (this.orientation) {
             case UP:
-                return new TextureRegion(currentTexture, 0, 0, 33, 46);
+                return new TextureRegion(this.currentTexture, 0, 0, 33, 46);
             case DOWN:
-                return new TextureRegion(currentTexture, 33, 0, 33, 46);
+                return new TextureRegion(this.currentTexture, 33, 0, 33, 46);
             case LEFT:
-                return new TextureRegion(currentTexture, 64, 0, 33, 46);
+                return new TextureRegion(this.currentTexture, 64, 0, 33, 46);
             case RIGHT:
-                return new TextureRegion(currentTexture, 96, 0, 33, 46);
+                return new TextureRegion(this.currentTexture, 96, 0, 33, 46);
             default:
                 return null;
         }
-    }
-
-
-    /**
-     Returns the current state of the player based on the controlled chef's velocity.
-     @return current state of the player - UP, DOWN, LEFT, or RIGHT
-     */
-    public Orientation getOrientation() {
-        if (b2body.getLinearVelocity().y > 0)
-            return Orientation.UP;
-        if (b2body.getLinearVelocity().y < 0)
-            return Orientation.DOWN;
-        if (b2body.getLinearVelocity().x > 0)
-            return Orientation.RIGHT;
-        if (b2body.getLinearVelocity().x < 0)
-            return Orientation.LEFT;
-        else
-            return this.currentOrientation;
     }
 
     /**
@@ -330,43 +328,43 @@ public class Chef extends Sprite{
 
     public void setChefSkin(Object item) {
         if (item == null) {
-            currentTexture = normalChef;
+            this.currentTexture = TEXTURE_NORMAL_CHEF;
         } else if (item instanceof Lettuce) {
-            if (inHandsIng.isPrepared()) {
-                currentTexture = choppedLettuceChef;
+            if (inHandsIngredient.isPrepared()) {
+                this.currentTexture = TEXTURE_CHOPPED_LETTUCE_CHEF;
             } else {
-                currentTexture = lettuceChef;
+                this.currentTexture = TEXTURE_LETTUCE_CHEF;
             }
         } else if (item instanceof Steak) {
-            if (inHandsIng.isPrepared() && inHandsIng.isCooked()) {
-                currentTexture = burgerChef;
-            } else if (inHandsIng.isPrepared()) {
-                currentTexture = pattyChef;
+            if (inHandsIngredient.isPrepared() && inHandsIngredient.isCooked()) {
+                this.currentTexture = TEXTURE_BURGER_CHEF;
+            } else if (inHandsIngredient.isPrepared()) {
+                this.currentTexture = TEXTURE_PATTY_CHEF;
             } else {
-                currentTexture = meatChef;
+                this.currentTexture = TEXTURE_MEAT_CHEF;
             }
         } else if (item instanceof Onion) {
-            if (inHandsIng.isPrepared()) {
-                currentTexture = choppedOnionChef;
+            if (inHandsIngredient.isPrepared()) {
+                this.currentTexture = TEXTURE_CHOPPED_ONION_CHEF;
             } else {
-                currentTexture = onionChef;
+                this.currentTexture = TEXTURE_ONION_CHEF;
             }
         } else if (item instanceof Tomato) {
-            if (inHandsIng.isPrepared()) {
-                currentTexture = choppedTomatoChef;
+            if (inHandsIngredient.isPrepared()) {
+                this.currentTexture = TEXTURE_CHOPPED_TOMATO_CHEF;
             } else {
-                currentTexture = tomatoChef;
+                this.currentTexture = TEXTURE_TOMATO_CHEF;
             }
         } else if (item instanceof Bun) {
-            if (inHandsIng.isCooked()) {
-                currentTexture = bunsToastedChef;
+            if (inHandsIngredient.isCooked()) {
+                this.currentTexture = TEXTURE_BUNS_TOASTED_CHEF;
             } else {
-                currentTexture = bunsChef;
+                this.currentTexture = TEXTURE_BUNS_CHEF;
             }
         } else if (item instanceof BurgerRecipe) {
-            currentTexture = completedBurgerChef;
+            this.currentTexture = TEXTURE_COMPLETED_BURGER_CHEF;
         } else if (item instanceof SaladRecipe) {
-            currentTexture = saladChef;
+            this.currentTexture = TEXTURE_SALAD_CHEF;
         }
     }
 
@@ -376,16 +374,16 @@ public class Chef extends Sprite{
      */
 
     public void displayIngStatic(SpriteBatch batch) {
-        Gdx.app.log("", inHandsIng.toString());
-        if (whatTouching != null && !chefOnChefCollision) {
-            InteractiveTileObject tile = (InteractiveTileObject) whatTouching.getUserData();
+        Gdx.app.log("", inHandsIngredient.toString());
+        if (touchingFixture != null && !chefOnChefCollision) {
+            InteractiveTileObject tile = (InteractiveTileObject) touchingFixture.getUserData();
             if (tile instanceof ChoppingBoard) {
                 ChoppingBoard tileNew = (ChoppingBoard) tile;
-                inHandsIng.create(tileNew.getX() - (0.5f / MainGame.PPM), tileNew.getY() - (0.2f / MainGame.PPM), batch);
+                inHandsIngredient.create(tileNew.getX() - (0.5f / MainGame.PPM), tileNew.getY() - (0.2f / MainGame.PPM), batch);
                 setChefSkin(null);
             } else if (tile instanceof Pan) {
                 Pan tileNew = (Pan) tile;
-                inHandsIng.create(tileNew.getX(), tileNew.getY() - (0.01f / MainGame.PPM), batch);
+                inHandsIngredient.create(tileNew.getX(), tileNew.getY() - (0.01f / MainGame.PPM), batch);
                 setChefSkin(null);
             }
         }
@@ -401,6 +399,7 @@ public class Chef extends Sprite{
     public void displayIngDynamic(SpriteBatch batch){
         putDownWaitTimer += 1/60f;
         previousInHandRecipe.create(completedStation.getX(), completedStation.getY() - (0.01f / MainGame.PPM), batch);
+        int nextOrderAppearTime = 3;
         if (putDownWaitTimer > nextOrderAppearTime) {
             previousInHandRecipe = null;
             putDownWaitTimer = 0;
@@ -412,30 +411,20 @@ public class Chef extends Sprite{
       * This method updates the state of the chef when it is in a collision with another chef.
       * The method sets the userControlChef to false, meaning the user cannot control the chef while it's in collision.
       * It also sets the chefOnChefCollision to true, indicating that the chef is in collision with another chef.
-      * Finally, it calls the setStartVector method to update the position of the chef.
      */
-        public void chefsColliding () {
-            isSelectedChef = false;
-            chefOnChefCollision = true;
-            setStartVector();
-        }
-
-    /**
-     * Set the starting velocity vector of the chef
-     * when the chef collides with another chef
-     *
-     */
-    public void setStartVector () {
-        startVector = new Vector2(b2body.getLinearVelocity().x, b2body.getLinearVelocity().y);
+    public void chefsColliding() {
+        this.isControllable = false;
+        this.chefOnChefCollision = true;
+        this.startVector = new Vector2(b2body.getLinearVelocity().x, b2body.getLinearVelocity().y);
     }
 
     /**
      * Set the touching tile fixture
      *
-     * @param obj fixture that the chef is touching
+     * @param fixture fixture that the chef is touching
      */
-    public void setTouchingTile (Fixture obj){
-        this.whatTouching = obj;
+    public void setTouchingTile (Fixture fixture){
+        this.touchingFixture = fixture;
     }
 
     /**
@@ -443,12 +432,8 @@ public class Chef extends Sprite{
      *
      * @return the fixture that the chef is touching
      */
-    public Fixture getTouchingTile () {
-        if (whatTouching == null) {
-            return null;
-        } else {
-            return whatTouching;
-        }
+    public Fixture getTouchingFixture() {
+        return this.touchingFixture;
     }
 
     /**
@@ -456,8 +441,8 @@ public class Chef extends Sprite{
      *
      * @return the ingredient that the chef is holding
      */
-    public Ingredient getInHandsIng () {
-        return inHandsIng;
+    public Ingredient getInHandsIngredient() {
+        return this.inHandsIngredient;
     }
 
     /**
@@ -466,7 +451,7 @@ public class Chef extends Sprite{
      * @return the recipe that the chef is holding
      */
     public Recipe getInHandsRecipe () {
-        return inHandsRecipe;
+        return this.inHandsRecipe;
     }
 
     /**
@@ -474,9 +459,9 @@ public class Chef extends Sprite{
      *
      * @param ing the ingredient that the chef is holding
      */
-    public void setInHandsIng (Ingredient ing){
-        inHandsIng = ing;
-        inHandsRecipe = null;
+    public void setInHandsIngredient(Ingredient ing){
+        this.inHandsIngredient = ing;
+        this.inHandsRecipe = null;
     }
 
     /**
@@ -485,32 +470,31 @@ public class Chef extends Sprite{
      * @param recipe the recipe that the chef is holding
      */
     public void setInHandsRecipe (Recipe recipe){
-        inHandsRecipe = recipe;
-        inHandsIng = null;
+        this.inHandsRecipe = recipe;
+        this.inHandsIngredient = null;
     }
 
     /**
      * Set the chef's control by the user
      *
-     * @param value whether the chef is controlled by the user
+     * @param controllable whether the chef is controlled by the user
      */
-    public void setIsSelectedChef(boolean value){
-        isSelectedChef = value;
-
+    public void setIsControllable(boolean controllable){
+        this.isControllable = controllable;
     }
 
     /**
 
-     * Returns a boolean value indicating whether the chef is under user control.
+     * Returns a boolean value indicating whether the chef is controllable by the user.
      * If not specified, returns false.
      *
-     * @return userControlChef The boolean value indicating chef's control.
+     * @return isControllable The boolean value indicating if the chef is controllable.
      */
-    public boolean getIsSelectedChef() {
-        if (this.isSelectedChef == null){
+    public boolean isControllable() {
+        if (this.isControllable == null){
             return false;
         }
-        return this.isSelectedChef;
+        return this.isControllable;
     }
 
 
@@ -524,7 +508,7 @@ public class Chef extends Sprite{
         if (station instanceof PlateStation) {
                 ((PlateStation) station).dropItem(ing);
         }
-        setInHandsRecipe(null);
+        this.setInHandsRecipe(null);
     }
 
     /**
@@ -537,7 +521,7 @@ public class Chef extends Sprite{
                 previousInHandRecipe = getInHandsRecipe();
                 completedStation = (CompletedDishStation) station;
             }
-            setInHandsRecipe(null);
+            this.setInHandsRecipe(null);
         }
 
     /**
@@ -550,15 +534,12 @@ public class Chef extends Sprite{
             PlateStation pStation = (PlateStation) station;
             Object item = pStation.pickUpItem();
             if (item instanceof Ingredient){
-                setInHandsIng((Ingredient) item);
-                setChefSkin(item);
+                this.setInHandsIngredient((Ingredient) item);
+                this.setChefSkin(item);
             } else if (item instanceof Recipe){
-                setInHandsRecipe(((Recipe) item));
-                setChefSkin(item);
+                this.setInHandsRecipe(((Recipe) item));
+                this.setChefSkin(item);
             }
         }
     }
 }
-
-
-
