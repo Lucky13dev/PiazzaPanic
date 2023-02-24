@@ -15,6 +15,11 @@ public class GameState {
 
 
     // METHODS
+    public int getMAX_CHEF_COUNT() {
+        // Useful for changing chefs
+        return MAX_CHEF_COUNT;
+    }
+
     public int getControlledChef() {
         return controlledChef;
     }

@@ -108,8 +108,9 @@ public class PlayScreen implements Screen {
         chef2 = new Chef(this.world, 128,65);
         this.gameState.addChef(new Chef(this.world, 31.5F,65));
         this.gameState.addChef(new Chef(this.world, 128,65));
+        this.gameState.setControlledChef(0);
         controlledChef = chef1;
-        
+
         world.setContactListener(new WorldContactListener());
 
         ordersArray = new ArrayList<>();
