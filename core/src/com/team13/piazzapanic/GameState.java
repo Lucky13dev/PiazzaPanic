@@ -13,7 +13,20 @@ public class GameState {
     private int controlledChef;
     private final int MAX_CHEF_COUNT = 3;
 
+    public int getControlledChef() {
+        return controlledChef;
+    }
+
     /**
+     *
+     * @param controlledChef The index of the controlledChef in chefs
+     */
+    public void setControlledChef(int controlledChef) {
+        this.controlledChef = controlledChef;
+    }
+
+    /**
+     * @param chef An instance of the chef to add to the list,
      * Add a chef to the chef list,
      * there must be less than 3 chefs,
      * returns the index of the chef
