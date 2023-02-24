@@ -54,6 +54,7 @@ public class PlayScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
 
     private final World world;
+    private final GameState gameState;
     private final Chef chef1;
     private final Chef chef2;
 
@@ -83,6 +84,7 @@ public class PlayScreen implements Screen {
      */
 
     public PlayScreen(MainGame game){
+        this.gameState = new GameState();
         this.game = game;
         scenarioComplete = Boolean.FALSE;
         createdOrder = Boolean.FALSE;
@@ -104,7 +106,10 @@ public class PlayScreen implements Screen {
 
         chef1 = new Chef(this.world, 31.5F,65);
         chef2 = new Chef(this.world, 128,65);
+        this.gameState.addChef(new Chef(this.world, 31.5F,65));
+        this.gameState.addChef(new Chef(this.world, 128,65));
         controlledChef = chef1;
+        
         world.setContactListener(new WorldContactListener());
 
         ordersArray = new ArrayList<>();

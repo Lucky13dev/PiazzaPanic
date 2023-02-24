@@ -8,11 +8,13 @@ import java.util.*;
  * GameState is a class that stores the current state of the game so it can be saved later.
  */
 public class GameState {
-
+    // VARIABLES
     private List<Chef> chefs;
     private int controlledChef;
     private final int MAX_CHEF_COUNT = 3;
 
+
+    // METHODS
     public int getControlledChef() {
         return controlledChef;
     }
@@ -22,7 +24,8 @@ public class GameState {
      * @param controlledChef The index of the controlledChef in chefs
      */
     public void setControlledChef(int controlledChef) {
-        this.controlledChef = controlledChef;
+        if(controlledChef >=0 && controlledChef < this.chefs.size())
+            this.controlledChef = controlledChef;
     }
 
     /**
