@@ -30,4 +30,8 @@ public class GameState {
         }
     }
 
+    public List<Chef> getChefs(){
+        return this.chefs;
+    }
+
 }
