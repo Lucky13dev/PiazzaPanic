@@ -391,36 +391,21 @@ public class PlayScreen implements Screen {
             Recipe recipeNew = plateStation.getCompletedRecipe();
             recipeNew.create(plateStation.getX(), plateStation.getY(), game.batch);
         }
-        if (!chef1.isControllable()) {
-            if (chef1.getTouchingFixture() != null && chef1.getInHandsIngredient() != null){
-                if (chef1.getTouchingFixture().getUserData() instanceof InteractiveTileObject){
-                    chef1.displayIngStatic(game.batch);
+
+        for(int i = 0; i < this.gameState.getChefs().size(); i++){
+            if (!this.gameState.getChefs().get(i).isControllable()) {
+                if (this.gameState.getChefs().get(i).getTouchingFixture() != null && this.gameState.getChefs().get(i).getInHandsIngredient() != null){
+                    if (this.gameState.getChefs().get(i).getTouchingFixture().getUserData() instanceof InteractiveTileObject){
+                        this.gameState.getChefs().get(i).displayIngStatic(game.batch);
+                    }
                 }
             }
-        }
-        if (!chef2.isControllable()) {
-            if (chef2.getTouchingFixture() != null && chef2.getInHandsIngredient() != null) {
-                if (chef2.getTouchingFixture().getUserData() instanceof InteractiveTileObject) {
-                    chef2.displayIngStatic(game.batch);
-                }
+
+            if (this.gameState.getChefs().get(i).previousInHandRecipe != null){
+                this.gameState.getChefs().get(i).displayIngDynamic(game.batch);
             }
         }
-        if (!chef3.isControllable()) {
-            if (chef3.getTouchingFixture() != null && chef3.getInHandsIngredient() != null){
-                if (chef3.getTouchingFixture().getUserData() instanceof InteractiveTileObject){
-                    chef3.displayIngStatic(game.batch);
-                }
-            }
-        }
-        if (chef1.previousInHandRecipe != null){
-            chef1.displayIngDynamic(game.batch);
-        }
-        if (chef2.previousInHandRecipe != null){
-            chef2.displayIngDynamic(game.batch);
-        }
-        if (chef3.previousInHandRecipe != null){
-            chef3.displayIngDynamic(game.batch);
-        }
+
         game.batch.end();
     }
 
