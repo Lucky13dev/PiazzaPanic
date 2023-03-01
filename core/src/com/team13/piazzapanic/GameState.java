@@ -10,17 +10,22 @@ import java.util.*;
 public class GameState {
     // VARIABLES
     private List<Chef> chefs;
-    private int controlledChef;
+    private Chef controlledChef;
     private final int MAX_CHEF_COUNT = 3;
 
 
     // METHODS
+
+    public GameState(){
+        this.chefs = new ArrayList<>();
+    }
+
     public int getMAX_CHEF_COUNT() {
         // Useful for changing chefs
         return MAX_CHEF_COUNT;
     }
 
-    public int getControlledChef() {
+    public Chef getControlledChef() {
         return controlledChef;
     }
 
@@ -30,7 +35,7 @@ public class GameState {
      */
     public void setControlledChef(int controlledChef) {
         if(controlledChef >=0 && controlledChef < this.chefs.size())
-            this.controlledChef = controlledChef;
+            this.controlledChef = this.chefs.get(controlledChef);
     }
 
     /**
