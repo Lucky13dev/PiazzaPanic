@@ -288,9 +288,10 @@ public class PlayScreen implements Screen {
 
         gamecam.update();
         renderer.setView(gamecam);
-        gameState.getChefs().get(0).update(dt);
-        gameState.getChefs().get(1).update(dt);
-        gameState.getChefs().get(2).update(dt);
+        // Update the chefs
+        for(Chef chef : this.gameState.getChefs()) {
+            chef.update(dt);
+        }
         world.step(1/60f, 6, 2);
 
     }
