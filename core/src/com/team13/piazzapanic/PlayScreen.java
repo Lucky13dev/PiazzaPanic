@@ -108,10 +108,10 @@ public class PlayScreen implements Screen {
         this.gameState.addChef(new Chef(this.world, 144, 32));
         this.gameState.setControlledChef(0);
 
-        // Create references for the chefs
-        //this.chef1 = this.gameState.getChefs().get(0);
-        //this.chef2 = this.gameState.getChefs().get(1);
-        //this.chef3 = this.gameState.getChefs().get(2);
+        // Chefs are gotten by their index
+        //chef1 = this.gameState.getChefs().get(0);
+        //chef2 = this.gameState.getChefs().get(1);
+        //chef3 = this.gameState.getChefs().get(2);
 
         world.setContactListener(new WorldContactListener());
 
