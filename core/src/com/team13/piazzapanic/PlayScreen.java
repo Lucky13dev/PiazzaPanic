@@ -146,29 +146,28 @@ public class PlayScreen implements Screen {
      */
 
     public void handleInput(float dt){
-        if ((Gdx.input.isKeyJustPressed(Input.Keys.R) &&
-                this.gameState.getChefs().get(0).isControllable() &&
-                this.gameState.getChefs().get(1).isControllable() &&
-                this.gameState.getChefs().get(2).isControllable())) {
-            if (this.gameState.getControlledChef().equals(gameState.getChefs().get(0))) {
-                this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
-                this.gameState.setControlledChef(1);
-            } else if (this.gameState.getControlledChef().equals(gameState.getChefs().get(1))) {
-                this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
-                this.gameState.setControlledChef(2);
-            } else{
-                this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
-                this.gameState.setControlledChef(0);
-            }
+        int controlledChefIndex = this.gameState.getChefs().indexOf(this.gameState.getControlledChef());
+        // Switch between chefs
+        if ((Gdx.input.isKeyJustPressed(Input.Keys.R))) {
+            do {
+                controlledChefIndex = (controlledChefIndex + 1) % this.gameState.getMAX_CHEF_COUNT();
+                if (gameState.getChefs().get(controlledChefIndex).isControllable()) {
+                    this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
+                    this.gameState.setControlledChef(controlledChefIndex);
+                }
+            } while (!this.gameState.getChefs().get(controlledChefIndex).isControllable());
         }
-        if (!this.gameState.getControlledChef().isControllable()){
-            if (this.gameState.getChefs().get(0).isControllable()){
-                this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
-                this.gameState.setControlledChef(0);
-            } else if(this.gameState.getChefs().get(1).isControllable()) {
-                this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
-                this.gameState.setControlledChef(1);
-            }
+        // If the controlled chef is busy
+        if (!this.gameState.getControlledChef().isControllable()) {
+            controlledChefIndex = this.gameState.getChefs().indexOf(this.gameState.getControlledChef());
+            // Check the next chef is controllable
+            do {
+                controlledChefIndex = (controlledChefIndex + 1) % this.gameState.getMAX_CHEF_COUNT();
+                if (this.gameState.getChefs().get(controlledChefIndex).isControllable()) {
+                    this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
+                    this.gameState.setControlledChef(controlledChefIndex);
+                }
+            } while(!this.gameState.getChefs().get(controlledChefIndex).isControllable());
         }
         if (this.gameState.getControlledChef().isControllable()) {
                 float xVelocity = 0;
@@ -289,9 +288,10 @@ public class PlayScreen implements Screen {
 
         gamecam.update();
         renderer.setView(gamecam);
-        gameState.getChefs().get(0).update(dt);
-        gameState.getChefs().get(1).update(dt);
-        gameState.getChefs().get(2).update(dt);
+        // Update the chefs
+        for(Chef chef : this.gameState.getChefs()) {
+            chef.update(dt);
+        }
         world.step(1/60f, 6, 2);
 
     }
