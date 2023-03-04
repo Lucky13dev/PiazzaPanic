@@ -84,9 +84,6 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
 		waitUntilInvokedInRenderMethod();
 	}
 
-	/**
-	    *
-	    */
 	private void waitUntilInvokedInRenderMethod() {
 		try {
 			while (true) {

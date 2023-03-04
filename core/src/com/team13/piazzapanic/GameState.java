@@ -5,13 +5,13 @@ import Sprites.*;
 import java.util.*;
 
 /**
- * GameState is a class that stores the current state of the game so it can be saved later.
+ * GameState is a class that stores the current state of the game, so it can be saved later.
  */
 public class GameState {
     // VARIABLES
     private List<Chef> chefs;
     private Chef controlledChef;
-    private final int MAX_CHEF_COUNT = 3;
+    private static final int MAX_CHEF_COUNT = 5;
 
 
     // METHODS
@@ -20,7 +20,7 @@ public class GameState {
         this.chefs = new ArrayList<>();
     }
 
-    public int getMAX_CHEF_COUNT() {
+    public static int getMAX_CHEF_COUNT() {
         // Useful for changing chefs
         return MAX_CHEF_COUNT;
     }
