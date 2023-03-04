@@ -64,14 +64,9 @@ public class PlayScreen implements Screen {
 
 
     public Boolean scenarioComplete;
-    public Boolean createdOrder;
 
     public static float trayX;
     public static float trayY;
-
-    private float timeSeconds = 0f;
-
-    private float timeSecondsCount = 0f;
 
     /**
      * PlayScreen constructor initializes the game instance, sets initial conditions for scenarioComplete and createdOrder,
@@ -85,7 +80,6 @@ public class PlayScreen implements Screen {
         this.gameState = new GameState();
         this.game = game;
         scenarioComplete = Boolean.FALSE;
-        createdOrder = Boolean.FALSE;
         gamecam = new OrthographicCamera();
         // FitViewport to maintain aspect ratio whilst scaling to screen size
         gameport = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
@@ -286,6 +280,21 @@ public class PlayScreen implements Screen {
     public void update(float dt){
         handleInput(dt);
 
+        //Increment the time
+        this.gameState.incrementTime(dt);
+
+        int currentTimeInSeconds = (int) this.gameState.getTime();
+
+        if(currentTimeInSeconds == 5 && ordersArray.size() == 0){
+            this.createOrder();
+        }
+
+        //update the state of the HUD
+        if (this.scenarioComplete){
+            hud.showScenarioComplete();
+        }
+        hud.updateTime(currentTimeInSeconds);
+
         gamecam.update();
         renderer.setView(gamecam);
         // Update the chefs
@@ -323,13 +332,13 @@ public class PlayScreen implements Screen {
      */
     public void updateOrder(){
         if(scenarioComplete==Boolean.TRUE) {
-            hud.updateScore(Boolean.TRUE, (6 - ordersArray.size()) * 35);
+            hud.updateScore(Boolean.TRUE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
             hud.updateOrder(Boolean.TRUE, 0);
             return;
         }
         if(ordersArray.size() != 0) {
             if (ordersArray.get(0).orderComplete) {
-                hud.updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35);
+                hud.updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
                 ordersArray.remove(0);
                 hud.updateOrder(Boolean.FALSE, 6 - ordersArray.size());
                 return;
@@ -351,20 +360,6 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta){
         update(delta);
-
-        //Execute handleEvent each 1 second
-        timeSeconds +=Gdx.graphics.getRawDeltaTime();
-        timeSecondsCount += Gdx.graphics.getDeltaTime();
-
-        if(Math.round(timeSecondsCount) == 5 && createdOrder == Boolean.FALSE){
-            createdOrder = Boolean.TRUE;
-            createOrder();
-        }
-        float period = 1f;
-        if(timeSeconds > period) {
-            timeSeconds -= period;
-            hud.updateTime(scenarioComplete);
-        }
 
         Gdx.gl.glClear(1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
