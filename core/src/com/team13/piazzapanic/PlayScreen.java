@@ -48,7 +48,6 @@ public class PlayScreen implements Screen {
     private final MainGame game;
     private final OrthographicCamera gamecam;
     private final Viewport gameport;
-    private final HUD hud;
 
     private final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
@@ -84,7 +83,7 @@ public class PlayScreen implements Screen {
         // FitViewport to maintain aspect ratio whilst scaling to screen size
         gameport = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
         // create HUD for score & time
-        hud = new HUD(game.batch);
+        this.gameState.setHud(new HUD(game.batch));
         // create orders hud
         Orders orders = new Orders(game.batch);
         // create map
@@ -291,9 +290,9 @@ public class PlayScreen implements Screen {
 
         //update the state of the HUD
         if (this.scenarioComplete){
-            hud.showScenarioComplete();
+            this.gameState.getHud().showScenarioComplete();
         }
-        hud.updateTime(currentTimeInSeconds);
+        this.gameState.getHud().updateTime(currentTimeInSeconds);
 
         gamecam.update();
         renderer.setView(gamecam);
@@ -324,7 +323,7 @@ public class PlayScreen implements Screen {
             ordersArray.add(order);
             randomNum = ThreadLocalRandom.current().nextInt(1, 2 + 1);
         }
-        hud.updateOrder(Boolean.FALSE, 1);
+        this.gameState.getHud().updateOrder(Boolean.FALSE, 1);
     }
 
     /**
@@ -332,15 +331,15 @@ public class PlayScreen implements Screen {
      */
     public void updateOrder(){
         if(scenarioComplete==Boolean.TRUE) {
-            hud.updateScore(Boolean.TRUE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
-            hud.updateOrder(Boolean.TRUE, 0);
+            this.gameState.getHud().updateScore(Boolean.TRUE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+            this.gameState.getHud().updateOrder(Boolean.TRUE, 0);
             return;
         }
         if(ordersArray.size() != 0) {
             if (ordersArray.get(0).orderComplete) {
-                hud.updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+                this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
                 ordersArray.remove(0);
-                hud.updateOrder(Boolean.FALSE, 6 - ordersArray.size());
+                this.gameState.getHud().updateOrder(Boolean.FALSE, 6 - ordersArray.size());
                 return;
             }
             ordersArray.get(0).create(trayX, trayY, game.batch);
@@ -365,8 +364,8 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
+        game.batch.setProjectionMatrix(this.gameState.getHud().stage.getCamera().combined);
+        this.gameState.getHud().stage.draw();
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         updateOrder();
@@ -426,6 +425,6 @@ public class PlayScreen implements Screen {
         map.dispose();
         renderer.dispose();
         world.dispose();
-        hud.dispose();
+        this.gameState.getHud().dispose();
     }
 }

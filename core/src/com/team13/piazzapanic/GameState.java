@@ -15,6 +15,8 @@ public class GameState {
 
     private float time;
 
+    private HUD hud;
+
 
     // METHODS
 
@@ -73,6 +75,14 @@ public class GameState {
      */
     public void incrementTime(float dt) {
         this.time += time;
+    }
+
+    public HUD getHud() {
+        return hud;
+    }
+
+    public void setHud(HUD hud) {
+        this.hud = hud;
     }
 
 }
