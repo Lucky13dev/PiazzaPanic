@@ -335,7 +335,7 @@ public class PlayScreen implements Screen {
                 this.gameState.getHud().updateOrder(Boolean.FALSE, 6 - this.gameState.getOrdersArray().size());
                 return;
             }
-            this.gameState.getOrdersArray().get(0).create(trayX, trayY, game.batch);
+            this.gameState.getOrdersArray().get(0).create(GameState.trayX, GameState.trayY, game.batch);
         }
     }
 

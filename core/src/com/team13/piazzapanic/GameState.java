@@ -10,6 +10,8 @@ import java.util.*;
  */
 public class GameState {
     // VARIABLES
+
+    // MAKE VARIABLES SERIALIZABLE
     private List<Chef> chefs;
     private Chef controlledChef;
     private static final int MAX_CHEF_COUNT = 5;
@@ -19,6 +21,8 @@ public class GameState {
     private HUD hud;
     private ArrayList<Order> ordersArray;
     private Boolean scenarioComplete;
+    public static float trayX;
+    public static float trayY;
 
 
     // METHODS
@@ -101,4 +105,5 @@ public class GameState {
     public void setScenarioComplete(Boolean b){
         this.scenarioComplete = b;
     }
+
 }

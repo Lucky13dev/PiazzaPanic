@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.team13.piazzapanic.GameState;
 import com.team13.piazzapanic.MainGame;
 import com.team13.piazzapanic.PlayScreen;
 
@@ -87,8 +88,8 @@ public class B2WorldCreator {
                 } else if (mapObject.getName().equals("completed_dish")) {
                     new CompletedDishStation(world, map, bdef, rectangle);
                 } else if (mapObject.getName().equals("order_top")) {
-                    PlayScreen.trayX = rectangle.x;
-                    PlayScreen.trayY = rectangle.y;
+                    GameState.trayX = rectangle.x;
+                    GameState.trayY = rectangle.y;
                 }
 
             }
