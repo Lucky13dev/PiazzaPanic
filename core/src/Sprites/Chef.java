@@ -79,6 +79,7 @@ public class Chef extends Sprite{
     private float waitTimer;
 
     private float putDownWaitTimer;
+
     private boolean chefOnChefCollision;
 
     public enum Orientation {UP, DOWN, LEFT, RIGHT}
@@ -541,5 +542,9 @@ public class Chef extends Sprite{
                 this.setChefSkin(item);
             }
         }
+    }
+
+    public boolean isChefOnChefCollision() {
+        return chefOnChefCollision;
     }
 }
