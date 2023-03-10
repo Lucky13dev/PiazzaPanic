@@ -1,5 +1,6 @@
 package com.team13.piazzapanic;
 
+import Recipe.Order;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import Sprites.*;
 import java.util.*;
@@ -16,6 +17,7 @@ public class GameState {
     private float time;
 
     private HUD hud;
+    private ArrayList<Order> ordersArray;
 
 
     // METHODS
@@ -23,6 +25,7 @@ public class GameState {
     public GameState(){
         this.chefs = new ArrayList<>();
         this.time = 0;
+        this.ordersArray = new ArrayList<>();
     }
 
     public static int getMAX_CHEF_COUNT() {
@@ -85,4 +88,7 @@ public class GameState {
         this.hud = hud;
     }
 
+    public ArrayList<Order> getOrdersArray() {
+        return ordersArray;
+    }
 }

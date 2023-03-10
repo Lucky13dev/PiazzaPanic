@@ -57,10 +57,7 @@ public class PlayScreen implements Screen {
 
     //private Chef controlledChef;
 
-    public ArrayList<Order> ordersArray;
-
     public PlateStation plateStation;
-
 
     public Boolean scenarioComplete;
 
@@ -108,7 +105,6 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        ordersArray = new ArrayList<>();
 
     }
 
@@ -254,11 +250,11 @@ public class PlayScreen implements Screen {
                                 break;
                             case "Sprites.CompletedDishStation":
                                 if (this.gameState.getControlledChef().getInHandsRecipe() != null){
-                                    if(this.gameState.getControlledChef().getInHandsRecipe().getClass().equals(ordersArray.get(0).recipe.getClass())){
+                                    if(this.gameState.getControlledChef().getInHandsRecipe().getClass().equals(this.gameState.getOrdersArray().get(0).recipe.getClass())){
                                         this.gameState.getControlledChef().dropItemOn(tile);
-                                        ordersArray.get(0).orderComplete = true;
+                                        this.gameState.getOrdersArray().get(0).orderComplete = true;
                                         this.gameState.getControlledChef().setChefSkin(null);
-                                        if(ordersArray.size()==1){
+                                        if(this.gameState.getOrdersArray().size()==1){
                                             scenarioComplete = Boolean.TRUE;
                                         }
                                     }
@@ -284,7 +280,7 @@ public class PlayScreen implements Screen {
 
         int currentTimeInSeconds = (int) this.gameState.getTime();
 
-        if(currentTimeInSeconds == 5 && ordersArray.size() == 0){
+        if(currentTimeInSeconds == 5 && this.gameState.getOrdersArray().size() == 0){
             this.createOrder();
         }
 
@@ -320,7 +316,7 @@ public class PlayScreen implements Screen {
             else {
                 order = new Order(PlateStation.saladRecipe, salad_recipe);
             }
-            ordersArray.add(order);
+            this.gameState.getOrdersArray().add(order);
             randomNum = ThreadLocalRandom.current().nextInt(1, 2 + 1);
         }
         this.gameState.getHud().updateOrder(Boolean.FALSE, 1);
@@ -331,18 +327,18 @@ public class PlayScreen implements Screen {
      */
     public void updateOrder(){
         if(scenarioComplete==Boolean.TRUE) {
-            this.gameState.getHud().updateScore(Boolean.TRUE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+            this.gameState.getHud().updateScore(Boolean.TRUE, (6 - this.gameState.getOrdersArray().size()) * 35, (int)this.gameState.getTime());
             this.gameState.getHud().updateOrder(Boolean.TRUE, 0);
             return;
         }
-        if(ordersArray.size() != 0) {
-            if (ordersArray.get(0).orderComplete) {
-                this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
-                ordersArray.remove(0);
-                this.gameState.getHud().updateOrder(Boolean.FALSE, 6 - ordersArray.size());
+        if(this.gameState.getOrdersArray().size() != 0) {
+            if (this.gameState.getOrdersArray().get(0).orderComplete) {
+                this.gameState.getHud().updateScore(Boolean.FALSE, (6 - this.gameState.getOrdersArray().size()) * 35, (int)this.gameState.getTime());
+                this.gameState.getOrdersArray().remove(0);
+                this.gameState.getHud().updateOrder(Boolean.FALSE, 6 - this.gameState.getOrdersArray().size());
                 return;
             }
-            ordersArray.get(0).create(trayX, trayY, game.batch);
+            this.gameState.getOrdersArray().get(0).create(trayX, trayY, game.batch);
         }
     }
 
