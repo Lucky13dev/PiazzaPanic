@@ -18,6 +18,7 @@ public class GameState {
 
     private HUD hud;
     private ArrayList<Order> ordersArray;
+    private Boolean scenarioComplete;
 
 
     // METHODS
@@ -26,6 +27,7 @@ public class GameState {
         this.chefs = new ArrayList<>();
         this.time = 0;
         this.ordersArray = new ArrayList<>();
+        this.scenarioComplete = Boolean.FALSE;
     }
 
     public static int getMAX_CHEF_COUNT() {
@@ -90,5 +92,13 @@ public class GameState {
 
     public ArrayList<Order> getOrdersArray() {
         return ordersArray;
+    }
+
+    public Boolean getScenarioComplete() {
+        return scenarioComplete;
+    }
+
+    public void setScenarioComplete(Boolean b){
+        this.scenarioComplete = b;
     }
 }

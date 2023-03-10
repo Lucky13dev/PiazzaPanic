@@ -59,8 +59,6 @@ public class PlayScreen implements Screen {
 
     public PlateStation plateStation;
 
-    public Boolean scenarioComplete;
-
     public static float trayX;
     public static float trayY;
 
@@ -75,7 +73,6 @@ public class PlayScreen implements Screen {
     public PlayScreen(MainGame game){
         this.gameState = new GameState();
         this.game = game;
-        scenarioComplete = Boolean.FALSE;
         gamecam = new OrthographicCamera();
         // FitViewport to maintain aspect ratio whilst scaling to screen size
         gameport = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
@@ -255,7 +252,7 @@ public class PlayScreen implements Screen {
                                         this.gameState.getOrdersArray().get(0).orderComplete = true;
                                         this.gameState.getControlledChef().setChefSkin(null);
                                         if(this.gameState.getOrdersArray().size()==1){
-                                            scenarioComplete = Boolean.TRUE;
+                                            this.gameState.setScenarioComplete(Boolean.TRUE);
                                         }
                                     }
                                 }
@@ -285,7 +282,7 @@ public class PlayScreen implements Screen {
         }
 
         //update the state of the HUD
-        if (this.scenarioComplete){
+        if (this.gameState.getScenarioComplete()){
             this.gameState.getHud().showScenarioComplete();
         }
         this.gameState.getHud().updateTime(currentTimeInSeconds);
@@ -326,7 +323,7 @@ public class PlayScreen implements Screen {
      * Updates the orders as they are completed, or if the game scenario has been completed.
      */
     public void updateOrder(){
-        if(scenarioComplete==Boolean.TRUE) {
+        if(this.gameState.getScenarioComplete()==Boolean.TRUE) {
             this.gameState.getHud().updateScore(Boolean.TRUE, (6 - this.gameState.getOrdersArray().size()) * 35, (int)this.gameState.getTime());
             this.gameState.getHud().updateOrder(Boolean.TRUE, 0);
             return;
