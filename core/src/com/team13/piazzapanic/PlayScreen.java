@@ -150,8 +150,8 @@ public class PlayScreen implements Screen {
                 }
             } while (!this.gameState.getChefs().get(controlledChefIndex).isControllable());
         }
-        // If the controlled chef is busy
-        if (!this.gameState.getControlledChef().isControllable()) {
+        // If the controlled chef is busy and not colliding with another chef
+        if (!this.gameState.getControlledChef().isControllable() && !this.gameState.getControlledChef().isChefOnChefCollision()) {
             controlledChefIndex = this.gameState.getChefs().indexOf(this.gameState.getControlledChef());
             // Check the next chef is controllable
             do {
