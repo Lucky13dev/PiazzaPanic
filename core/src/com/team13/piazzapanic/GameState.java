@@ -74,7 +74,7 @@ public class GameState {
      * @param dt delta time, the amount of time to increment by.
      */
     public void incrementTime(float dt) {
-        this.time += time;
+        this.time += dt;
     }
 
     public HUD getHud() {
