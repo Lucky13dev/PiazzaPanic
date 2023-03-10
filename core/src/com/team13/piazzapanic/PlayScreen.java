@@ -143,7 +143,7 @@ public class PlayScreen implements Screen {
         // Switch between chefs
         if ((Gdx.input.isKeyJustPressed(Input.Keys.R))) {
             do {
-                controlledChefIndex = (controlledChefIndex + 1) % this.gameState.getMAX_CHEF_COUNT();
+                controlledChefIndex = (controlledChefIndex + 1) % this.gameState.getChefs().size();
                 if (gameState.getChefs().get(controlledChefIndex).isControllable()) {
                     this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
                     this.gameState.setControlledChef(controlledChefIndex);
@@ -155,7 +155,7 @@ public class PlayScreen implements Screen {
             controlledChefIndex = this.gameState.getChefs().indexOf(this.gameState.getControlledChef());
             // Check the next chef is controllable
             do {
-                controlledChefIndex = (controlledChefIndex + 1) % this.gameState.getMAX_CHEF_COUNT();
+                controlledChefIndex = (controlledChefIndex + 1) % this.gameState.getChefs().size();
                 if (this.gameState.getChefs().get(controlledChefIndex).isControllable()) {
                     this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
                     this.gameState.setControlledChef(controlledChefIndex);
