@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="5">
  <tileset firstgid="1" source="KitchenTileSet.tsx"/>
  <tileset firstgid="22" source="KitchenTileSet2.tsx"/>
  <layer id="1" name="Tile Layer 1" width="10" height="10">
@@ -16,4 +16,9 @@
 1,1,13,1,1,1,3,9,9,1
 </data>
  </layer>
+ <objectgroup id="3" name="NewObjects">
+  <object id="2" name="oven" x="103" y="48" width="1"/>
+  <object id="3" name="oven" x="119" y="48" width="1"/>
+  <object id="4" name="oven" x="135" y="48" width="1"/>
+ </objectgroup>
 </map>
