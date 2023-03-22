@@ -17,8 +17,8 @@
 </data>
  </layer>
  <objectgroup id="3" name="NewObjects">
-  <object id="2" name="oven" x="103" y="48" width="1"/>
-  <object id="3" name="oven" x="119" y="48" width="1"/>
-  <object id="4" name="oven" x="135" y="48" width="1"/>
+  <object id="2" name="oven" x="96" y="48" width="16"/>
+  <object id="3" name="oven" x="112" y="48" width="16"/>
+  <object id="4" name="oven" x="128" y="48" width="16"/>
  </objectgroup>
 </map>
