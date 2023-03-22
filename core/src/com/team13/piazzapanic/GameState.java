@@ -1,13 +1,16 @@
 package com.team13.piazzapanic;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import Sprites.*;
+
+import java.io.*;
 import java.util.*;
 
 /**
  * GameState is a class that stores the current state of the game, so it can be saved later.
  */
-public class GameState {
+public class GameState implements Serializable {
     // VARIABLES
     private List<Chef> chefs;
     private Chef controlledChef;
@@ -85,4 +88,44 @@ public class GameState {
         this.hud = hud;
     }
 
+    /**
+     * saves the game state to a binary file
+     * @param saveName the name of the game save.
+     * @return true if the game has saved, false otherwise
+     */
+    public boolean save(String saveName){
+        try{
+            FileOutputStream fileOutputStream
+                    = new FileOutputStream(saveName+".pza");
+            ObjectOutputStream objectOutputStream
+                    = new ObjectOutputStream(fileOutputStream);
+            objectOutputStream.writeObject(this);
+            objectOutputStream.flush();
+            objectOutputStream.close();
+            return true;
+        }
+        catch (IOException e){
+            return false;
+        }
+    }
+
+    /**
+     * Loads a save game
+     * @param saveName name of the save to load
+     * @return a new GameState if the save can be loaded, null otherwise
+     */
+    public static GameState load(String saveName){
+        try {
+            FileInputStream fileInputStream
+                    = new FileInputStream(saveName + ".pza");
+            ObjectInputStream objectInputStream
+                    = new ObjectInputStream(fileInputStream);
+            GameState loaded = (GameState) objectInputStream.readObject();
+            objectInputStream.close();
+            return loaded;
+        }
+        catch (IOException | ClassNotFoundException e){
+            return null;
+        }
+    }
 }

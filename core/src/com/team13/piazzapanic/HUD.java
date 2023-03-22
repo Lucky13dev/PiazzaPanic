@@ -11,8 +11,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import java.io.Serializable;
 
-public class HUD implements Disposable {
+
+public class HUD implements Disposable, Serializable {
     public Stage stage;
     private Boolean scenarioComplete;
 
