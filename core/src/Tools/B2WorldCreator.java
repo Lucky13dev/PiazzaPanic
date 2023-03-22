@@ -96,6 +96,7 @@ public class B2WorldCreator {
             }
         }
 
+        // Assessment 2 world objects
         for(MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
@@ -108,6 +109,12 @@ public class B2WorldCreator {
 
             if(object.getName().equals("oven")){
                 new Oven(world, map, bdef, rect);
+            } else if(object.getName().equals("pizza_base")){
+                new PizzaStation(world, map, bdef, rect);
+            } else if(object.getName().equals("cheese")){
+                new CheeseStation(world, map, bdef, rect);
+            } else if(object.getName().equals("potato")){
+                new PotatoStation(world, map, bdef, rect);
             }
 
         }
