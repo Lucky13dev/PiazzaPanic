@@ -1,5 +1,8 @@
 package Sprites;
 
+import Ingredients.Ingredient;
+import Ingredients.Onion;
+import Ingredients.PizzaBase;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,5 +19,10 @@ public class PizzaStation extends InteractiveTileObject{
      */
     public PizzaStation(World world, TiledMap map, BodyDef bdef, Rectangle rectangle) {
         super(world, map, bdef, rectangle);
+        fixture.setUserData(this);
+    }
+
+    public Ingredient getIngredient(){
+        return new PizzaBase(2,0);
     }
 }

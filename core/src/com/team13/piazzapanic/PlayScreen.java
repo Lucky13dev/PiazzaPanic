@@ -1,6 +1,7 @@
 package com.team13.piazzapanic;
 
 import Ingredients.Ingredient;
+import Ingredients.PizzaBase;
 import Recipe.Recipe;
 import Sprites.*;
 import Recipe.Order;
@@ -189,6 +190,7 @@ public class PlayScreen implements Screen {
                 if(this.gameState.getControlledChef().getTouchingFixture() != null){
                     InteractiveTileObject tile = (InteractiveTileObject) this.gameState.getControlledChef().getTouchingFixture().getUserData();
                     String tileName = tile.getClass().getName();
+                    System.out.println(tileName);
                     if (this.gameState.getControlledChef().getInHandsIngredient() == null && this.gameState.getControlledChef().getInHandsRecipe() == null) {
                         switch (tileName) {
                             case "Sprites.TomatoStation":
@@ -214,6 +216,11 @@ public class PlayScreen implements Screen {
                             case "Sprites.LettuceStation":
                                 LettuceStation lettuceTile = (LettuceStation) tile;
                                 this.gameState.getControlledChef().setInHandsIngredient(lettuceTile.getIngredient());
+                                this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
+                                break;
+                            case "Sprites.PizzaStation":
+                                PizzaStation pizzaTile = (PizzaStation) tile;
+                                this.gameState.getControlledChef().setInHandsIngredient(pizzaTile.getIngredient());
                                 this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
                                 break;
                             case "Sprites.PlateStation":

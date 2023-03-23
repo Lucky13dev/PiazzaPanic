@@ -16,5 +16,6 @@ public class PotatoStation extends InteractiveTileObject{
      */
     public PotatoStation(World world, TiledMap map, BodyDef bdef, Rectangle rectangle) {
         super(world, map, bdef, rectangle);
+        fixture.setUserData(this);
     }
 }

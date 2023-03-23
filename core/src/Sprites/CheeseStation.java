@@ -16,5 +16,6 @@ public class CheeseStation extends InteractiveTileObject{
      */
     public CheeseStation(World world, TiledMap map, BodyDef bdef, Rectangle rectangle) {
         super(world, map, bdef, rectangle);
+        fixture.setUserData(this);
     }
 }

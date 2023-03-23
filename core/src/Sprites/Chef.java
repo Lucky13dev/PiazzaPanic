@@ -37,6 +37,7 @@ public class Chef extends Sprite{
     private final static Texture TEXTURE_COMPLETED_BURGER_CHEF = new Texture("Chef/Chef_holding_front.png");
     private final static Texture TEXTURE_MEAT_CHEF = new Texture("Chef/Chef_holding_meat.png");
     private final static Texture TEXTURE_SALAD_CHEF = new Texture("Chef/Chef_holding_salad.png");
+    private final static Texture TEXTURE_PIZZA_BASE_CHEF = new Texture("Chef/Chef_holding_pizza_base.png");
     private static class Identifier{
         public Sprite sprite;
         private Identifier(Orientation orientation){
@@ -366,6 +367,8 @@ public class Chef extends Sprite{
             this.currentTexture = TEXTURE_COMPLETED_BURGER_CHEF;
         } else if (item instanceof SaladRecipe) {
             this.currentTexture = TEXTURE_SALAD_CHEF;
+        } else if (item instanceof PizzaBase) {
+            this.currentTexture = TEXTURE_PIZZA_BASE_CHEF;
         }
     }
 
