@@ -223,6 +223,15 @@ public class PlayScreen implements Screen {
                                 this.gameState.getControlledChef().setInHandsIngredient(pizzaTile.getIngredient());
                                 this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
                                 break;
+                            case "Sprites.CheeseStation":
+                                CheeseStation cheeseTile = (CheeseStation) tile;
+                                this.gameState.getControlledChef().setInHandsIngredient(cheeseTile.getIngredient());
+                                this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
+                                break;
+                            case "Sprites.PotatoStation":
+                                PotatoStation potatoTile = (PotatoStation) tile;
+                                this.gameState.getControlledChef().setInHandsIngredient(potatoTile.getIngredient());
+                                this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
                             case "Sprites.PlateStation":
                                 if(plateStation.getPlate().size() > 0 || plateStation.getCompletedRecipe() != null){
                                     this.gameState.getControlledChef().pickUpItemFrom(tile);

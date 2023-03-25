@@ -1,5 +1,8 @@
 package Sprites;
 
+import Ingredients.Ingredient;
+import Ingredients.Onion;
+import Ingredients.Potato;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -17,5 +20,8 @@ public class PotatoStation extends InteractiveTileObject{
     public PotatoStation(World world, TiledMap map, BodyDef bdef, Rectangle rectangle) {
         super(world, map, bdef, rectangle);
         fixture.setUserData(this);
+    }
+    public Ingredient getIngredient(){
+        return new Potato(0,2);
     }
 }
