@@ -23,6 +23,6 @@ public class PizzaStation extends InteractiveTileObject{
     }
 
     public Ingredient getIngredient(){
-        return new PizzaBase(2,0);
+        return new PizzaBase(0,0);
     }
 }

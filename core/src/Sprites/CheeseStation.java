@@ -22,6 +22,6 @@ public class CheeseStation extends InteractiveTileObject{
         fixture.setUserData(this);
     }
     public Ingredient getIngredient(){
-        return new Cheese(2,0);
+        return new Cheese(0,0);
     }
 }

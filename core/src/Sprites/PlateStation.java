@@ -30,6 +30,8 @@ public class PlateStation extends InteractiveTileObject {
 
     /** Static recipe for a salad */
     public static Recipe saladRecipe;
+    /** Static recipe for a rawpizza */
+    public static Recipe rawPizzaRecipe;
 
     /** Recipe that has been completed on the plate */
     private Recipe recipeDone;
@@ -46,8 +48,9 @@ public class PlateStation extends InteractiveTileObject {
         super(world, map, bdef, rectangle);
         fixture.setUserData(this);
         this.plate = new ArrayList<>();
-        burgerRecipe = new BurgerRecipe();
-        saladRecipe = new SaladRecipe();
+        this.burgerRecipe = new BurgerRecipe();
+        this.saladRecipe = new SaladRecipe();
+        this.rawPizzaRecipe = new RawPizzaRecipe();
         this.recipeDone = null;
     }
 
@@ -106,6 +109,28 @@ public class PlateStation extends InteractiveTileObject {
             if (saladSame) {
                 plate.clear();
                 recipeDone = saladRecipe;
+            }
+        }
+        // check for raw pizza
+        if (plate.size() == rawPizzaRecipe.getIngredients().size()){
+            boolean pizzaSame = true;
+            boolean pizzaIngFound;
+            for (Ingredient ing : plate){
+                pizzaIngFound = false;
+                for (int j = 0; j < rawPizzaRecipe.getIngredients().size(); j++){
+                    if (ing.getClass().toString().equals(rawPizzaRecipe.getIngredients().get(j).getClass().toString())){
+                        if(ing.isPrepared()){
+                            pizzaIngFound = true;
+                        }
+                    }
+                }
+                if (!pizzaIngFound){
+                    pizzaSame = false;
+                }
+            }
+            if (pizzaSame){
+                plate.clear();
+                recipeDone = rawPizzaRecipe;
             }
         }
     }

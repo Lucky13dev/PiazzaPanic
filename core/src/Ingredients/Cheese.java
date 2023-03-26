@@ -15,5 +15,9 @@ public class Cheese extends Ingredient{
         super(prepareTime, cookTime);
         super.tex = new ArrayList<>();
         super.tex.add(new Texture("Food/cheese.png"));
+        super.tex.add(new Texture("Food/cheese.png"));
+        super.tex.add(new Texture("Food/cheese.png"));
+        this.setPrepared();
+        this.setCooked();
     }
 }
