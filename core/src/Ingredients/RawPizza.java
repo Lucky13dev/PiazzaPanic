@@ -13,6 +13,7 @@ public class RawPizza extends Ingredient{
      */
     public RawPizza(float prepareTime, float cookTime) {
         super(prepareTime, cookTime);
+        super.setPrepared();
         super.tex = new ArrayList<>();
         super.tex.add(new Texture("Food/raw_pizza.png"));
     }

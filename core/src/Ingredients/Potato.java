@@ -13,6 +13,7 @@ public class Potato extends Ingredient{
      */
     public Potato(float prepareTime, float cookTime) {
         super(prepareTime, cookTime);
+        super.setPrepared();
         super.tex = new ArrayList<>();
         super.tex.add(new Texture("Food/potato.png"));
     }
