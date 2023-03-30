@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.team13.piazzapanic.MainGame;
+import jdk.internal.util.SystemProps;
 
 /**
  * Chef class extends {@link Sprite} and represents a chef in the game.
@@ -41,6 +42,7 @@ public class Chef extends Sprite{
     private final static Texture TEXTURE_CHEESE_CHEF = new Texture("Chef/Chef_holding_cheese.png");
     private final static Texture TEXTURE_POTATO_CHEF = new Texture("Chef/Chef_holding_potato.png");
     private final static Texture TEXTURE_RAW_PIZZA_CHEF = new Texture("Chef/Chef_holding_raw_pizza.png");
+    private final static Texture TEXTURE_COOKED_PIZZA_CHEF = new Texture("Chef/Chef_holding_cooked_pizza.png");
     private static class Identifier{
         public Sprite sprite;
         private Identifier(Orientation orientation){
@@ -378,6 +380,8 @@ public class Chef extends Sprite{
             this.currentTexture = TEXTURE_CHEESE_CHEF;
         } else if (item instanceof RawPizzaRecipe){
             this.currentTexture = TEXTURE_RAW_PIZZA_CHEF;
+        } else if (item instanceof CookedPizzaRecipe){
+            this.currentTexture = TEXTURE_COOKED_PIZZA_CHEF;
         }
     }
 
