@@ -378,7 +378,7 @@ public class Chef extends Sprite{
             this.currentTexture = TEXTURE_POTATO_CHEF;
         } else if(item instanceof Cheese){
             this.currentTexture = TEXTURE_CHEESE_CHEF;
-        } else if (item instanceof RawPizzaRecipe){
+        } else if (item instanceof RawPizza){
             this.currentTexture = TEXTURE_RAW_PIZZA_CHEF;
         } else if (item instanceof CookedPizzaRecipe){
             this.currentTexture = TEXTURE_COOKED_PIZZA_CHEF;
@@ -554,8 +554,17 @@ public class Chef extends Sprite{
                 this.setInHandsIngredient((Ingredient) item);
                 this.setChefSkin(item);
             } else if (item instanceof Recipe){
-                this.setInHandsRecipe(((Recipe) item));
-                this.setChefSkin(item);
+                // Pizza is a chain recipe
+                if (item instanceof RawPizzaRecipe){
+                    RawPizza pizza = new RawPizza(0, 2);
+                    this.setInHandsIngredient(pizza);
+                    this.setChefSkin(pizza);
+                    System.out.println("Yoizza");
+                }
+                else {
+                    this.setInHandsRecipe(((Recipe) item));
+                    this.setChefSkin(item);
+                }
             }
         }
     }
