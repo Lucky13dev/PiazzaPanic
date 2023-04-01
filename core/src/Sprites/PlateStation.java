@@ -32,6 +32,8 @@ public class PlateStation extends InteractiveTileObject {
     public static Recipe saladRecipe;
     /** Static recipe for a rawpizza */
     public static Recipe rawPizzaRecipe;
+    /** Static recipe for a cookedpizza */
+    public static Recipe cookedPizzaRecipe;
 
     /** Recipe that has been completed on the plate */
     private Recipe recipeDone;
@@ -51,6 +53,7 @@ public class PlateStation extends InteractiveTileObject {
         this.burgerRecipe = new BurgerRecipe();
         this.saladRecipe = new SaladRecipe();
         this.rawPizzaRecipe = new RawPizzaRecipe();
+        this.cookedPizzaRecipe = new CookedPizzaRecipe();
         this.recipeDone = null;
     }
 

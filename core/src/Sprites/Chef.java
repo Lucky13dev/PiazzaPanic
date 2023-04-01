@@ -248,7 +248,7 @@ public class Chef extends Sprite{
                     // Chain recipies
                     if(this.inHandsIngredient instanceof RawPizza){
                         this.setInHandsIngredient(null);
-                        this.setInHandsRecipe(new RawPizzaRecipe());
+                        this.setInHandsRecipe(new CookedPizzaRecipe());
                         this.setChefSkin(this.inHandsRecipe);
                         System.out.println("Pizza complete");
                     }
