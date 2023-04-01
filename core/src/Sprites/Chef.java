@@ -244,6 +244,14 @@ public class Chef extends Sprite{
                     this.isControllable = true;
                     this.waitTimer = 0;
                     this.setChefSkin(inHandsIngredient);
+
+                    // Chain recipies
+                    if(this.inHandsIngredient instanceof RawPizza){
+                        this.setInHandsIngredient(null);
+                        this.setInHandsRecipe(new RawPizzaRecipe());
+                        this.setChefSkin(this.inHandsRecipe);
+                        System.out.println("Pizza complete");
+                    }
                 }
             }
         }
