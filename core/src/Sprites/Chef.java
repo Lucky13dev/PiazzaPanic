@@ -43,6 +43,8 @@ public class Chef extends Sprite{
     private final static Texture TEXTURE_POTATO_CHEF = new Texture("Chef/Chef_holding_potato.png");
     private final static Texture TEXTURE_RAW_PIZZA_CHEF = new Texture("Chef/Chef_holding_raw_pizza.png");
     private final static Texture TEXTURE_COOKED_PIZZA_CHEF = new Texture("Chef/Chef_holding_cooked_pizza.png");
+
+    private final static Texture TEXTURE_COOKED_POTATO_CHEF = new Texture("Chef/Chef_holding_cooked_potato.png");
     private static class Identifier{
         public Sprite sprite;
         private Identifier(Orientation orientation){
@@ -383,12 +385,16 @@ public class Chef extends Sprite{
         } else if (item instanceof PizzaBase) {
             this.currentTexture = TEXTURE_PIZZA_BASE_CHEF;
         } else if (item instanceof Potato){
-            this.currentTexture = TEXTURE_POTATO_CHEF;
+            if (inHandsIngredient.isCooked()){
+               this.setInHandsIngredient(new CookedPotato(2, 0));
+               this.currentTexture = TEXTURE_COOKED_POTATO_CHEF;
+            }
+            else this.currentTexture = TEXTURE_POTATO_CHEF;
         } else if(item instanceof Cheese){
             this.currentTexture = TEXTURE_CHEESE_CHEF;
         } else if (item instanceof RawPizza){
             this.currentTexture = TEXTURE_RAW_PIZZA_CHEF;
-        } else if (item instanceof CookedPizzaRecipe){
+        } else if (item instanceof CookedPizzaRecipe) {
             this.currentTexture = TEXTURE_COOKED_PIZZA_CHEF;
         }
     }
