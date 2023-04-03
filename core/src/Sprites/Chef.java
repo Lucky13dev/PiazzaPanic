@@ -45,6 +45,7 @@ public class Chef extends Sprite{
     private final static Texture TEXTURE_COOKED_PIZZA_CHEF = new Texture("Chef/Chef_holding_cooked_pizza.png");
     private final static Texture TEXTURE_SLICED_POTATO_CHEF = new Texture("Chef/Chef_holding_sliced_potato.png");
     private final static Texture TEXTURE_COOKED_POTATO_CHEF = new Texture("Chef/Chef_holding_cooked_potato.png");
+    private final static Texture TEXTURE_BAKED_POTATO_CHEF = new Texture("Chef/Chef_holding_baked_potato.png");
     private static class Identifier{
         public Sprite sprite;
         private Identifier(Orientation orientation){
