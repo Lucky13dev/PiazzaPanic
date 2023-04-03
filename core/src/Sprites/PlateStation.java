@@ -34,6 +34,8 @@ public class PlateStation extends InteractiveTileObject {
     public static Recipe rawPizzaRecipe;
     /** Static recipe for a cookedpizza */
     public static Recipe cookedPizzaRecipe;
+    /** Static recipe for a jacket potato */
+    public static Recipe jacketPotatoRecipe;
 
     /** Recipe that has been completed on the plate */
     private Recipe recipeDone;
@@ -54,6 +56,7 @@ public class PlateStation extends InteractiveTileObject {
         this.saladRecipe = new SaladRecipe();
         this.rawPizzaRecipe = new RawPizzaRecipe();
         this.cookedPizzaRecipe = new CookedPizzaRecipe();
+        this.jacketPotatoRecipe = new JacketPotatoRecipe();
         this.recipeDone = null;
     }
 
@@ -134,6 +137,28 @@ public class PlateStation extends InteractiveTileObject {
             if (pizzaSame){
                 plate.clear();
                 recipeDone = rawPizzaRecipe;
+            }
+        }
+        // check for jacket potato
+        if (plate.size() == this.jacketPotatoRecipe.getIngredients().size()){
+            boolean potatoSame = true;
+            boolean potatoIngFound;
+            for (Ingredient ing : plate){
+                potatoIngFound = false;
+                for (int j = 0; j < this.jacketPotatoRecipe.getIngredients().size(); j++){
+                    if (ing.getClass().toString().equals(this.jacketPotatoRecipe.getIngredients().get(j).getClass().toString())){
+                        if(ing.isPrepared()){
+                            potatoIngFound = true;
+                        }
+                    }
+                }
+                if (!potatoIngFound){
+                    potatoSame = false;
+                }
+            }
+            if (potatoSame){
+                plate.clear();
+                recipeDone = this.jacketPotatoRecipe;
             }
         }
     }
