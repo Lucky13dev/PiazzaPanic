@@ -17,7 +17,7 @@ public class CookedPotato extends Ingredient{
         super(prepareTime, cookTime);
         super.tex = new ArrayList<>();
         super.tex.add(new Texture("Food/cooked_potato.png"));
-        super.tex.add(new Texture("Food/cooked_potato.png"));
-        super.tex.add(new Texture("Food/cooked_potato.png"));
+        super.tex.add(new Texture("Food/sliced_potato.png"));
+        super.tex.add(new Texture("Food/sliced_potato.png"));
     }
 }
