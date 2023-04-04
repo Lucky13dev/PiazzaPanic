@@ -17,4 +17,12 @@ public class Oven extends InteractiveTileObject{
         super(world, map, bdef, rectangle);
         fixture.setUserData(this);
     }
+
+    public float getX(){
+        return super.bdefNew.position.x;
+    }
+
+    public float getY(){
+        return super.bdefNew.position.y;
+    }
 }

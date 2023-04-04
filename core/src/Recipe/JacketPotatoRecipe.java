@@ -12,8 +12,8 @@ public class JacketPotatoRecipe extends Recipe{
 
     public JacketPotatoRecipe() {
         super.ingredients = new ArrayList<>();
-        ingredients.add(new CookedPotato(0, 0));
-        ingredients.add(new Cheese(0, 0));
+        ingredients.add(new CookedPotato(0, 0,0));
+        ingredients.add(new Cheese(0, 0,0));
         completedImg = new Texture("Food/baked_potato.png");
     }
 }

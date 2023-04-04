@@ -11,9 +11,10 @@ public class Potato extends Ingredient{
      * @param prepareTime The time required to prepare the ingredient.
      * @param cookTime    The time required to cook the ingredient.
      */
-    public Potato(float prepareTime, float cookTime) {
-        super(prepareTime, cookTime);
+    public Potato(float prepareTime, float cookTime, float bakeTime) {
+        super(prepareTime, cookTime, bakeTime);
         super.setPrepared();
+        super.setCooked();
         super.tex = new ArrayList<>();
         super.tex.add(new Texture("Food/potato.png"));
         super.tex.add(new Texture("Food/potato.png"));

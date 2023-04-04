@@ -248,6 +248,16 @@ public class Chef extends Sprite{
                     this.waitTimer = 0;
                     this.setChefSkin(inHandsIngredient);
 
+                }
+            }
+            //handle baking ingredients
+            else if (this.inHandsIngredient.bakeTime > 0 && this.inHandsIngredient.isCooked()) {
+                if (this.waitTimer > this.inHandsIngredient.bakeTime) { //the ingredient preparation is finished
+                    this.inHandsIngredient.bakeTime = 0;
+                    this.inHandsIngredient.setBaked();
+                    this.isControllable = true;
+                    this.waitTimer = 0;
+                    this.setChefSkin(inHandsIngredient);
                     // Chain recipies
                     if(this.inHandsIngredient instanceof RawPizza){
                         this.setInHandsIngredient(null);
@@ -386,8 +396,8 @@ public class Chef extends Sprite{
         } else if (item instanceof PizzaBase) {
             this.currentTexture = TEXTURE_PIZZA_BASE_CHEF;
         } else if (item instanceof Potato){
-            if (inHandsIngredient.isCooked()){
-               this.setInHandsIngredient(new CookedPotato(2, 0));
+            if (inHandsIngredient.isBaked()){
+               this.setInHandsIngredient(new CookedPotato(2, 0,0));
                this.currentTexture = TEXTURE_COOKED_POTATO_CHEF;
             }
             else this.currentTexture = TEXTURE_POTATO_CHEF;
@@ -420,6 +430,10 @@ public class Chef extends Sprite{
             } else if (tile instanceof Pan) {
                 Pan tileNew = (Pan) tile;
                 inHandsIngredient.create(tileNew.getX(), tileNew.getY() - (0.01f / MainGame.PPM), batch);
+                setChefSkin(null);
+            } else if (tile instanceof Oven){
+                Oven tileNew = (Oven) tile;
+                inHandsIngredient.create(tileNew.getX(), tileNew.getY() + (7.5f / MainGame.PPM), batch);
                 setChefSkin(null);
             }
         }
@@ -575,7 +589,7 @@ public class Chef extends Sprite{
             } else if (item instanceof Recipe){
                 // Pizza is a chain recipe
                 if (item instanceof RawPizzaRecipe){
-                    RawPizza pizza = new RawPizza(0, 2);
+                    RawPizza pizza = new RawPizza(0, 0, 2);
                     this.setInHandsIngredient(pizza);
                     this.setChefSkin(pizza);
                     System.out.println("Yoizza");

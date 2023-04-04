@@ -268,6 +268,13 @@ public class PlayScreen implements Screen {
                                 }
 
                                 break;
+                            case "Sprites.Oven":
+                                if(this.gameState.getControlledChef().getInHandsIngredient() != null){
+                                    if(this.gameState.getControlledChef().getInHandsIngredient().isCooked() && this.gameState.getControlledChef().getInHandsIngredient().bakeTime > 0){
+                                        this.gameState.getControlledChef().setIsControllable(false);
+                                    }
+                                }
+                                break;
                             case "Sprites.CompletedDishStation":
                                 if (this.gameState.getControlledChef().getInHandsRecipe() != null){
                                     System.out.println(this.gameState.getControlledChef().getInHandsRecipe().getClass());

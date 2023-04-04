@@ -11,9 +11,10 @@ public class RawPizza extends Ingredient{
      * @param prepareTime The time required to prepare the ingredient.
      * @param cookTime    The time required to cook the ingredient.
      */
-    public RawPizza(float prepareTime, float cookTime) {
-        super(prepareTime, cookTime);
+    public RawPizza(float prepareTime, float cookTime, float bakeTime) {
+        super(prepareTime, cookTime, bakeTime);
         super.setPrepared();
+        super.setCooked();
         super.tex = new ArrayList<>();
         super.tex.add(null);
         super.tex.add(new Texture("Food/raw_pizza.png"));

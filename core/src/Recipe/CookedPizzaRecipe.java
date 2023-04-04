@@ -11,7 +11,7 @@ public class CookedPizzaRecipe extends Recipe{
 
     public CookedPizzaRecipe(){
         super.ingredients = new ArrayList<>();
-        ingredients.add(new RawPizza(0,2));
+        ingredients.add(new RawPizza(0,0,0));
         completedImg = new Texture("Food/cooked_pizza.png");
     }
 

@@ -22,6 +22,6 @@ public class PotatoStation extends InteractiveTileObject{
         fixture.setUserData(this);
     }
     public Ingredient getIngredient(){
-        return new Potato(0,2);
+        return new Potato(0,0, 2);
     }
 }

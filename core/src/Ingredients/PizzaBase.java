@@ -11,8 +11,8 @@ public class PizzaBase extends Ingredient{
      * @param prepareTime The time required to prepare the ingredient.
      * @param cookTime    The time required to cook the ingredient.
      */
-    public PizzaBase(float prepareTime, float cookTime) {
-        super(prepareTime, cookTime);
+    public PizzaBase(float prepareTime, float cookTime, float bakeTime) {
+        super(prepareTime, cookTime,bakeTime);
         super.tex = new ArrayList<>();
         // Need a list of length 3 to avoid an IndexOutOfBoundsException
         super.tex.add(new Texture("Food/pizza_base.png"));
@@ -20,5 +20,6 @@ public class PizzaBase extends Ingredient{
         super.tex.add(new Texture("Food/pizza_base.png"));
         this.setPrepared();
         this.setCooked();
+        this.setBaked();
     }
 }

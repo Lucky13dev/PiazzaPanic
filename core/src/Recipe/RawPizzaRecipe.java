@@ -11,9 +11,9 @@ public class RawPizzaRecipe extends Recipe{
 
     public RawPizzaRecipe(){
         super.ingredients = new ArrayList<>();
-        ingredients.add(new PizzaBase(0,0));
-        ingredients.add(new Tomato(0,0));
-        ingredients.add(new Cheese(0,0));
+        ingredients.add(new PizzaBase(0,0,0));
+        ingredients.add(new Tomato(0,0,0));
+        ingredients.add(new Cheese(0,0,0));
         completedImg = new Texture("Food/raw_pizza.png");
     }
 

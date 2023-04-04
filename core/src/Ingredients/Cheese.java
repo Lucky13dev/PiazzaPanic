@@ -11,13 +11,14 @@ public class Cheese extends Ingredient{
      * @param prepareTime The time required to prepare the ingredient.
      * @param cookTime    The time required to cook the ingredient.
      */
-    public Cheese(float prepareTime, float cookTime) {
-        super(prepareTime, cookTime);
+    public Cheese(float prepareTime, float cookTime, float bakeTime) {
+        super(prepareTime, cookTime, bakeTime);
         super.tex = new ArrayList<>();
         super.tex.add(new Texture("Food/cheese.png"));
         super.tex.add(new Texture("Food/cheese.png"));
         super.tex.add(new Texture("Food/cheese.png"));
         this.setPrepared();
         this.setCooked();
+        this.setBaked();
     }
 }
