@@ -325,10 +325,11 @@ public class PlayScreen implements Screen {
      * Creates the orders randomly and adds to an array, updates the HUD.
      */
     public void createOrder() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 3 + 1);
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 4 + 1);
         Texture burger_recipe = new Texture("Food/burger_recipe.png");
         Texture salad_recipe = new Texture("Food/salad_recipe.png");
         Texture pizza_recipe = new Texture("Food/pizza_recipe.png");
+        Texture potato_recipe = new Texture("Food/potato_recipe.png");
         Order order;
 
         for(int i = 0; i<5; i++){
@@ -338,8 +339,11 @@ public class PlayScreen implements Screen {
             else if(randomNum==2){
                 order = new Order(PlateStation.cookedPizzaRecipe, pizza_recipe);
             }
-            else {
+            else if(randomNum==3){
                 order = new Order(PlateStation.saladRecipe, salad_recipe);
+            }
+            else{
+                order = new Order(PlateStation.jacketPotatoRecipe, potato_recipe);
             }
             ordersArray.add(order);
             randomNum = ThreadLocalRandom.current().nextInt(1, 2 + 1);
