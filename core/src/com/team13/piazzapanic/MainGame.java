@@ -35,6 +35,8 @@ public class MainGame extends Game {
 	public boolean isPlayScreen;
 	private PlayScreen playScreen;
 	private StartScreen startScreen;
+	private int numOfOrders;
+	private String gameMode = "";
 
 	public MainGame(){
 		isPlayScreen = false;
@@ -51,6 +53,12 @@ public class MainGame extends Game {
 		super.render();
 		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
 			isPlayScreen = !isPlayScreen;
+			// if the game mode is not set...
+			if(this.gameMode.equals("")){
+				this.gameMode = "setMode";
+				this.numOfOrders = 5;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+			}
 		}
 		if (isPlayScreen) {
 			setScreen(playScreen);

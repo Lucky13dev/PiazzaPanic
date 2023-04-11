@@ -67,6 +67,11 @@ public class PlayScreen implements Screen {
 
     public static float trayX;
     public static float trayY;
+    private int numOfOrders;
+    private String gameMode = "";
+    // Types of game modes
+    private final String ENDLESS = "endless";
+    private final String SETMODE = "setMode";
 
     /**
      * PlayScreen constructor initializes the game instance, sets initial conditions for scenarioComplete and createdOrder,
@@ -111,6 +116,11 @@ public class PlayScreen implements Screen {
 
         ordersArray = new ArrayList<>();
 
+    }
+
+    public void setMode(String gameMode, int numOfOrders){
+        this.numOfOrders = numOfOrders;
+        this.gameMode = gameMode;
     }
 
     @Override
@@ -308,8 +318,14 @@ public class PlayScreen implements Screen {
 
         int currentTimeInSeconds = (int) this.gameState.getTime();
 
-        if(currentTimeInSeconds == 5 && ordersArray.size() == 0){
-            this.createOrder();
+        // Add the initial orders for set mode
+        System.out.println(this.gameMode);
+        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.equals(this.SETMODE)){
+            this.createOrder(this.numOfOrders);
+        }
+        // If the gameMode is endless, keep adding orders forever
+        if(currentTimeInSeconds == 5 && ordersArray.size() < 100 && this.gameMode.equals(this.ENDLESS)){
+            this.createOrder(1);
         }
 
         //update the state of the HUD
@@ -331,7 +347,7 @@ public class PlayScreen implements Screen {
     /**
      * Creates the orders randomly and adds to an array, updates the HUD.
      */
-    public void createOrder() {
+    public void createOrder(int numOfOrders) {
         int randomNum = ThreadLocalRandom.current().nextInt(1, 4 + 1);
         Texture burger_recipe = new Texture("Food/burger_recipe.png");
         Texture salad_recipe = new Texture("Food/salad_recipe.png");
@@ -339,7 +355,7 @@ public class PlayScreen implements Screen {
         Texture potato_recipe = new Texture("Food/potato_recipe.png");
         Order order;
 
-        for(int i = 0; i<5; i++){
+        for(int i = 0; i<numOfOrders; i++){
             if(randomNum==1) {
                 order = new Order(PlateStation.burgerRecipe, burger_recipe);
             }
