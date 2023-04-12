@@ -324,7 +324,7 @@ public class PlayScreen implements Screen {
             this.createOrder(this.numOfOrders);
         }
         // If the gameMode is endless, keep adding orders forever
-        if(currentTimeInSeconds == 5 && ordersArray.size() < 100 && this.gameMode.equals(this.ENDLESS)){
+        if(currentTimeInSeconds >= 5 && ordersArray.size() < 100 && this.gameMode.equals(this.ENDLESS)){
             this.createOrder(1);
         }
 
