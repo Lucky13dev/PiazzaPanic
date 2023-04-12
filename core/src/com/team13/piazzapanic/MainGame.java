@@ -65,6 +65,7 @@ public class MainGame extends Game {
 
 		// Set the game mode
 		if(this.gameMode.equals("")) {
+			// set the number of orders
 			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
 				this.gameMode = "setMode";
 				this.numOfOrders = 1;
@@ -92,6 +93,13 @@ public class MainGame extends Game {
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)){
 				this.gameMode = "setMode";
 				this.numOfOrders = 5;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+				isPlayScreen = !isPlayScreen;
+			}
+			// set the game mode to endless
+			else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+				this.gameMode = "endless";
+				this.numOfOrders = 0;
 				playScreen.setMode(this.gameMode, this.numOfOrders);
 				isPlayScreen = !isPlayScreen;
 			}
