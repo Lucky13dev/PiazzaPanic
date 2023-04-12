@@ -51,15 +51,52 @@ public class MainGame extends Game {
 	@Override
 	public void render() {
 		super.render();
+		// Open/close the menu
 		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
 			isPlayScreen = !isPlayScreen;
 			// if the game mode is not set...
 			if(this.gameMode.equals("")){
+				// Default gameMode
 				this.gameMode = "setMode";
 				this.numOfOrders = 5;
 				playScreen.setMode(this.gameMode, this.numOfOrders);
 			}
 		}
+
+		// Set the game mode
+		if(this.gameMode.equals("")) {
+			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
+				this.gameMode = "setMode";
+				this.numOfOrders = 1;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+				isPlayScreen = !isPlayScreen;
+			}
+			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
+				this.gameMode = "setMode";
+				this.numOfOrders = 2;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+				isPlayScreen = !isPlayScreen;
+			}
+			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
+				this.gameMode = "setMode";
+				this.numOfOrders = 3;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+				isPlayScreen = !isPlayScreen;
+			}
+			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)){
+				this.gameMode = "setMode";
+				this.numOfOrders = 4;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+				isPlayScreen = !isPlayScreen;
+			}
+			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)){
+				this.gameMode = "setMode";
+				this.numOfOrders = 5;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+				isPlayScreen = !isPlayScreen;
+			}
+		}
+
 		if (isPlayScreen) {
 			setScreen(playScreen);
 		} else {
