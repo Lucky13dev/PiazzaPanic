@@ -103,14 +103,18 @@ public class HUD implements Disposable {
         int addScore;
 
         if(this.scenarioComplete == Boolean.FALSE){
+            // ALWAYS BOOST SCORE BY 100 for now
             if (currentTime <= expectedTime) {
                 addScore = 100;
             }
             else{
+                /*
                 addScore = 100 - (5 * (currentTime -expectedTime));
                 if(addScore < 0){
                     addScore = 0;
                 }
+                */
+                addScore = 100;
             }
             score += addScore;
         }
