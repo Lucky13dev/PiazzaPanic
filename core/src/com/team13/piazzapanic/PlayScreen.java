@@ -73,6 +73,10 @@ public class PlayScreen implements Screen {
     private final String ENDLESS = "endless";
     private final String SETMODE = "setMode";
 
+    private int choppingBoardCost;
+    private int ovenCost;
+    private int panCost;
+
     /**
      * PlayScreen constructor initializes the game instance, sets initial conditions for scenarioComplete and createdOrder,
      * creates and initializes game camera and viewport,
@@ -82,6 +86,9 @@ public class PlayScreen implements Screen {
      */
 
     public PlayScreen(MainGame game){
+        this.choppingBoardCost = 0;
+        this.ovenCost = 0;
+        this.panCost = 0;
         this.gameState = new GameState();
         this.game = game;
         scenarioComplete = Boolean.FALSE;
@@ -260,7 +267,16 @@ public class PlayScreen implements Screen {
                             case "Sprites.ChoppingBoard":
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null){
                                     if(this.gameState.getControlledChef().getInHandsIngredient().prepareTime > 0){
-                                        this.gameState.getControlledChef().setIsControllable(false);
+                                        ChoppingBoard board = (ChoppingBoard) tile;
+                                        if(this.gameState.getHud().getScore() >= this.choppingBoardCost && !board.isUnlocked()){
+                                            // Buy the station
+                                            board.setUnlocked();
+                                            this.gameState.getHud().buyEntity(this.choppingBoardCost);
+                                            choppingBoardCost += 50;
+                                        }
+                                        if(board.isUnlocked()) {
+                                            this.gameState.getControlledChef().setIsControllable(false);
+                                        }
                                     }
                                 }
                                break;

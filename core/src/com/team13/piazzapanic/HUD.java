@@ -16,6 +16,10 @@ public class HUD implements Disposable {
     public Stage stage;
     private Boolean scenarioComplete;
 
+    public Integer getScore() {
+        return score;
+    }
+
     private Integer score;
 
     public String timeString;
@@ -89,6 +93,18 @@ public class HUD implements Disposable {
         timeLabel.setText(String.format("TIME: " + this.timeString + " MONEY: %d", score));
         timeLabelT.setText("SCENARIO COMPLETE");
         table.center().top();
+        stage.addActor(table);
+    }
+
+    /**
+     * Buy an entity (e.g. Oven, Pan, etc.) and update the score.
+     * @param cost The cost of the entity.
+     */
+    public void buyEntity(int cost){
+        score -= cost;
+
+        table.left().top();
+        scoreLabel.setText(String.format("%d", score));
         stage.addActor(table);
     }
 
