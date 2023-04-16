@@ -289,7 +289,14 @@ public class PlayScreen implements Screen {
                             case "Sprites.Pan":
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null) {
                                     if (this.gameState.getControlledChef().getInHandsIngredient().isPrepared() && this.gameState.getControlledChef().getInHandsIngredient().cookTime > 0){
-                                        this.gameState.getControlledChef().setIsControllable(false);
+                                        Pan pan = (Pan) tile;
+                                        if(this.gameState.getHud().getScore() >= this.panCost && !pan.isUnlocked()){
+                                            pan.setUnlocked();
+                                            this.gameState.getHud().buyEntity(this.panCost);
+                                            panCost += 50;
+                                        }
+                                        if(pan.isUnlocked())
+                                            this.gameState.getControlledChef().setIsControllable(false);
                                     }
                                 }
 
@@ -297,7 +304,14 @@ public class PlayScreen implements Screen {
                             case "Sprites.Oven":
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null){
                                     if(this.gameState.getControlledChef().getInHandsIngredient().isCooked() && this.gameState.getControlledChef().getInHandsIngredient().bakeTime > 0){
-                                        this.gameState.getControlledChef().setIsControllable(false);
+                                        Oven oven = (Oven) tile;
+                                        if(this.gameState.getHud().getScore() >= this.ovenCost && !oven.isUnlocked()){
+                                            oven.setUnlocked();
+                                            this.gameState.getHud().buyEntity(this.ovenCost);
+                                            ovenCost += 50;
+                                        }
+                                        if(oven.isUnlocked())
+                                            this.gameState.getControlledChef().setIsControllable(false);
                                     }
                                 }
                                 break;
