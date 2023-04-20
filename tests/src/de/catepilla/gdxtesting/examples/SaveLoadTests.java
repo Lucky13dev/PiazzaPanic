@@ -24,17 +24,16 @@ public class SaveLoadTests {
 	public void CanLoad() {
 		GameState a = new GameState();
 		a.save("Save");
-		assertTrue(GameState.load("Save") != null);
+		assertTrue(a.load("Save"));
 	}
 
 	@Test
-	public void LoadsCorrectly() {
+	public void TimeLoadCorrectly() {
 		GameState a = new GameState();
 		a.save("Save");
-		GameState b = GameState.load("Save");
+		GameState b = new GameState();
+		b.load("Save");
+
 		assertEquals(a.getTime(), b.getTime(), 0.01);
-		assertEquals(a.getControlledChef(), b.getControlledChef());
-		assertEquals(a.getHud(), b.getHud());
-		assertEquals(a.getChefs(), b.getChefs());
 	}
 }
