@@ -348,8 +348,6 @@ public class PlayScreen implements Screen {
 
         int currentTimeInSeconds = (int) this.gameState.getTime();
 
-        // Add the initial orders for set mode
-        System.out.println(this.gameMode);
         if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.equals(this.SETMODE)){
             this.createOrder(this.numOfOrders);
         }
