@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.team13.piazzapanic.MainGame;
-import jdk.internal.util.SystemProps;
+//import jdk.internal.util.SystemProps;
 
 /**
  * Chef class extends {@link Sprite} and represents a chef in the game.
