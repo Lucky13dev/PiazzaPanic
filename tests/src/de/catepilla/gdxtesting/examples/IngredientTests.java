@@ -1,19 +1,27 @@
 package de.catepilla.gdxtesting.examples;
-
+import Ingredients.Bun;
 import Ingredients.Ingredient;
 import Ingredients.Onion;
+import com.badlogic.gdx.graphics.Texture;
 import de.catepilla.gdxtesting.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 
-/** NB:
- * Private method findCorrectSkin() is for implementation only and does not need to be tested.
- */
 
 @RunWith (GdxTestRunner.class)
 public class IngredientTests {
+
+    /**
+     * Testing Ingredient.java
+     *
+     * NB: -Private method findCorrectSkin() is for implementation only and does not need to be tested.
+     *     -Onion is used as a placeholder for any ingredient
+     */
+
     @Test
     public void IngredientPreparedStatus(){
         Ingredient ingredient = new Onion(1,0, 0);
@@ -50,12 +58,15 @@ public class IngredientTests {
 
     }
 
+    @Test
     public void IngredientCreateTexture(){
-
+        //TODO This method uses the create() method that uses draw(). Currently unsure how to proceed with this.
     }
 
     public void IngredientCreatePosAndSize(){
-
+        //TODO This method uses the create() method that uses draw(). Currently unsure how to proceed with this.
     }
+
+
 
 }
