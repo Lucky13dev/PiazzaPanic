@@ -13,11 +13,16 @@ public class GameState {
     private Chef controlledChef;
     private static final int MAX_CHEF_COUNT = 5;
 
+    private float time;
+
+    private HUD hud;
+
 
     // METHODS
 
     public GameState(){
         this.chefs = new ArrayList<>();
+        this.time = 0;
     }
 
     public static int getMAX_CHEF_COUNT() {
@@ -58,6 +63,26 @@ public class GameState {
 
     public List<Chef> getChefs(){
         return this.chefs;
+    }
+
+    public float getTime() {
+        return time;
+    }
+
+    /**
+     * Increment the game time.
+     * @param dt delta time, the amount of time to increment by.
+     */
+    public void incrementTime(float dt) {
+        this.time += dt;
+    }
+
+    public HUD getHud() {
+        return hud;
+    }
+
+    public void setHud(HUD hud) {
+        this.hud = hud;
     }
 
 }

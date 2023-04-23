@@ -14,9 +14,10 @@ public class Bun extends Ingredient{
 
      */
 
-    public Bun(float prepareTime, float cookTime) {
-        super(prepareTime, cookTime);
+    public Bun(float prepareTime, float cookTime, float bakeTime) {
+        super(prepareTime, cookTime, bakeTime);
         super.setPrepared();
+        super.setBaked();
         super.tex = new ArrayList<>();
         super.tex.add(null);
         super.tex.add(new Texture("Food/Burger_buns.png"));

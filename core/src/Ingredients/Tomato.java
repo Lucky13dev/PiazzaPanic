@@ -12,8 +12,8 @@ public class Tomato extends Ingredient{
      * The Tomato class sets up an ArrayList of textures for its different skins.
      */
 
-    public Tomato(float prepareTime, float cookTime) {
-        super(prepareTime, cookTime);
+    public Tomato(float prepareTime, float cookTime, float bakeTime) {
+        super(prepareTime, cookTime, bakeTime);
         super.tex = new ArrayList<>();
         tex.add(new Texture("Food/Tomato.png"));
         tex.add(new Texture("Food/Chopped_tomato.png"));

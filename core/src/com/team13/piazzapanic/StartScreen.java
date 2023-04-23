@@ -25,7 +25,7 @@ public class StartScreen implements Screen {
      */
     public StartScreen(MainGame game) {
         this.game = game;
-        backgroundImage = new Texture("startImage.png");
+        backgroundImage = new Texture("startImage2.png");
         backgroundSprite = new Sprite(backgroundImage);
         camera = new OrthographicCamera();
         viewport = new FitViewport(MainGame.V_WIDTH, MainGame.V_HEIGHT, camera);

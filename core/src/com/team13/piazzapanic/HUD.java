@@ -16,12 +16,13 @@ public class HUD implements Disposable {
     public Stage stage;
     private Boolean scenarioComplete;
 
-    private Integer worldTimerM;
-    private Integer worldTimerS;
+    public Integer getScore() {
+        return score;
+    }
 
     private Integer score;
 
-    public String timeStr;
+    public String timeString;
 
     public Table table;
 
@@ -35,10 +36,8 @@ public class HUD implements Disposable {
 
     public HUD(SpriteBatch sb){
         this.scenarioComplete = Boolean.FALSE;
-        worldTimerM = 0;
-        worldTimerS = 0;
         score = 0;
-        timeStr = String.format("%d", worldTimerM) + " : " + String.format("%d", worldTimerS);
+        this.timeString = "00:00";
         float fontX = 0.5F;
         float fontY = 0.3F;
 
@@ -51,7 +50,7 @@ public class HUD implements Disposable {
         table.left().top();
         table.setFillParent(true);
 
-        timeLabel = new Label(String.format("%d", worldTimerM, ":", "%i", worldTimerS), new Label.LabelStyle(font, Color.WHITE));
+        timeLabel = new Label(String.format(this.timeString), new Label.LabelStyle(font, Color.WHITE));
         timeLabelT = new Label("TIME", new Label.LabelStyle(font, Color.BLACK));
         orderNumLT = new Label("ORDER", new Label.LabelStyle(font, Color.BLACK));
         orderNumL = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
@@ -75,36 +74,38 @@ public class HUD implements Disposable {
     /**
      * Updates the time label.
      *
-     * @param scenarioComplete Whether the game scenario has been completed.
+     * @param time The current game time in seconds.
      */
-    public void updateTime(Boolean scenarioComplete){
-        if(scenarioComplete){
-            timeLabel.setColor(Color.GREEN);
-            timeStr = String.format("%d", worldTimerM) + ":" + String.format("%d", worldTimerS);
-            timeLabel.setText(String.format("TIME: " + timeStr + " MONEY: %d", score));
-            timeLabelT.setText("SCENARIO COMPLETE");
-            table.center().top();
-            stage.addActor(table);
-            return;
-        }
-        else {
-            if (worldTimerS == 59) {
-                worldTimerM += 1;
-                worldTimerS = 0;
-            } else {
-                worldTimerS += 1;
-            }
-        }
+    public void updateTime(int time){
+        int minutes = time / 60;
+        int seconds = time % 60;
         table.left().top();
-        if(worldTimerS < 10){
-            timeStr = String.format("%d", worldTimerM) + ":0" + String.format("%d", worldTimerS);
-        }
-        else {
-            timeStr = String.format("%d", worldTimerM) + ":" + String.format("%d", worldTimerS);
-        }
-        timeLabel.setText(timeStr);
+
+        this.timeString = String.format("%02d:%02d", minutes, seconds);
+
+        timeLabel.setText(timeString);
         stage.addActor(table);
 
+    }
+
+    public void showScenarioComplete(){
+        timeLabel.setColor(Color.GREEN);
+        timeLabel.setText(String.format("TIME: " + this.timeString + " MONEY: %d", score));
+        timeLabelT.setText("SCENARIO COMPLETE");
+        table.center().top();
+        stage.addActor(table);
+    }
+
+    /**
+     * Buy an entity (e.g. Oven, Pan, etc.) and update the score.
+     * @param cost The cost of the entity.
+     */
+    public void buyEntity(int cost){
+        score -= cost;
+
+        table.left().top();
+        scoreLabel.setText(String.format("%d", score));
+        stage.addActor(table);
     }
 
     /**
@@ -112,21 +113,24 @@ public class HUD implements Disposable {
      *
      * @param scenarioComplete Whether the game scenario has been completed.
      * @param expectedTime The expected time an order should be completed in.
+     * @param currentTime The current game time.
      */
-    public void updateScore(Boolean scenarioComplete, Integer expectedTime){
+    public void updateScore(Boolean scenarioComplete, Integer expectedTime, Integer currentTime){
         int addScore;
-        int currentTime;
 
         if(this.scenarioComplete == Boolean.FALSE){
-            currentTime = (worldTimerM * 60) + worldTimerS;
+            // ALWAYS BOOST SCORE BY 100 for now
             if (currentTime <= expectedTime) {
                 addScore = 100;
             }
             else{
+                /*
                 addScore = 100 - (5 * (currentTime -expectedTime));
                 if(addScore < 0){
                     addScore = 0;
                 }
+                */
+                addScore = 100;
             }
             score += addScore;
         }

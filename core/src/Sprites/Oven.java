@@ -6,12 +6,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Pan is a concrete class that extends the {@link InteractiveTileObject} class.
- * Pan is a class extending InteractiveTileObject representing a Pan in the game where the chef can cook steaks
- * and toast buns
+ * Oven is a concrete class that extends the {@link InteractiveTileObject} class.
+ * Oven is a class extending InteractiveTileObject representing an oven in the game where the chef can bake potatoes
+ * and cook pizzas.
  */
 
-public class Pan extends InteractiveTileObject {
+public class Oven extends InteractiveTileObject{
+
     public boolean isUnlocked() {
         return unlocked;
     }
@@ -22,7 +23,8 @@ public class Pan extends InteractiveTileObject {
 
     // boolean variable to determine the state of the workstation
     private boolean unlocked;
-    public Pan(World world, TiledMap map, BodyDef bdef, Rectangle rectangle) {
+
+    public Oven(World world, TiledMap map, BodyDef bdef, Rectangle rectangle) {
         super(world, map, bdef, rectangle);
         fixture.setUserData(this);
         this.unlocked = false;
