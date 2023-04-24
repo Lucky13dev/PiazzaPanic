@@ -1,4 +1,4 @@
 package PowerUps;
 
-public class ReputationBoost {
+public class ReputationBoost extends PowerUp{
 }

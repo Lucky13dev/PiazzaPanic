@@ -1,4 +1,4 @@
 package PowerUps;
 
-public class TimeSaver {
+public class TimeSaver extends PowerUp{
 }

@@ -1,3 +1,3 @@
 package PowerUps;
-public class FreeRecipe {
+public class FreeRecipe extends PowerUp{
 }

@@ -1,4 +1,4 @@
 package PowerUps;
 
-public class SpeedBoost {
+public class SpeedBoost extends PowerUp{
 }

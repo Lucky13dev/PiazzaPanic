@@ -1,4 +1,4 @@
 package PowerUps;
 
-public class MoneyBoost {
+public class MoneyBoost extends PowerUp{
 }

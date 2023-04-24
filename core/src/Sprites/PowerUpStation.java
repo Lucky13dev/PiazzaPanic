@@ -31,15 +31,17 @@ public class PowerUpStation extends InteractiveTileObject{
         int num = rand.nextInt(5);
         switch(num){
             case 0:
-                break;
+                return new FreeRecipe();
             case 1:
-                break;
+                return new MoneyBoost();
             case 2:
-                break;
+                return new ReputationBoost();
             case 3:
-                break;
+                return new SpeedBoost();
             case 4:
-                break;
+                return new TimeSaver();
+            default:
+                return null;
         }
     }
 }
