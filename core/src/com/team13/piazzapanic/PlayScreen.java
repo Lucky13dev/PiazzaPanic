@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -252,8 +253,10 @@ public class PlayScreen implements Screen {
                             case "Sprites.PlateStation":
                                 if(plateStation.getPlate().size() > 0 || plateStation.getCompletedRecipe() != null){
                                     this.gameState.getControlledChef().pickUpItemFrom(tile);
-
                                 }
+                            case "Sprites.PowerUpStation":
+                                PowerUpStation pus = (PowerUpStation) tile;
+                                System.out.println(pus.getPowerUp().getClass());
 
                         }
                     } else {
