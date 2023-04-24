@@ -105,8 +105,6 @@ public class B2WorldCreator {
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set((rect.getX() + rect.getWidth() / 2) / MainGame.PPM, (rect.getY() + rect.getHeight() / 2) / MainGame.PPM);
 
-            System.out.println(object.getName());
-
             if(object.getName().equals("oven")){
                 new Oven(world, map, bdef, rect);
             } else if(object.getName().equals("pizza_base")){
