@@ -115,6 +115,8 @@ public class B2WorldCreator {
                 new CheeseStation(world, map, bdef, rect);
             } else if(object.getName().equals("potato")){
                 new PotatoStation(world, map, bdef, rect);
+            } else if(object.getName().equals("power_up")){
+                new PowerUpStation(world, map, bdef, rect);
             }
 
         }
