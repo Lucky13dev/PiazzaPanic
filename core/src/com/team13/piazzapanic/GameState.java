@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * GameState is a class that stores the current state of the game, so it can be saved later.
  */
-public class GameState implements Serializable {
+public class GameState {
     private class GameSave implements Serializable {
         private float time;
         private List<Vector2> chefLocations;
@@ -61,11 +61,11 @@ public class GameState implements Serializable {
         }
     }
     // VARIABLES
-    transient List<Chef> chefs;
-    transient Chef controlledChef;
+    List<Chef> chefs;
+    Chef controlledChef;
     private static final int MAX_CHEF_COUNT = 5;
     private float time;
-    transient HUD hud;
+    HUD hud;
 
 
     // METHODS
