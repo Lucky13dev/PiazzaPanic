@@ -78,6 +78,7 @@ public class PlayScreen implements Screen {
     private int choppingBoardCost;
     private int ovenCost;
     private int panCost;
+    private float velocityIncrement = 0.5f;
 
     /**
      * PlayScreen constructor initializes the game instance, sets initial conditions for scenarioComplete and createdOrder,
@@ -187,16 +188,16 @@ public class PlayScreen implements Screen {
                 float yVelocity = 0;
 
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                    yVelocity += 0.5f;
+                    yVelocity += this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    xVelocity -= 0.5f;
+                    xVelocity -= this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                    yVelocity -= 0.5f;
+                    yVelocity -= this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    xVelocity += 0.5f;
+                    xVelocity += this.velocityIncrement;
                 }
                 this.gameState.getControlledChef().b2body.setLinearVelocity(xVelocity, yVelocity);
             }
@@ -272,6 +273,7 @@ public class PlayScreen implements Screen {
                                     //ReputationBoost
                                 } else if(pUp instanceof SpeedBoost){
                                     //speed boost
+                                    this.velocityIncrement = 1.5f;
                                 } else if(pUp instanceof TimeSaver){
                                     //time saver (10 seconds)
                                     int decrementTime = 10;
