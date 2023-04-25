@@ -261,6 +261,10 @@ public class PlayScreen implements Screen {
                                 // check the power up type
                                 if(pUp instanceof FreeRecipe){
                                     //free recipe
+                                    if(this.gameState.getTime() > 10) {
+                                        this.gameState.getControlledChef().setInHandsRecipe(ordersArray.get(0).recipe);
+                                        this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsRecipe());
+                                    }
                                 } else if(pUp instanceof MoneyBoost){
                                     //MoneyBoost
                                     this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
