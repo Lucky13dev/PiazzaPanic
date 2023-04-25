@@ -2,6 +2,7 @@ package com.team13.piazzapanic;
 
 import Ingredients.Ingredient;
 import Ingredients.PizzaBase;
+import PowerUps.*;
 import Recipe.Recipe;
 import Sprites.*;
 import Recipe.Order;
@@ -256,8 +257,19 @@ public class PlayScreen implements Screen {
                                 }
                             case "Sprites.PowerUpStation":
                                 PowerUpStation pus = (PowerUpStation) tile;
-                                System.out.println(pus.getPowerUp().getClass());
-
+                                PowerUp pUp = pus.getPowerUp();
+                                // check the power up type
+                                if(pUp instanceof FreeRecipe){
+                                    //free recipe
+                                } else if(pUp instanceof MoneyBoost){
+                                    //MoneyBoost
+                                } else if(pUp instanceof ReputationBoost){
+                                    //ReputationBoost
+                                } else if(pUp instanceof SpeedBoost){
+                                    //speed boost
+                                } else if(pUp instanceof TimeSaver){
+                                    //time saver
+                                }
                         }
                     } else {
                         switch (tileName) {
