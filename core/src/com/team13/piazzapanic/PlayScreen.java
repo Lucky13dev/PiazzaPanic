@@ -252,10 +252,12 @@ public class PlayScreen implements Screen {
                                 PotatoStation potatoTile = (PotatoStation) tile;
                                 this.gameState.getControlledChef().setInHandsIngredient(potatoTile.getIngredient());
                                 this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
+                                break;
                             case "Sprites.PlateStation":
                                 if(plateStation.getPlate().size() > 0 || plateStation.getCompletedRecipe() != null){
                                     this.gameState.getControlledChef().pickUpItemFrom(tile);
                                 }
+                                break;
                             case "Sprites.PowerUpStation":
                                 PowerUpStation pus = (PowerUpStation) tile;
                                 PowerUp pUp = pus.getPowerUp();
@@ -280,6 +282,7 @@ public class PlayScreen implements Screen {
                                     if(this.gameState.getTime() > decrementTime)
                                         this.gameState.decrementTime(10);
                                 }
+                                break;
                         }
                     } else {
                         switch (tileName) {
