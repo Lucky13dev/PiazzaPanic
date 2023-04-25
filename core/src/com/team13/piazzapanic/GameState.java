@@ -77,6 +77,9 @@ public class GameState {
         this.time += dt;
     }
 
+    // Used for the time powerup
+    public void decrementTime(float dt) { this.time -= dt;}
+
     public HUD getHud() {
         return hud;
     }

@@ -269,7 +269,10 @@ public class PlayScreen implements Screen {
                                 } else if(pUp instanceof SpeedBoost){
                                     //speed boost
                                 } else if(pUp instanceof TimeSaver){
-                                    //time saver
+                                    //time saver (10 seconds)
+                                    int decrementTime = 10;
+                                    if(this.gameState.getTime() > decrementTime)
+                                        this.gameState.decrementTime(10);
                                 }
                         }
                     } else {
