@@ -263,6 +263,7 @@ public class PlayScreen implements Screen {
                                     //free recipe
                                 } else if(pUp instanceof MoneyBoost){
                                     //MoneyBoost
+                                    this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
                                 } else if(pUp instanceof ReputationBoost){
                                     //ReputationBoost
                                 } else if(pUp instanceof SpeedBoost){
