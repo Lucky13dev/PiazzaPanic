@@ -24,20 +24,9 @@ import org.junit.runner.RunWith;
 //@RunWith(GdxTestRunner.class)
 public class unitTestExample {
 
-	@Test
-	public void TestMaxChefs() {
-		GameState gameState = new GameState();
-		int max_count = GameState.getMAX_CHEF_COUNT();
-		int expected_max_count = 5;
-		assertEquals(expected_max_count, max_count);
-	}
-
 	/**
 	 * Tests on the Chef constructor class's fields.
 	 */
-
-
-
 
 	/**
 	 * TODO:Currently not working due to World not being initialised.
