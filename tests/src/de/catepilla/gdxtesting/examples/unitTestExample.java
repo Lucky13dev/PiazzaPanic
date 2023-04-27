@@ -5,9 +5,11 @@ package de.catepilla.gdxtesting.examples;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import Ingredients.Ingredient;
-import Recipe.Recipe;
 import Sprites.Chef;
+import Tools.B2WorldCreator;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.team13.piazzapanic.GameState;
 import com.badlogic.gdx.math.Vector2;
@@ -16,12 +18,13 @@ import com.team13.piazzapanic.MainGame;
 import de.catepilla.gdxtesting.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import com.team13.piazzapanic.PlayScreen;
 
 /** NB:
  * Private method setOrientation() is for implementation only and does not need to be tested.
  */
 
-//@RunWith(GdxTestRunner.class)
+@RunWith(GdxTestRunner.class)
 public class unitTestExample {
 
 	/**
@@ -32,10 +35,27 @@ public class unitTestExample {
 	 * TODO:Currently not working due to World not being initialised.
 	 */
 	@Test
-	public void ChefWidthTest() {
+	public void ChefWidthTest() { //World is initialised here but test does not run due to null batch
 		World world;
-		world =new World(new Vector2(0,0), true);
+		//GameState gameState;
+		TiledMap map;
+		//PlayScreen.gameState = new GameState();
+		PlayScreen playScreen;
+		MainGame mainGame;
+		mainGame = new MainGame();
+
+		playScreen = new PlayScreen(mainGame);
+
+		TmxMapLoader mapLoader = new TmxMapLoader(new InternalFileHandleResolver());
+		map = mapLoader.load("Kitchen.tmx");
+
+		world = new World(new Vector2(0,0), true);
+		new B2WorldCreator(world, map, playScreen );
+
+		//this.gameState.addChef(new Chef(playScreen.world, 31.5F,65));
+
 		Chef chef = new Chef(world, 0, 0);
+		//this.gameState.addChef();
 
 		assertEquals(chef.getWidth(),13 / MainGame.PPM);
 	}
