@@ -24,7 +24,7 @@ import java.io.Serializable;
  * and completed dish station.
  */
 
-public class Chef extends Sprite {
+public class Chef extends Sprite implements Serializable {
     private final static Texture TEXTURE_NORMAL_CHEF = new Texture("Chef/Chef_normal.png");
     private final static Texture TEXTURE_BUNS_CHEF = new Texture("Chef/Chef_holding_buns.png");
     private final static Texture TEXTURE_BUNS_TOASTED_CHEF = new Texture("Chef/Chef_holding_buns_toasted.png");
