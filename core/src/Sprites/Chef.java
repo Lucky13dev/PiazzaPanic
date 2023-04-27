@@ -50,7 +50,7 @@ public class Chef extends Sprite implements Serializable {
     private final static Texture TEXTURE_COOKED_POTATO_CHEF = new Texture("Chef/Chef_holding_cooked_potato.png");
     private final static Texture TEXTURE_JACKET_POTATO_CHEF = new Texture("Chef/Chef_holding_baked_potato.png");
     
-    private static class Identifier implements Serializeable{
+    private static class Identifier implements Serializable{
         public Sprite sprite;
         private Identifier(Orientation orientation){
             Texture identifierTexture = new Texture("Chef/chefIdentifier.png");
