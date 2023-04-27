@@ -1,7 +1,7 @@
 package Sprites;
 
 import Ingredients.*;
-import Recipe.BurgerRecipe;
+import Recipe.*;
 import Recipe.Recipe;
 import Recipe.SaladRecipe;
 import com.badlogic.gdx.Gdx;
@@ -13,7 +13,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.team13.piazzapanic.MainGame;
 
+
 import java.io.Serializable;
+//import jdk.internal.util.SystemProps;
 
 /**
  * Chef class extends {@link Sprite} and represents a chef in the game.
@@ -39,7 +41,16 @@ public class Chef extends Sprite implements Serializable {
     private final static Texture TEXTURE_COMPLETED_BURGER_CHEF = new Texture("Chef/Chef_holding_front.png");
     private final static Texture TEXTURE_MEAT_CHEF = new Texture("Chef/Chef_holding_meat.png");
     private final static Texture TEXTURE_SALAD_CHEF = new Texture("Chef/Chef_holding_salad.png");
-    private static class Identifier implements Serializable{
+    private final static Texture TEXTURE_PIZZA_BASE_CHEF = new Texture("Chef/Chef_holding_pizza_base.png");
+    private final static Texture TEXTURE_CHEESE_CHEF = new Texture("Chef/Chef_holding_cheese.png");
+    private final static Texture TEXTURE_POTATO_CHEF = new Texture("Chef/Chef_holding_potato.png");
+    private final static Texture TEXTURE_RAW_PIZZA_CHEF = new Texture("Chef/Chef_holding_raw_pizza.png");
+    private final static Texture TEXTURE_COOKED_PIZZA_CHEF = new Texture("Chef/Chef_holding_cooked_pizza.png");
+    private final static Texture TEXTURE_SLICED_POTATO_CHEF = new Texture("Chef/Chef_holding_sliced_potato.png");
+    private final static Texture TEXTURE_COOKED_POTATO_CHEF = new Texture("Chef/Chef_holding_cooked_potato.png");
+    private final static Texture TEXTURE_JACKET_POTATO_CHEF = new Texture("Chef/Chef_holding_baked_potato.png");
+    
+    private static class Identifier implements Serializeable{
         public Sprite sprite;
         private Identifier(Orientation orientation){
             Texture identifierTexture = new Texture("Chef/chefIdentifier.png");
@@ -240,6 +251,24 @@ public class Chef extends Sprite implements Serializable {
                     this.isControllable = true;
                     this.waitTimer = 0;
                     this.setChefSkin(inHandsIngredient);
+
+                }
+            }
+            //handle baking ingredients
+            else if (this.inHandsIngredient.bakeTime > 0 && this.inHandsIngredient.isCooked()) {
+                if (this.waitTimer > this.inHandsIngredient.bakeTime) { //the ingredient preparation is finished
+                    this.inHandsIngredient.bakeTime = 0;
+                    this.inHandsIngredient.setBaked();
+                    this.isControllable = true;
+                    this.waitTimer = 0;
+                    this.setChefSkin(inHandsIngredient);
+                    // Chain recipies
+                    if(this.inHandsIngredient instanceof RawPizza){
+                        this.setInHandsIngredient(null);
+                        this.setInHandsRecipe(new CookedPizzaRecipe());
+                        this.setChefSkin(this.inHandsRecipe);
+                        System.out.println("Pizza complete");
+                    }
                 }
             }
         }
@@ -368,6 +397,24 @@ public class Chef extends Sprite implements Serializable {
             this.currentTexture = TEXTURE_COMPLETED_BURGER_CHEF;
         } else if (item instanceof SaladRecipe) {
             this.currentTexture = TEXTURE_SALAD_CHEF;
+        } else if (item instanceof PizzaBase) {
+            this.currentTexture = TEXTURE_PIZZA_BASE_CHEF;
+        } else if (item instanceof Potato){
+            if (inHandsIngredient.isBaked()){
+               this.setInHandsIngredient(new CookedPotato(2, 0,0));
+               this.currentTexture = TEXTURE_COOKED_POTATO_CHEF;
+            }
+            else this.currentTexture = TEXTURE_POTATO_CHEF;
+        } else if(item instanceof Cheese){
+            this.currentTexture = TEXTURE_CHEESE_CHEF;
+        } else if (item instanceof RawPizza){
+            this.currentTexture = TEXTURE_RAW_PIZZA_CHEF;
+        } else if (item instanceof CookedPizzaRecipe) {
+            this.currentTexture = TEXTURE_COOKED_PIZZA_CHEF;
+        } else if (item instanceof CookedPotato){
+            this.currentTexture = TEXTURE_SLICED_POTATO_CHEF;
+        } else if (item instanceof JacketPotatoRecipe){
+            this.currentTexture = TEXTURE_JACKET_POTATO_CHEF;
         }
     }
 
@@ -387,6 +434,10 @@ public class Chef extends Sprite implements Serializable {
             } else if (tile instanceof Pan) {
                 Pan tileNew = (Pan) tile;
                 inHandsIngredient.create(tileNew.getX(), tileNew.getY() - (0.01f / MainGame.PPM), batch);
+                setChefSkin(null);
+            } else if (tile instanceof Oven){
+                Oven tileNew = (Oven) tile;
+                inHandsIngredient.create(tileNew.getX(), tileNew.getY() + (7.5f / MainGame.PPM), batch);
                 setChefSkin(null);
             }
         }
@@ -540,8 +591,17 @@ public class Chef extends Sprite implements Serializable {
                 this.setInHandsIngredient((Ingredient) item);
                 this.setChefSkin(item);
             } else if (item instanceof Recipe){
-                this.setInHandsRecipe(((Recipe) item));
-                this.setChefSkin(item);
+                // Pizza is a chain recipe
+                if (item instanceof RawPizzaRecipe){
+                    RawPizza pizza = new RawPizza(0, 0, 2);
+                    this.setInHandsIngredient(pizza);
+                    this.setChefSkin(pizza);
+                    System.out.println("Yoizza");
+                }
+                else {
+                    this.setInHandsRecipe(((Recipe) item));
+                    this.setChefSkin(item);
+                }
             }
         }
     }

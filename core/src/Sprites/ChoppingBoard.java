@@ -12,9 +12,22 @@ import com.badlogic.gdx.physics.box2d.World;
  * to cut up fruit and vegetables
  */
 public class ChoppingBoard extends InteractiveTileObject {
+
+    public boolean isUnlocked() {
+        return unlocked;
+    }
+
+    public void setUnlocked() {
+        this.unlocked = true;
+    }
+
+    // boolean variable to determine the state of the workstation
+    private boolean unlocked;
+
     public ChoppingBoard(World world, TiledMap map, BodyDef bdef, Rectangle rectangle) {
         super(world, map, bdef, rectangle);
         fixture.setUserData(this);
+        this.unlocked = false;
 
     }
 

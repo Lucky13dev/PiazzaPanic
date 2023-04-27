@@ -127,7 +127,18 @@ public class GameState implements Serializable {
         this.time += dt;
     }
 
+  
+     /**
+     * Set the game time.
+     * @param time, the time to set the gamestate to.
+     */
     public void setTime(float time){this.time = time;}
+    
+    /**
+     * Decrement the game time.
+     * @param dt delta time, the amount of time to decrement by.
+     */
+    public void decrementTime(float dt) { this.time -= dt;}
 
     public HUD getHud() {
         return hud;

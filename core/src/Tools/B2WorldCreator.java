@@ -24,18 +24,18 @@ import com.team13.piazzapanic.PlayScreen;
  */
 public class B2WorldCreator {
 
-/**
- * Constructor method for B2WorldCreator. It accepts a World, TiledMap and PlayScreen
- * objects. The method then iterates over the cells in the first layer of the TiledMap and
- * uses the map objects to create various objects like worktop, plates, chopperboard,
- * bin, etc. based on the name assigned to the objects in the TiledMap.
- *
- * The objects are created as BodyDef objects and are passed to different sprite classes,
- * where they are further defined and added to the world.
- *
- * @param world The Box2D World object.
- * @param map The TiledMap object.
- * */
+    /**
+     * Constructor method for B2WorldCreator. It accepts a World, TiledMap and PlayScreen
+     * objects. The method then iterates over the cells in the first layer of the TiledMap and
+     * uses the map objects to create various objects like worktop, plates, chopperboard,
+     * bin, etc. based on the name assigned to the objects in the TiledMap.
+     * <p>
+     * The objects are created as BodyDef objects and are passed to different sprite classes,
+     * where they are further defined and added to the world.
+     *
+     * @param world The Box2D World object.
+     * @param map   The TiledMap object.
+     */
 
     public B2WorldCreator(World world, TiledMap map, PlayScreen screen) {
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(0);
@@ -61,6 +61,8 @@ public class B2WorldCreator {
                         - (MainGame.TILE_SIZE - rectangle.getHeight()) / 2f;
                 bdef.position.set(position_x / MainGame.PPM, position_y / MainGame.PPM);
                 bdef.type = BodyDef.BodyType.StaticBody;
+
+                //System.out.println(mapObject.getName());
 
                 if (mapObject.getName().equals("bin")) {
                     new Bin(world, map, bdef, rectangle);
@@ -92,6 +94,29 @@ public class B2WorldCreator {
                 }
 
             }
+        }
+
+        // Assessment 2 world objects
+        for(MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            BodyDef bdef = new BodyDef();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set((rect.getX() + rect.getWidth() / 2) / MainGame.PPM, (rect.getY() + rect.getHeight() / 2) / MainGame.PPM);
+
+            if(object.getName().equals("oven")){
+                new Oven(world, map, bdef, rect);
+            } else if(object.getName().equals("pizza_base")){
+                new PizzaStation(world, map, bdef, rect);
+            } else if(object.getName().equals("cheese")){
+                new CheeseStation(world, map, bdef, rect);
+            } else if(object.getName().equals("potato")){
+                new PotatoStation(world, map, bdef, rect);
+            } else if(object.getName().equals("power_up")){
+                new PowerUpStation(world, map, bdef, rect);
+            }
+
         }
     }
 }

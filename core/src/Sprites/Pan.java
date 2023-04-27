@@ -12,10 +12,20 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 
 public class Pan extends InteractiveTileObject {
+    public boolean isUnlocked() {
+        return unlocked;
+    }
+
+    public void setUnlocked() {
+        this.unlocked = true;
+    }
+
+    // boolean variable to determine the state of the workstation
+    private boolean unlocked;
     public Pan(World world, TiledMap map, BodyDef bdef, Rectangle rectangle) {
         super(world, map, bdef, rectangle);
         fixture.setUserData(this);
-
+        this.unlocked = false;
     }
 
     public float getX(){

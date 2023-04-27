@@ -1,6 +1,8 @@
 package com.team13.piazzapanic;
 
 import Ingredients.Ingredient;
+import Ingredients.PizzaBase;
+import PowerUps.*;
 import Recipe.Recipe;
 import Sprites.*;
 import Recipe.Order;
@@ -17,6 +19,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -66,6 +69,16 @@ public class PlayScreen implements Screen {
 
     public static float trayX;
     public static float trayY;
+    private int numOfOrders;
+    private String gameMode = "";
+    // Types of game modes
+    private final String ENDLESS = "endless";
+    private final String SETMODE = "setMode";
+
+    private int choppingBoardCost;
+    private int ovenCost;
+    private int panCost;
+    private float velocityIncrement = 0.5f;
 
     /**
      * PlayScreen constructor initializes the game instance, sets initial conditions for scenarioComplete and createdOrder,
@@ -76,6 +89,9 @@ public class PlayScreen implements Screen {
      */
 
     public PlayScreen(MainGame game){
+        this.choppingBoardCost = 0;
+        this.ovenCost = 0;
+        this.panCost = 0;
         this.gameState = new GameState();
         this.game = game;
         scenarioComplete = Boolean.FALSE;
@@ -110,6 +126,11 @@ public class PlayScreen implements Screen {
 
         ordersArray = new ArrayList<>();
 
+    }
+
+    public void setMode(String gameMode, int numOfOrders){
+        this.numOfOrders = numOfOrders;
+        this.gameMode = gameMode;
     }
 
     @Override
@@ -179,16 +200,16 @@ public class PlayScreen implements Screen {
                 float yVelocity = 0;
 
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                    yVelocity += 0.5f;
+                    yVelocity += this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    xVelocity -= 0.5f;
+                    xVelocity -= this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                    yVelocity -= 0.5f;
+                    yVelocity -= this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    xVelocity += 0.5f;
+                    xVelocity += this.velocityIncrement;
                 }
                 this.gameState.getControlledChef().b2body.setLinearVelocity(xVelocity, yVelocity);
             }
@@ -201,6 +222,7 @@ public class PlayScreen implements Screen {
                 if(this.gameState.getControlledChef().getTouchingFixture() != null){
                     InteractiveTileObject tile = (InteractiveTileObject) this.gameState.getControlledChef().getTouchingFixture().getUserData();
                     String tileName = tile.getClass().getName();
+                    System.out.println(tileName);
                     if (this.gameState.getControlledChef().getInHandsIngredient() == null && this.gameState.getControlledChef().getInHandsRecipe() == null) {
                         switch (tileName) {
                             case "Sprites.TomatoStation":
@@ -228,12 +250,51 @@ public class PlayScreen implements Screen {
                                 this.gameState.getControlledChef().setInHandsIngredient(lettuceTile.getIngredient());
                                 this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
                                 break;
+                            case "Sprites.PizzaStation":
+                                PizzaStation pizzaTile = (PizzaStation) tile;
+                                this.gameState.getControlledChef().setInHandsIngredient(pizzaTile.getIngredient());
+                                this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
+                                break;
+                            case "Sprites.CheeseStation":
+                                CheeseStation cheeseTile = (CheeseStation) tile;
+                                this.gameState.getControlledChef().setInHandsIngredient(cheeseTile.getIngredient());
+                                this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
+                                break;
+                            case "Sprites.PotatoStation":
+                                PotatoStation potatoTile = (PotatoStation) tile;
+                                this.gameState.getControlledChef().setInHandsIngredient(potatoTile.getIngredient());
+                                this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
+                                break;
                             case "Sprites.PlateStation":
                                 if(plateStation.getPlate().size() > 0 || plateStation.getCompletedRecipe() != null){
                                     this.gameState.getControlledChef().pickUpItemFrom(tile);
-
                                 }
-
+                                break;
+                            case "Sprites.PowerUpStation":
+                                PowerUpStation pus = (PowerUpStation) tile;
+                                PowerUp pUp = pus.getPowerUp();
+                                // check the power up type
+                                if(pUp instanceof FreeRecipe){
+                                    //free recipe
+                                    if(this.gameState.getTime() > 10) {
+                                        this.gameState.getControlledChef().setInHandsRecipe(ordersArray.get(0).recipe);
+                                        this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsRecipe());
+                                    }
+                                } else if(pUp instanceof MoneyBoost){
+                                    //MoneyBoost
+                                    this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+                                } else if(pUp instanceof ReputationBoost){
+                                    //ReputationBoost
+                                } else if(pUp instanceof SpeedBoost){
+                                    //speed boost
+                                    this.velocityIncrement = 1.5f;
+                                } else if(pUp instanceof TimeSaver){
+                                    //time saver (10 seconds)
+                                    int decrementTime = 10;
+                                    if(this.gameState.getTime() > decrementTime)
+                                        this.gameState.decrementTime(10);
+                                }
+                                break;
                         }
                     } else {
                         switch (tileName) {
@@ -246,7 +307,16 @@ public class PlayScreen implements Screen {
                             case "Sprites.ChoppingBoard":
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null){
                                     if(this.gameState.getControlledChef().getInHandsIngredient().prepareTime > 0){
-                                        this.gameState.getControlledChef().setIsControllable(false);
+                                        ChoppingBoard board = (ChoppingBoard) tile;
+                                        if(this.gameState.getHud().getScore() >= this.choppingBoardCost && !board.isUnlocked()){
+                                            // Buy the station
+                                            board.setUnlocked();
+                                            this.gameState.getHud().buyEntity(this.choppingBoardCost);
+                                            choppingBoardCost += 50;
+                                        }
+                                        if(board.isUnlocked()) {
+                                            this.gameState.getControlledChef().setIsControllable(false);
+                                        }
                                     }
                                 }
                                break;
@@ -259,13 +329,35 @@ public class PlayScreen implements Screen {
                             case "Sprites.Pan":
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null) {
                                     if (this.gameState.getControlledChef().getInHandsIngredient().isPrepared() && this.gameState.getControlledChef().getInHandsIngredient().cookTime > 0){
-                                        this.gameState.getControlledChef().setIsControllable(false);
+                                        Pan pan = (Pan) tile;
+                                        if(this.gameState.getHud().getScore() >= this.panCost && !pan.isUnlocked()){
+                                            pan.setUnlocked();
+                                            this.gameState.getHud().buyEntity(this.panCost);
+                                            panCost += 50;
+                                        }
+                                        if(pan.isUnlocked())
+                                            this.gameState.getControlledChef().setIsControllable(false);
                                     }
                                 }
 
                                 break;
+                            case "Sprites.Oven":
+                                if(this.gameState.getControlledChef().getInHandsIngredient() != null){
+                                    if(this.gameState.getControlledChef().getInHandsIngredient().isCooked() && this.gameState.getControlledChef().getInHandsIngredient().bakeTime > 0){
+                                        Oven oven = (Oven) tile;
+                                        if(this.gameState.getHud().getScore() >= this.ovenCost && !oven.isUnlocked()){
+                                            oven.setUnlocked();
+                                            this.gameState.getHud().buyEntity(this.ovenCost);
+                                            ovenCost += 50;
+                                        }
+                                        if(oven.isUnlocked())
+                                            this.gameState.getControlledChef().setIsControllable(false);
+                                    }
+                                }
+                                break;
                             case "Sprites.CompletedDishStation":
                                 if (this.gameState.getControlledChef().getInHandsRecipe() != null){
+                                    System.out.println(this.gameState.getControlledChef().getInHandsRecipe().getClass());
                                     if(this.gameState.getControlledChef().getInHandsRecipe().getClass().equals(ordersArray.get(0).recipe.getClass())){
                                         this.gameState.getControlledChef().dropItemOn(tile);
                                         ordersArray.get(0).orderComplete = true;
@@ -296,8 +388,12 @@ public class PlayScreen implements Screen {
 
         int currentTimeInSeconds = (int) this.gameState.getTime();
 
-        if(currentTimeInSeconds == 5 && ordersArray.size() == 0){
-            this.createOrder();
+        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.equals(this.SETMODE)){
+            this.createOrder(this.numOfOrders);
+        }
+        // If the gameMode is endless, keep adding orders forever
+        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && this.gameMode.equals(this.ENDLESS)){
+            this.createOrder(1);
         }
 
         //update the state of the HUD
@@ -319,18 +415,26 @@ public class PlayScreen implements Screen {
     /**
      * Creates the orders randomly and adds to an array, updates the HUD.
      */
-    public void createOrder() {
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 2 + 1);
+    public void createOrder(int numOfOrders) {
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 4 + 1);
         Texture burger_recipe = new Texture("Food/burger_recipe.png");
         Texture salad_recipe = new Texture("Food/salad_recipe.png");
+        Texture pizza_recipe = new Texture("Food/pizza_recipe.png");
+        Texture potato_recipe = new Texture("Food/potato_recipe.png");
         Order order;
 
-        for(int i = 0; i<5; i++){
+        for(int i = 0; i<numOfOrders; i++){
             if(randomNum==1) {
                 order = new Order(PlateStation.burgerRecipe, burger_recipe);
             }
-            else {
+            else if(randomNum==2){
+                order = new Order(PlateStation.cookedPizzaRecipe, pizza_recipe);
+            }
+            else if(randomNum==3){
                 order = new Order(PlateStation.saladRecipe, salad_recipe);
+            }
+            else{
+                order = new Order(PlateStation.jacketPotatoRecipe, potato_recipe);
             }
             ordersArray.add(order);
             randomNum = ThreadLocalRandom.current().nextInt(1, 2 + 1);
@@ -351,7 +455,7 @@ public class PlayScreen implements Screen {
             if (ordersArray.get(0).orderComplete) {
                 this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
                 ordersArray.remove(0);
-                this.gameState.getHud().updateOrder(Boolean.FALSE, 6 - ordersArray.size());
+                this.gameState.getHud().updateOrder(Boolean.FALSE, ordersArray.size());
                 return;
             }
             ordersArray.get(0).create(trayX, trayY, game.batch);

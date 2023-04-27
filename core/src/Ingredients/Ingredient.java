@@ -17,6 +17,10 @@ public abstract class Ingredient extends Sprite {
      */
     public float cookTime;
     /**
+     * The time required to bake the ingredient.
+     */
+    public float bakeTime;
+    /**
      * A flag to indicate whether the ingredient has been cooked.
      */
     private boolean amICooked;
@@ -24,6 +28,10 @@ public abstract class Ingredient extends Sprite {
      * A flag to indicate whether the ingredient has been prepared.
      */
     private boolean amIPrepared;
+    /**
+     * A flag to indicate whether the ingredient has been prepared.
+     */
+    private boolean amIBaked;
     /**
      * An array of textures representing different states of the ingredient.
      */
@@ -35,11 +43,13 @@ public abstract class Ingredient extends Sprite {
      * @param prepareTime The time required to prepare the ingredient.
      * @param cookTime The time required to cook the ingredient.
      */
-    public Ingredient(float prepareTime, float cookTime) {
+    public Ingredient(float prepareTime, float cookTime, float bakeTime) {
         this.prepareTime = prepareTime;
         this.cookTime = cookTime;
+        this.bakeTime = bakeTime;
         this.amICooked = false;
         this.amIPrepared = false;
+        this.amIBaked = false;
         this.tex = null;
     }
 
@@ -77,6 +87,11 @@ public abstract class Ingredient extends Sprite {
         return amICooked;
     }
 
+    // returns a flag indicating if the ingredient is baked.
+    public boolean isBaked(){return amIBaked;}
+    // Sets amIBaked to true indicating that the ingredient is baked.
+    public void setBaked(){amIBaked = true;}
+
     /**
      * Creates and draws a new Sprite object representing the ingredient.
      *
@@ -85,11 +100,14 @@ public abstract class Ingredient extends Sprite {
      * @param batch The SpriteBatch object used to draw the ingredient.
      */
     public void create(float x, float y, SpriteBatch batch){
-        Sprite sprite = new Sprite(tex.get(findCorrectSkin()));
+        Texture correctSkin = tex.get(findCorrectSkin());
         float adjustedX =  x - (5/MainGame.PPM);
         float adjustedY =  y - (4.95f / MainGame.PPM);
+
+        Sprite sprite = new Sprite(correctSkin);
         sprite.setBounds(adjustedX,adjustedY,10/ MainGame.PPM,10/ MainGame.PPM);
         sprite.draw(batch);
+
     }
 
     /**
@@ -101,7 +119,7 @@ public abstract class Ingredient extends Sprite {
      *
      * */
     private int findCorrectSkin(){
-        if (isPrepared() && isCooked()){
+        if (isPrepared() && (isCooked() || isBaked())){
             return 2;
         } else if (isPrepared()){
             return 1;

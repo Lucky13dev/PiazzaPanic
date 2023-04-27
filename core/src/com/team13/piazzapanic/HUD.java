@@ -18,6 +18,10 @@ public class HUD implements Disposable, Serializable {
     public Stage stage;
     private Boolean scenarioComplete;
 
+    public Integer getScore() {
+        return score;
+    }
+
     private Integer score;
 
     public String timeString;
@@ -95,6 +99,18 @@ public class HUD implements Disposable, Serializable {
     }
 
     /**
+     * Buy an entity (e.g. Oven, Pan, etc.) and update the score.
+     * @param cost The cost of the entity.
+     */
+    public void buyEntity(int cost){
+        score -= cost;
+
+        table.left().top();
+        scoreLabel.setText(String.format("%d", score));
+        stage.addActor(table);
+    }
+
+    /**
      * Calculates the user's score per order and updates the label.
      *
      * @param scenarioComplete Whether the game scenario has been completed.
@@ -105,14 +121,18 @@ public class HUD implements Disposable, Serializable {
         int addScore;
 
         if(this.scenarioComplete == Boolean.FALSE){
+            // ALWAYS BOOST SCORE BY 100 for now
             if (currentTime <= expectedTime) {
                 addScore = 100;
             }
             else{
+                /*
                 addScore = 100 - (5 * (currentTime -expectedTime));
                 if(addScore < 0){
                     addScore = 0;
                 }
+                */
+                addScore = 100;
             }
             score += addScore;
         }
