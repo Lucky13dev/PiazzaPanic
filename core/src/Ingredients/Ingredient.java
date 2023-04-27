@@ -100,11 +100,14 @@ public abstract class Ingredient extends Sprite {
      * @param batch The SpriteBatch object used to draw the ingredient.
      */
     public void create(float x, float y, SpriteBatch batch){
-        Sprite sprite = new Sprite(tex.get(findCorrectSkin()));
+        Texture correctSkin = tex.get(findCorrectSkin());
         float adjustedX =  x - (5/MainGame.PPM);
         float adjustedY =  y - (4.95f / MainGame.PPM);
+
+        Sprite sprite = new Sprite(correctSkin);
         sprite.setBounds(adjustedX,adjustedY,10/ MainGame.PPM,10/ MainGame.PPM);
         sprite.draw(batch);
+
     }
 
     /**
