@@ -67,6 +67,10 @@ public class GameState implements Serializable {
     private float time;
     transient HUD hud;
 
+    private Difficulty gameDifficulty;
+    public enum Difficulty {EASY, MEDIUM, HARD};
+    private int reputation;
+    // CREATE VARAIBLE FOR CURRENT ORDERS
 
     // METHODS
 
