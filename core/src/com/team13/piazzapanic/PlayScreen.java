@@ -160,6 +160,18 @@ public class PlayScreen implements Screen {
      */
 
     public void handleInput(float dt){
+
+        //handle saving and loading
+        if (Gdx.input.isKeyJustPressed(Input.Keys.COMMA)){
+            gameState.save("Save");
+            System.out.println("Saved Game. Timestamp:"+gameState.getTime());
+        }
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)){
+            gameState.load("Save");
+            System.out.println("Loaded Game. Timestamp:"+gameState.getTime());
+        }
+
+
         int controlledChefIndex = this.gameState.getChefs().indexOf(this.gameState.getControlledChef());
         // Switch between chefs
         if ((Gdx.input.isKeyJustPressed(Input.Keys.R))) {
