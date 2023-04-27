@@ -43,7 +43,7 @@ public class GameStateTests {
         new B2WorldCreator(world, map, screen);
 
         GameState gameState = new GameState();
-        gameState.addChef(new Chef(world, 31.5F,65));
+        gameState.addChef(new Chef(31.5F,65));
         gameState.setControlledChef(1);
         Chef controlledChef = gameState.getControlledChef();
         assertEquals(1, controlledChef);

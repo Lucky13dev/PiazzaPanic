@@ -9,6 +9,7 @@ import Recipe.Order;
 import Tools.B2WorldCreator;
 import Tools.WorldContactListener;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -112,15 +113,19 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world, map, this);
 
         // Instantiate 3 chefs and set the controlled chef
-        this.gameState.addChef(new Chef(this.world, 31.5F,65));
-        this.gameState.addChef(new Chef(this.world, 128,65));
-        this.gameState.addChef(new Chef(this.world, 144, 32));
+
+        this.gameState.addChef(new Chef(31.5F,65));
+        //Chef.defineChef(world, startX/MainGame.PPM, startY/MainGame.PPM);
+        this.gameState.addChef(new Chef(128,65));
+        this.gameState.addChef(new Chef(144, 32));
         this.gameState.setControlledChef(0);
 
+        this.gameState.getChefs().get(0).defineChef(world, 31.5F / MainGame.PPM, 65 / MainGame.PPM);
+        this.gameState.getChefs().get(1).defineChef(world, 128 / MainGame.PPM, 65 / MainGame.PPM);
+        this.gameState.getChefs().get(2).defineChef(world, 144 / MainGame.PPM, 32 / MainGame.PPM);
+
         // Chefs are gotten by their index
-        //chef1 = this.gameState.getChefs().get(0);
-        //chef2 = this.gameState.getChefs().get(1);
-        //chef3 = this.gameState.getChefs().get(2);
+
 
         world.setContactListener(new WorldContactListener());
 
