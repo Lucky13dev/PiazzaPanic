@@ -2,6 +2,7 @@ package com.team13.piazzapanic;
 
 import Ingredients.Ingredient;
 import Ingredients.PizzaBase;
+import PowerUps.*;
 import Recipe.Recipe;
 import Sprites.*;
 import Recipe.Order;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -76,6 +78,7 @@ public class PlayScreen implements Screen {
     private int choppingBoardCost;
     private int ovenCost;
     private int panCost;
+    private float velocityIncrement = 0.5f;
 
     /**
      * PlayScreen constructor initializes the game instance, sets initial conditions for scenarioComplete and createdOrder,
@@ -185,16 +188,16 @@ public class PlayScreen implements Screen {
                 float yVelocity = 0;
 
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                    yVelocity += 0.5f;
+                    yVelocity += this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    xVelocity -= 0.5f;
+                    xVelocity -= this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                    yVelocity -= 0.5f;
+                    yVelocity -= this.velocityIncrement;
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    xVelocity += 0.5f;
+                    xVelocity += this.velocityIncrement;
                 }
                 this.gameState.getControlledChef().b2body.setLinearVelocity(xVelocity, yVelocity);
             }
@@ -249,12 +252,37 @@ public class PlayScreen implements Screen {
                                 PotatoStation potatoTile = (PotatoStation) tile;
                                 this.gameState.getControlledChef().setInHandsIngredient(potatoTile.getIngredient());
                                 this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsIngredient());
+                                break;
                             case "Sprites.PlateStation":
                                 if(plateStation.getPlate().size() > 0 || plateStation.getCompletedRecipe() != null){
                                     this.gameState.getControlledChef().pickUpItemFrom(tile);
-
                                 }
-
+                                break;
+                            case "Sprites.PowerUpStation":
+                                PowerUpStation pus = (PowerUpStation) tile;
+                                PowerUp pUp = pus.getPowerUp();
+                                // check the power up type
+                                if(pUp instanceof FreeRecipe){
+                                    //free recipe
+                                    if(this.gameState.getTime() > 10) {
+                                        this.gameState.getControlledChef().setInHandsRecipe(ordersArray.get(0).recipe);
+                                        this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsRecipe());
+                                    }
+                                } else if(pUp instanceof MoneyBoost){
+                                    //MoneyBoost
+                                    this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+                                } else if(pUp instanceof ReputationBoost){
+                                    //ReputationBoost
+                                } else if(pUp instanceof SpeedBoost){
+                                    //speed boost
+                                    this.velocityIncrement = 1.5f;
+                                } else if(pUp instanceof TimeSaver){
+                                    //time saver (10 seconds)
+                                    int decrementTime = 10;
+                                    if(this.gameState.getTime() > decrementTime)
+                                        this.gameState.decrementTime(10);
+                                }
+                                break;
                         }
                     } else {
                         switch (tileName) {
@@ -348,8 +376,6 @@ public class PlayScreen implements Screen {
 
         int currentTimeInSeconds = (int) this.gameState.getTime();
 
-        // Add the initial orders for set mode
-        System.out.println(this.gameMode);
         if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.equals(this.SETMODE)){
             this.createOrder(this.numOfOrders);
         }

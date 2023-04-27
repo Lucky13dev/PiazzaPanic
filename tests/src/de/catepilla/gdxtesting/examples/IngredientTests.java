@@ -63,6 +63,7 @@ public class IngredientTests {
         //TODO This method uses the create() method that uses draw(). Currently unsure how to proceed with this.
     }
 
+    @Test
     public void IngredientCreatePosAndSize(){
         //TODO This method uses the create() method that uses draw(). Currently unsure how to proceed with this.
     }

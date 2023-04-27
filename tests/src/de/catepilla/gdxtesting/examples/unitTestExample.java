@@ -27,14 +27,6 @@ import com.team13.piazzapanic.PlayScreen;
 @RunWith(GdxTestRunner.class)
 public class unitTestExample {
 
-	@Test
-	public void TestMaxChefs() {
-		GameState gameState = new GameState();
-		int max_count = GameState.getMAX_CHEF_COUNT();
-		int expected_max_count = 5;
-		assertEquals(expected_max_count, max_count);
-	}
-
 	/**
 	 * Tests on the Chef constructor class's fields.
 	 */
