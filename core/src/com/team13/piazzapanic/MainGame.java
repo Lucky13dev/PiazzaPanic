@@ -96,9 +96,21 @@ public class MainGame extends Game {
 				playScreen.setMode(this.gameMode, this.numOfOrders);
 				isPlayScreen = !isPlayScreen;
 			}
-			// set the game mode to endless
-			else if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-				this.gameMode = "endless";
+			// set the game mode to endless with a difficulty
+			else if (Gdx.input.isKeyJustPressed(Input.Keys.E)){
+				this.gameMode = "easy";
+				this.numOfOrders = 0;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+				isPlayScreen = !isPlayScreen;
+			}
+			else if (Gdx.input.isKeyJustPressed(Input.Keys.N)){
+				this.gameMode = "normal";
+				this.numOfOrders = 0;
+				playScreen.setMode(this.gameMode, this.numOfOrders);
+				isPlayScreen = !isPlayScreen;
+			}
+			else if (Gdx.input.isKeyJustPressed(Input.Keys.H)){
+				this.gameMode = "hard";
 				this.numOfOrders = 0;
 				playScreen.setMode(this.gameMode, this.numOfOrders);
 				isPlayScreen = !isPlayScreen;
