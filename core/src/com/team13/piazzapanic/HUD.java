@@ -24,9 +24,10 @@ public class HUD implements Disposable, Serializable {
 
     Label timeLabelT;
     Label timeLabel;
-
-    Label scoreLabel;
-    Label scoreLabelT;
+    Label reputationLabel;
+    Label reputationLabelT;
+    Label moneyLabel;
+    Label moneyLabelT;
     Label orderNumL;
     Label orderNumLT;
 
@@ -49,18 +50,26 @@ public class HUD implements Disposable, Serializable {
         timeLabelT = new Label("TIME", new Label.LabelStyle(font, Color.BLACK));
         orderNumLT = new Label("ORDER", new Label.LabelStyle(font, Color.BLACK));
         orderNumL = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
+        moneyLabel = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
+        moneyLabelT = new Label("MONEY", new Label.LabelStyle(font, Color.BLACK));
 
-        scoreLabel = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
-        scoreLabelT = new Label("MONEY", new Label.LabelStyle(font, Color.BLACK));
+        reputationLabel = new Label(String.format("%d", 30), new Label.LabelStyle(font, Color.WHITE));
+        reputationLabelT = new Label("REP", new Label.LabelStyle(font, Color.BLACK));
 
 
         table.add(timeLabelT).padTop(2).padLeft(2);
-        table.add(scoreLabelT).padTop(2).padLeft(2);
+        table.add(moneyLabelT).padTop(2).padLeft(2);
         table.add(orderNumLT).padTop(2).padLeft(2);
         table.row();
         table.add(timeLabel).padTop(2).padLeft(2);
-        table.add(scoreLabel).padTop(2).padLeft(2);
+        table.add(moneyLabel).padTop(2).padLeft(2);
         table.add(orderNumL).padTop(2).padLeft(2);
+
+        table.row();
+        table.add(reputationLabelT).padTop(2).padLeft(2);
+        table.row();
+        table.add(reputationLabel).padTop(2).padLeft(2);
+
 
         table.left().top();
         stage.addActor(table);
@@ -83,7 +92,7 @@ public class HUD implements Disposable, Serializable {
 
     }
 
-    public void showScenarioComplete(int money){
+    public void showScenarioComplete(float money){
         timeLabel.setColor(Color.GREEN);
         timeLabel.setText(String.format("TIME: " + this.timeString + " MONEY: %d", money));
         timeLabelT.setText("SCENARIO COMPLETE");
@@ -95,9 +104,19 @@ public class HUD implements Disposable, Serializable {
      * Update the money value displayed on the hud.
      * @param newBalance The new value to show in the money field.
      */
-    public void updateMoney(int newBalance){
+    public void updateMoney(float newBalance){
         table.left().top();
-        scoreLabel.setText(String.format("%d",newBalance));
+        moneyLabel.setText(String.format("%d",newBalance));
+        stage.addActor(table);
+    }
+
+    /**
+     * Update the money value displayed on the hud.
+     * @param newReputation The new value to show in the money field.
+     */
+    public void updateReputation(int newReputation){
+        table.left().top();
+        reputationLabel.setText(String.format("%d",newReputation));
         stage.addActor(table);
     }
 

@@ -383,8 +383,10 @@ public class PlayScreen implements Screen {
 
         //Increment the time
         this.gameState.incrementTime(dt);
+        this.gameState.giveReputation(-dt);
 
         int currentTimeInSeconds = (int) this.gameState.getTime();
+        int currentReputationInt = (int) this.gameState.getReputation();
 
         if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.equals(this.SETMODE)){
             this.createOrder(this.numOfOrders);
@@ -399,6 +401,7 @@ public class PlayScreen implements Screen {
             this.gameState.getHud().showScenarioComplete(this.gameState.getMoney());
         }
         this.gameState.getHud().updateTime(currentTimeInSeconds);
+        this.gameState.getHud().updateReputation(currentReputationInt);
 
         gamecam.update();
         renderer.setView(gamecam);

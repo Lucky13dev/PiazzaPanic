@@ -70,8 +70,8 @@ public class GameState implements Serializable {
 
     private Difficulty gameDifficulty;
     public enum Difficulty {EASY, MEDIUM, HARD};
-    private int reputation;
-    private int money;
+    private float reputation;
+    private float money;
     // CREATE VARAIBLE FOR CURRENT ORDERS
 
     // METHODS
@@ -79,19 +79,30 @@ public class GameState implements Serializable {
     public GameState(){
         this.chefs = new ArrayList<>();
         this.time = 0;
-        this.reputation = 0;
+        this.reputation = 30;
         this.money = 0;
     }
 
-    public int getMoney() {
+    public float getMoney() {
         return this.money;
     }
-    public void setMoney(int newBalance){
+    public void setMoney(float newBalance){
         this.money = newBalance;
         this.getHud().updateMoney(newBalance);
     }
     public void giveMoney(int amount){
         this.setMoney(this.getMoney()+amount);
+    }
+
+    public float getReputation() {
+        return this.reputation;
+    }
+    public void setReputation(float newReputation){
+        this.reputation = newReputation;
+        this.getHud().updateReputation((int) newReputation);
+    }
+    public void giveReputation(float amount){
+        this.setReputation(this.getReputation()+amount);
     }
 
     public static int getMAX_CHEF_COUNT() {
