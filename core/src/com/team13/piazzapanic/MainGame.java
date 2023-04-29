@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Game;
 
+import java.util.Objects;
+
 public class MainGame extends Game {
 
 	/**
@@ -36,7 +38,7 @@ public class MainGame extends Game {
 	private PlayScreen playScreen;
 	private StartScreen startScreen;
 	private int numOfOrders;
-	private String gameMode = "";
+	private GameMode gameMode;
 
 	public MainGame(){
 		isPlayScreen = false;
@@ -46,6 +48,7 @@ public class MainGame extends Game {
 		batch = new SpriteBatch();
 		startScreen = new StartScreen(this);
 		playScreen = new PlayScreen(this);
+		this.gameMode = new GameMode();
 	}
 
 	@Override
@@ -55,64 +58,64 @@ public class MainGame extends Game {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
 			isPlayScreen = !isPlayScreen;
 			// if the game mode is not set...
-			if(this.gameMode.equals("")){
+			if(Objects.isNull(this.gameMode.getGameMode())){
 				// Default gameMode
-				this.gameMode = "setMode";
-				this.numOfOrders = 5;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.SET);
+				this.gameMode.setNumOfOrders(5);
+				playScreen.setMode(this.gameMode);
 			}
 		}
 
 		// Set the game mode
-		if(this.gameMode.equals("")) {
+		if(Objects.isNull(this.gameMode.getGameMode())) {
 			// set the number of orders
 			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
-				this.gameMode = "setMode";
-				this.numOfOrders = 1;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.SET);
+				this.gameMode.setNumOfOrders(1);
+				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
-				this.gameMode = "setMode";
-				this.numOfOrders = 2;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.SET);
+				this.gameMode.setNumOfOrders(2);
+				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
-				this.gameMode = "setMode";
-				this.numOfOrders = 3;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.SET);
+				this.gameMode.setNumOfOrders(3);
+				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)){
-				this.gameMode = "setMode";
-				this.numOfOrders = 4;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.SET);
+				this.gameMode.setNumOfOrders(4);
+				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)){
-				this.gameMode = "setMode";
-				this.numOfOrders = 5;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.SET);
+				this.gameMode.setNumOfOrders(5);
+				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
 			// set the game mode to endless with a difficulty
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.E)){
-				this.gameMode = "easy";
-				this.numOfOrders = 0;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.EASY);
+				this.gameMode.setNumOfOrders(0);
+				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.N)){
-				this.gameMode = "normal";
-				this.numOfOrders = 0;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.NORMAL);
+				this.gameMode.setNumOfOrders(0);
+				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.H)){
-				this.gameMode = "hard";
-				this.numOfOrders = 0;
-				playScreen.setMode(this.gameMode, this.numOfOrders);
+				this.gameMode.setGameMode(GameTypes.HARD);
+				this.gameMode.setNumOfOrders(0);
+				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
 		}
