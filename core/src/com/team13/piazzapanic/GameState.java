@@ -13,6 +13,9 @@ public class GameState implements Serializable {
     private class GameSave implements Serializable {
         private float time;
         private List<Vector2> chefLocations;
+        private scenarioState scenarioStatus;
+        private float reputation;
+        private int money;
         /**
          * saves the game state to a binary file
          * @param saveName the name of the game save.
@@ -49,6 +52,9 @@ public class GameState implements Serializable {
 
                 this.time = loaded.time;
                 this.chefLocations = loaded.chefLocations;
+                this.scenarioStatus = loaded.scenarioStatus;
+                this.reputation = loaded.reputation;
+                this.money = loaded.money;
 
                 return true;
             }
@@ -190,6 +196,9 @@ public class GameState implements Serializable {
         boolean loadSuccess = save.load(saveName);
         if (loadSuccess) {
             this.setTime(save.time);
+            this.setReputation(save.reputation);
+            this.setMoney(save.money);
+            this.setScenarioStatus(save.scenarioStatus);
             //setup chefs
             for (int i = 0; i<this.chefs.size(); i++){
                 this.chefs.get(i).b2body.setTransform(save.chefLocations.get(i), 0);
@@ -203,6 +212,9 @@ public class GameState implements Serializable {
         //create a save with information from this GameState
         save.time = this.getTime();
         save.chefLocations = new ArrayList<>();
+        save.scenarioStatus = this.getScenarioStatus();
+        save.reputation = this.getReputation();
+        save.money = this.getMoney();
         for (Chef chef : chefs){
             save.chefLocations.add(chef.b2body.getPosition());
         }
