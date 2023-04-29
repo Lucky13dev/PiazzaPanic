@@ -84,7 +84,7 @@ public class GameState implements Serializable {
     }
 
     public scenarioState getScenarioStatus(){return this.scenarioStatus;}
-    public void updateScenarioStatus(scenarioState state){this.scenarioStatus = state;}
+    public void setScenarioStatus(scenarioState state){this.scenarioStatus = state;}
     public boolean isCompleted(){return this.scenarioStatus == scenarioState.COMPLETED;}
     public boolean isFailed(){return this.scenarioStatus == scenarioState.FAILED;}
     public boolean isFinished(){return (this.scenarioStatus == scenarioState.COMPLETED || this.scenarioStatus == scenarioState.FAILED);}

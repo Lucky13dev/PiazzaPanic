@@ -356,7 +356,7 @@ public class PlayScreen implements Screen {
                                         ordersArray.get(0).orderComplete = true;
                                         this.gameState.getControlledChef().setChefSkin(null);
                                         if(ordersArray.size()==1){
-                                            this.gameState.updateScenarioStatus(GameState.scenarioState.COMPLETED);
+                                            this.gameState.setScenarioStatus(GameState.scenarioState.COMPLETED);
                                         }
                                     }
                                 }
@@ -391,10 +391,18 @@ public class PlayScreen implements Screen {
             this.createOrder(1);
         }
 
+        if (currentReputationInt < 0) {
+            this.gameState.setScenarioStatus(GameState.scenarioState.FAILED);
+        }
+
         //update the state of the HUD
         if (this.gameState.isCompleted()){
             this.gameState.getHud().showScenarioComplete(this.gameState.getReputation());
         }
+        else if(this.gameState.isFailed()){
+            this.gameState.getHud().showScenarioFailed();
+        }
+
         this.gameState.getHud().updateTime(currentTimeInSeconds);
         this.gameState.getHud().updateReputation(currentReputationInt);
 
