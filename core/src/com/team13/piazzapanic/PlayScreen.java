@@ -154,6 +154,8 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float dt){
 
+        if (gameState.isFinished()){return;}//Don't handle inputs if game is finished
+
         //handle saving and loading
         if (Gdx.input.isKeyJustPressed(Input.Keys.COMMA)){
             gameState.save("Save");
