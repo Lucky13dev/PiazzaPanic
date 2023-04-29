@@ -1,7 +1,6 @@
 package com.team13.piazzapanic;
 
 import Ingredients.Ingredient;
-import Ingredients.PizzaBase;
 import PowerUps.*;
 import Recipe.Recipe;
 import Sprites.*;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -282,7 +280,7 @@ public class PlayScreen implements Screen {
                                     }
                                 } else if(pUp instanceof MoneyBoost){
                                     //MoneyBoost
-                                    this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+                                    this.gameState.giveMoney(100);
                                 } else if(pUp instanceof ReputationBoost){
                                     //ReputationBoost
                                 } else if(pUp instanceof SpeedBoost){
@@ -308,10 +306,10 @@ public class PlayScreen implements Screen {
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null){
                                     if(this.gameState.getControlledChef().getInHandsIngredient().prepareTime > 0){
                                         ChoppingBoard board = (ChoppingBoard) tile;
-                                        if(this.gameState.getHud().getScore() >= this.choppingBoardCost && !board.isUnlocked()){
+                                        if(this.gameState.getMoney() >= this.choppingBoardCost && !board.isUnlocked()){
                                             // Buy the station
                                             board.setUnlocked();
-                                            this.gameState.getHud().buyEntity(this.choppingBoardCost);
+                                            this.gameState.giveMoney(-this.choppingBoardCost);
                                             choppingBoardCost += 50;
                                         }
                                         if(board.isUnlocked()) {
@@ -330,9 +328,9 @@ public class PlayScreen implements Screen {
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null) {
                                     if (this.gameState.getControlledChef().getInHandsIngredient().isPrepared() && this.gameState.getControlledChef().getInHandsIngredient().cookTime > 0){
                                         Pan pan = (Pan) tile;
-                                        if(this.gameState.getHud().getScore() >= this.panCost && !pan.isUnlocked()){
+                                        if(this.gameState.getMoney() >= this.panCost && !pan.isUnlocked()){
                                             pan.setUnlocked();
-                                            this.gameState.getHud().buyEntity(this.panCost);
+                                            this.gameState.giveMoney(-this.panCost);
                                             panCost += 50;
                                         }
                                         if(pan.isUnlocked())
@@ -345,9 +343,9 @@ public class PlayScreen implements Screen {
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null){
                                     if(this.gameState.getControlledChef().getInHandsIngredient().isCooked() && this.gameState.getControlledChef().getInHandsIngredient().bakeTime > 0){
                                         Oven oven = (Oven) tile;
-                                        if(this.gameState.getHud().getScore() >= this.ovenCost && !oven.isUnlocked()){
+                                        if(this.gameState.getMoney() >= this.ovenCost && !oven.isUnlocked()){
                                             oven.setUnlocked();
-                                            this.gameState.getHud().buyEntity(this.ovenCost);
+                                            this.gameState.giveMoney(-this.ovenCost);
                                             ovenCost += 50;
                                         }
                                         if(oven.isUnlocked())
@@ -398,7 +396,7 @@ public class PlayScreen implements Screen {
 
         //update the state of the HUD
         if (this.scenarioComplete){
-            this.gameState.getHud().showScenarioComplete();
+            this.gameState.getHud().showScenarioComplete(this.gameState.getMoney());
         }
         this.gameState.getHud().updateTime(currentTimeInSeconds);
 
@@ -447,13 +445,13 @@ public class PlayScreen implements Screen {
      */
     public void updateOrder(){
         if(scenarioComplete==Boolean.TRUE) {
-            this.gameState.getHud().updateScore(Boolean.TRUE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+            this.gameState.giveMoney(100);
             this.gameState.getHud().updateOrder(Boolean.TRUE, 0);
             return;
         }
         if(ordersArray.size() != 0) {
             if (ordersArray.get(0).orderComplete) {
-                this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+                this.gameState.giveMoney(100);
                 ordersArray.remove(0);
                 this.gameState.getHud().updateOrder(Boolean.FALSE, ordersArray.size());
                 return;

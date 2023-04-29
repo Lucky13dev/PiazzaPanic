@@ -18,12 +18,6 @@ public class HUD implements Disposable, Serializable {
     public Stage stage;
     private Boolean scenarioComplete;
 
-    public Integer getScore() {
-        return score;
-    }
-
-    private Integer score;
-
     public String timeString;
 
     public Table table;
@@ -38,7 +32,6 @@ public class HUD implements Disposable, Serializable {
 
     public HUD(SpriteBatch sb){
         this.scenarioComplete = Boolean.FALSE;
-        score = 0;
         this.timeString = "00:00";
         float fontX = 0.5F;
         float fontY = 0.3F;
@@ -57,7 +50,7 @@ public class HUD implements Disposable, Serializable {
         orderNumLT = new Label("ORDER", new Label.LabelStyle(font, Color.BLACK));
         orderNumL = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
 
-        scoreLabel = new Label(String.format("%d", score), new Label.LabelStyle(font, Color.WHITE));
+        scoreLabel = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
         scoreLabelT = new Label("MONEY", new Label.LabelStyle(font, Color.BLACK));
 
 
@@ -90,70 +83,22 @@ public class HUD implements Disposable, Serializable {
 
     }
 
-    public void showScenarioComplete(){
+    public void showScenarioComplete(int money){
         timeLabel.setColor(Color.GREEN);
-        timeLabel.setText(String.format("TIME: " + this.timeString + " MONEY: %d", score));
+        timeLabel.setText(String.format("TIME: " + this.timeString + " MONEY: %d", money));
         timeLabelT.setText("SCENARIO COMPLETE");
         table.center().top();
         stage.addActor(table);
     }
 
     /**
-     * Buy an entity (e.g. Oven, Pan, etc.) and update the score.
-     * @param cost The cost of the entity.
+     * Update the money value displayed on the hud.
+     * @param newBalance The new value to show in the money field.
      */
-    public void buyEntity(int cost){
-        score -= cost;
-
+    public void updateMoney(int newBalance){
         table.left().top();
-        scoreLabel.setText(String.format("%d", score));
+        scoreLabel.setText(String.format("%d",newBalance));
         stage.addActor(table);
-    }
-
-    /**
-     * Calculates the user's score per order and updates the label.
-     *
-     * @param scenarioComplete Whether the game scenario has been completed.
-     * @param expectedTime The expected time an order should be completed in.
-     * @param currentTime The current game time.
-     */
-    public void updateScore(Boolean scenarioComplete, Integer expectedTime, Integer currentTime){
-        int addScore;
-
-        if(this.scenarioComplete == Boolean.FALSE){
-            // ALWAYS BOOST SCORE BY 100 for now
-            if (currentTime <= expectedTime) {
-                addScore = 100;
-            }
-            else{
-                /*
-                addScore = 100 - (5 * (currentTime -expectedTime));
-                if(addScore < 0){
-                    addScore = 0;
-                }
-                */
-                addScore = 100;
-            }
-            score += addScore;
-        }
-
-
-        if(scenarioComplete==Boolean.TRUE){
-            scoreLabel.setColor(Color.GREEN);
-            scoreLabel.setText("");
-            scoreLabelT.setText("");
-            scoreLabelT.remove();
-            scoreLabel.remove();
-            table.center().top();
-            stage.addActor(table);
-            this.scenarioComplete = Boolean.TRUE;
-            return;
-        }
-
-        table.left().top();
-        scoreLabel.setText(String.format("%d", score));
-        stage.addActor(table);
-
     }
 
     /**

@@ -6,6 +6,7 @@ import Sprites.*;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
+import javax.naming.spi.NamingManager;
 import java.io.*;
 import java.util.*;
 
@@ -70,6 +71,7 @@ public class GameState implements Serializable {
     private Difficulty gameDifficulty;
     public enum Difficulty {EASY, MEDIUM, HARD};
     private int reputation;
+    private int money;
     // CREATE VARAIBLE FOR CURRENT ORDERS
 
     // METHODS
@@ -77,6 +79,19 @@ public class GameState implements Serializable {
     public GameState(){
         this.chefs = new ArrayList<>();
         this.time = 0;
+        this.reputation = 0;
+        this.money = 0;
+    }
+
+    public int getMoney() {
+        return this.money;
+    }
+    public void setMoney(int newBalance){
+        this.money = newBalance;
+        this.getHud().updateMoney(newBalance);
+    }
+    public void giveMoney(int amount){
+        this.setMoney(this.getMoney()+amount);
     }
 
     public static int getMAX_CHEF_COUNT() {
