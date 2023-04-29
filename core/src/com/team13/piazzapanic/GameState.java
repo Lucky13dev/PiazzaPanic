@@ -71,7 +71,7 @@ public class GameState implements Serializable {
     private Difficulty gameDifficulty;
     public enum Difficulty {EASY, MEDIUM, HARD};
     private float reputation;
-    private float money;
+    private int money;
     // CREATE VARAIBLE FOR CURRENT ORDERS
 
     // METHODS
@@ -79,14 +79,14 @@ public class GameState implements Serializable {
     public GameState(){
         this.chefs = new ArrayList<>();
         this.time = 0;
-        this.reputation = 30;
+        this.reputation = 60;
         this.money = 0;
     }
 
-    public float getMoney() {
+    public int getMoney() {
         return this.money;
     }
-    public void setMoney(float newBalance){
+    public void setMoney(int newBalance){
         this.money = newBalance;
         this.getHud().updateMoney(newBalance);
     }

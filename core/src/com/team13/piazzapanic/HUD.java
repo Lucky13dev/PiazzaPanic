@@ -92,9 +92,9 @@ public class HUD implements Disposable, Serializable {
 
     }
 
-    public void showScenarioComplete(float money){
+    public void showScenarioComplete(float reputation){
         timeLabel.setColor(Color.GREEN);
-        timeLabel.setText(String.format("TIME: " + this.timeString + " MONEY: %d", money));
+        timeLabel.setText(String.format("TIME: " + this.timeString + " Reputation: %d", (int) reputation));
         timeLabelT.setText("SCENARIO COMPLETE");
         table.center().top();
         stage.addActor(table);
@@ -104,7 +104,7 @@ public class HUD implements Disposable, Serializable {
      * Update the money value displayed on the hud.
      * @param newBalance The new value to show in the money field.
      */
-    public void updateMoney(float newBalance){
+    public void updateMoney(int newBalance){
         table.left().top();
         moneyLabel.setText(String.format("%d",newBalance));
         stage.addActor(table);
