@@ -93,6 +93,10 @@ public class HUD implements Disposable, Serializable {
     }
 
     public void showScenarioComplete(float reputation){
+        table.clear();
+        table.add(timeLabelT).padTop(2).padLeft(2);
+        table.row();
+        table.add(timeLabel).padTop(2).padLeft(2);
         timeLabel.setColor(Color.GREEN);
         timeLabel.setText(String.format("TIME: " + this.timeString + " Reputation: %d", (int) reputation));
         timeLabelT.setText("SCENARIO COMPLETE");
@@ -100,6 +104,10 @@ public class HUD implements Disposable, Serializable {
         stage.addActor(table);
     }
     public void showScenarioFailed(){
+        table.clear();
+        table.add(timeLabelT).padTop(2).padLeft(2);
+        table.row();
+        table.add(timeLabel).padTop(2).padLeft(2);
         timeLabel.setColor(Color.GREEN);
         timeLabel.setText(String.format("You lost all your reputation."));
         timeLabelT.setText("SCENARIO FAILED");
