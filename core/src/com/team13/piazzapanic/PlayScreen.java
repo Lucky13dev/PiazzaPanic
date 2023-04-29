@@ -64,7 +64,7 @@ public class PlayScreen implements Screen {
     public static float trayX;
     public static float trayY;
     private int numOfOrders;
-    private String gameMode = "";
+    private GameMode gameMode;
     // Types of game modes
     private final String ENDLESS = "endless";
     private final String SETMODE = "setMode";
@@ -121,8 +121,7 @@ public class PlayScreen implements Screen {
 
     }
 
-    public void setMode(String gameMode, int numOfOrders){
-        this.numOfOrders = numOfOrders;
+    public void setMode(GameMode gameMode){
         this.gameMode = gameMode;
     }
 
@@ -385,11 +384,11 @@ public class PlayScreen implements Screen {
         int currentTimeInSeconds = (int) this.gameState.getTime();
         int currentReputationInt = (int) this.gameState.getReputation();
 
-        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.equals(this.SETMODE)){
-            this.createOrder(this.numOfOrders);
+        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.getGameMode() == GameTypes.SET){
+            this.createOrder(this.gameMode.getNumOfOrders());
         }
         // If the gameMode is endless, keep adding orders forever
-        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && this.gameMode.equals(this.ENDLESS)){
+        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && (this.gameMode.getGameMode() == GameTypes.EASY || this.gameMode.getGameMode() == GameTypes.NORMAL || this.gameMode.getGameMode() == GameTypes.HARD)){
             this.createOrder(1);
         }
 
