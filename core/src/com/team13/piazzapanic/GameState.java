@@ -1,10 +1,7 @@
 package com.team13.piazzapanic;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import Sprites.*;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 
 import java.io.*;
 import java.util.*;
@@ -16,6 +13,9 @@ public class GameState implements Serializable {
     private class GameSave implements Serializable {
         private float time;
         private List<Vector2> chefLocations;
+        private scenarioState scenarioStatus;
+        private float reputation;
+        private int money;
         /**
          * saves the game state to a binary file
          * @param saveName the name of the game save.
@@ -52,6 +52,9 @@ public class GameState implements Serializable {
 
                 this.time = loaded.time;
                 this.chefLocations = loaded.chefLocations;
+                this.scenarioStatus = loaded.scenarioStatus;
+                this.reputation = loaded.reputation;
+                this.money = loaded.money;
 
                 return true;
             }
@@ -69,7 +72,11 @@ public class GameState implements Serializable {
 
     private Difficulty gameDifficulty;
     public enum Difficulty {EASY, MEDIUM, HARD};
-    private int reputation;
+    private float reputation;
+    private int money;
+
+    public enum scenarioState {LIVE, COMPLETED, FAILED};
+    private scenarioState scenarioStatus;
     // CREATE VARAIBLE FOR CURRENT ORDERS
 
     // METHODS
@@ -77,6 +84,38 @@ public class GameState implements Serializable {
     public GameState(){
         this.chefs = new ArrayList<>();
         this.time = 0;
+        this.reputation = 60;
+        this.money = 0;
+        this.scenarioStatus = scenarioState.LIVE;
+    }
+
+    public scenarioState getScenarioStatus(){return this.scenarioStatus;}
+    public void setScenarioStatus(scenarioState state){this.scenarioStatus = state;}
+    public boolean isCompleted(){return this.scenarioStatus == scenarioState.COMPLETED;}
+    public boolean isFailed(){return this.scenarioStatus == scenarioState.FAILED;}
+    public boolean isFinished(){return (this.scenarioStatus == scenarioState.COMPLETED || this.scenarioStatus == scenarioState.FAILED);}
+    public int getMoney() {
+        return this.money;
+    }
+    public void setMoney(int newBalance){
+        if(isFinished()){return;}
+        this.money = newBalance;
+        this.getHud().updateMoney(newBalance);
+    }
+    public void giveMoney(int amount){
+        this.setMoney(this.getMoney()+amount);
+    }
+
+    public float getReputation() {
+        return this.reputation;
+    }
+    public void setReputation(float newReputation){
+        if(isFinished()){return;}
+        this.reputation = newReputation;
+        this.getHud().updateReputation((int) newReputation);
+    }
+    public void giveReputation(float amount){
+        this.setReputation(this.getReputation()+amount);
     }
 
     public static int getMAX_CHEF_COUNT() {
@@ -128,9 +167,9 @@ public class GameState implements Serializable {
      * @param dt delta time, the amount of time to increment by.
      */
     public void incrementTime(float dt) {
-        this.time += dt;
+        if(isFinished()){return;}
+        this.setTime(this.getTime()+dt);
     }
-
   
      /**
      * Set the game time.
@@ -157,6 +196,9 @@ public class GameState implements Serializable {
         boolean loadSuccess = save.load(saveName);
         if (loadSuccess) {
             this.setTime(save.time);
+            this.setReputation(save.reputation);
+            this.setMoney(save.money);
+            this.setScenarioStatus(save.scenarioStatus);
             //setup chefs
             for (int i = 0; i<this.chefs.size(); i++){
                 this.chefs.get(i).b2body.setTransform(save.chefLocations.get(i), 0);
@@ -170,6 +212,9 @@ public class GameState implements Serializable {
         //create a save with information from this GameState
         save.time = this.getTime();
         save.chefLocations = new ArrayList<>();
+        save.scenarioStatus = this.getScenarioStatus();
+        save.reputation = this.getReputation();
+        save.money = this.getMoney();
         for (Chef chef : chefs){
             save.chefLocations.add(chef.b2body.getPosition());
         }
