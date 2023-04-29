@@ -99,6 +99,13 @@ public class HUD implements Disposable, Serializable {
         table.center().top();
         stage.addActor(table);
     }
+    public void showScenarioFailed(){
+        timeLabel.setColor(Color.GREEN);
+        timeLabel.setText(String.format("You lost all your reputation."));
+        timeLabelT.setText("SCENARIO FAILED");
+        table.center().top();
+        stage.addActor(table);
+    }
 
     /**
      * Update the money value displayed on the hud.

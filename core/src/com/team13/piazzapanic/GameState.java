@@ -1,12 +1,8 @@
 package com.team13.piazzapanic;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import Sprites.*;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 
-import javax.naming.spi.NamingManager;
 import java.io.*;
 import java.util.*;
 
@@ -72,6 +68,9 @@ public class GameState implements Serializable {
     public enum Difficulty {EASY, MEDIUM, HARD};
     private float reputation;
     private int money;
+
+    public enum scenarioState {LIVE, COMPLETED, FAILED};
+    private scenarioState scenarioStatus;
     // CREATE VARAIBLE FOR CURRENT ORDERS
 
     // METHODS
@@ -81,12 +80,19 @@ public class GameState implements Serializable {
         this.time = 0;
         this.reputation = 60;
         this.money = 0;
+        this.scenarioStatus = scenarioState.LIVE;
     }
 
+    public scenarioState getScenarioStatus(){return this.scenarioStatus;}
+    public void updateScenarioStatus(scenarioState state){this.scenarioStatus = state;}
+    public boolean isCompleted(){return this.scenarioStatus == scenarioState.COMPLETED;}
+    public boolean isFailed(){return this.scenarioStatus == scenarioState.FAILED;}
+    public boolean isFinished(){return (this.scenarioStatus == scenarioState.COMPLETED || this.scenarioStatus == scenarioState.FAILED);}
     public int getMoney() {
         return this.money;
     }
     public void setMoney(int newBalance){
+        if(isFinished()){return;}
         this.money = newBalance;
         this.getHud().updateMoney(newBalance);
     }
@@ -98,6 +104,7 @@ public class GameState implements Serializable {
         return this.reputation;
     }
     public void setReputation(float newReputation){
+        if(isFinished()){return;}
         this.reputation = newReputation;
         this.getHud().updateReputation((int) newReputation);
     }
@@ -154,9 +161,9 @@ public class GameState implements Serializable {
      * @param dt delta time, the amount of time to increment by.
      */
     public void incrementTime(float dt) {
-        this.time += dt;
+        if(isFinished()){return;}
+        this.setTime(this.getTime()+dt);
     }
-
   
      /**
      * Set the game time.
