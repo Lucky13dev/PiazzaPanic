@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class HUD implements Disposable, Serializable {
@@ -20,7 +22,10 @@ public class HUD implements Disposable, Serializable {
 
     public String timeString;
 
-    public Table table;
+    public Table gameStatsTable;
+    public Table playerInfoTable;
+
+    Map<Label, Float> screenMessages;
 
     Label timeLabelT;
     Label timeLabel;
@@ -42,9 +47,9 @@ public class HUD implements Disposable, Serializable {
         Viewport viewport = new FitViewport(MainGame.V_WIDTH, MainGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
-        table = new Table();
-        table.left().top();
-        table.setFillParent(true);
+        gameStatsTable = new Table();
+        gameStatsTable.left().top();
+        gameStatsTable.setFillParent(true);
 
         timeLabel = new Label(String.format(this.timeString), new Label.LabelStyle(font, Color.WHITE));
         timeLabelT = new Label("TIME", new Label.LabelStyle(font, Color.BLACK));
@@ -57,22 +62,33 @@ public class HUD implements Disposable, Serializable {
         reputationLabelT = new Label("REP", new Label.LabelStyle(font, Color.BLACK));
 
 
-        table.add(timeLabelT).padTop(2).padLeft(2);
-        table.add(moneyLabelT).padTop(2).padLeft(2);
-        table.add(orderNumLT).padTop(2).padLeft(2);
-        table.row();
-        table.add(timeLabel).padTop(2).padLeft(2);
-        table.add(moneyLabel).padTop(2).padLeft(2);
-        table.add(orderNumL).padTop(2).padLeft(2);
+        gameStatsTable.add(timeLabelT).padTop(2).padLeft(2);
+        gameStatsTable.add(moneyLabelT).padTop(2).padLeft(2);
+        gameStatsTable.add(orderNumLT).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(timeLabel).padTop(2).padLeft(2);
+        gameStatsTable.add(moneyLabel).padTop(2).padLeft(2);
+        gameStatsTable.add(orderNumL).padTop(2).padLeft(2);
 
-        table.row();
-        table.add(reputationLabelT).padTop(2).padLeft(2);
-        table.row();
-        table.add(reputationLabel).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(reputationLabelT).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(reputationLabel).padTop(2).padLeft(2);
 
+        gameStatsTable.left().top();
+        stage.addActor(gameStatsTable);
 
-        table.left().top();
-        stage.addActor(table);
+        screenMessages = new HashMap<>();
+        screenMessages.put(new Label("Game Started", new Label.LabelStyle(font, Color.RED)), 5f);
+        screenMessages.put(new Label("TEST", new Label.LabelStyle(font, Color.RED)), 10f);
+        playerInfoTable = new Table();
+        playerInfoTable.setFillParent(true);
+        for (Label message : screenMessages.keySet()){
+            playerInfoTable.add(message).padTop(2).padLeft(2);
+            playerInfoTable.row();
+        }
+        playerInfoTable.center().bottom();
+        stage.addActor(playerInfoTable);
     }
 
     /**
@@ -80,39 +96,48 @@ public class HUD implements Disposable, Serializable {
      *
      * @param time The current game time in seconds.
      */
-    public void updateTime(int time){
+    public void update(int time){
+        //update time label
         int minutes = time / 60;
         int seconds = time % 60;
-        table.left().top();
+        gameStatsTable.left().top();
 
         this.timeString = String.format("%02d:%02d", minutes, seconds);
 
         timeLabel.setText(timeString);
-        stage.addActor(table);
+        stage.addActor(gameStatsTable);
 
+        //update player messages
+        playerInfoTable.clear();
+        for (Map.Entry<Label, Float> message : screenMessages.entrySet()){
+            if (message.getValue() > time) {
+                playerInfoTable.add(message.getKey());
+                playerInfoTable.row();
+            }
+        }
     }
 
     public void showScenarioComplete(float reputation){
-        table.clear();
-        table.add(timeLabelT).padTop(2).padLeft(2);
-        table.row();
-        table.add(timeLabel).padTop(2).padLeft(2);
+        gameStatsTable.clear();
+        gameStatsTable.add(timeLabelT).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(timeLabel).padTop(2).padLeft(2);
         timeLabel.setColor(Color.GREEN);
         timeLabel.setText(String.format("TIME: " + this.timeString + " Reputation: %d", (int) reputation));
         timeLabelT.setText("SCENARIO COMPLETE");
-        table.center().top();
-        stage.addActor(table);
+        gameStatsTable.center().top();
+        stage.addActor(gameStatsTable);
     }
     public void showScenarioFailed(){
-        table.clear();
-        table.add(timeLabelT).padTop(2).padLeft(2);
-        table.row();
-        table.add(timeLabel).padTop(2).padLeft(2);
+        gameStatsTable.clear();
+        gameStatsTable.add(timeLabelT).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(timeLabel).padTop(2).padLeft(2);
         timeLabel.setColor(Color.GREEN);
         timeLabel.setText(String.format("You lost all your reputation."));
         timeLabelT.setText("SCENARIO FAILED");
-        table.center().top();
-        stage.addActor(table);
+        gameStatsTable.center().top();
+        stage.addActor(gameStatsTable);
     }
 
     /**
@@ -120,9 +145,9 @@ public class HUD implements Disposable, Serializable {
      * @param newBalance The new value to show in the money field.
      */
     public void updateMoney(int newBalance){
-        table.left().top();
+        gameStatsTable.left().top();
         moneyLabel.setText(String.format("%d",newBalance));
-        stage.addActor(table);
+        stage.addActor(gameStatsTable);
     }
 
     /**
@@ -130,9 +155,9 @@ public class HUD implements Disposable, Serializable {
      * @param newReputation The new value to show in the money field.
      */
     public void updateReputation(int newReputation){
-        table.left().top();
+        gameStatsTable.left().top();
         reputationLabel.setText(String.format("%d",newReputation));
-        stage.addActor(table);
+        stage.addActor(gameStatsTable);
     }
 
     /**
@@ -145,15 +170,15 @@ public class HUD implements Disposable, Serializable {
         if(scenarioComplete==Boolean.TRUE){
             orderNumL.remove();
             orderNumLT.remove();
-            table.center().top();
-            stage.addActor(table);
+            gameStatsTable.center().top();
+            stage.addActor(gameStatsTable);
             return;
         }
 
-        table.left().top();
+        gameStatsTable.left().top();
         orderNumL.setText(String.format("%d", orderNum));
         orderNumLT.setText("ORDER");
-        stage.addActor(table);
+        stage.addActor(gameStatsTable);
 
     }
 
