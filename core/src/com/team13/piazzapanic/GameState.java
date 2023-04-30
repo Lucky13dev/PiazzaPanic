@@ -16,6 +16,7 @@ public class GameState implements Serializable {
         private scenarioState scenarioStatus;
         private float reputation;
         private int money;
+        private float chefSpeed;
         /**
          * saves the game state to a binary file
          * @param saveName the name of the game save.
@@ -55,6 +56,7 @@ public class GameState implements Serializable {
                 this.scenarioStatus = loaded.scenarioStatus;
                 this.reputation = loaded.reputation;
                 this.money = loaded.money;
+                this.chefSpeed = loaded.chefSpeed;
 
                 return true;
             }
@@ -75,6 +77,8 @@ public class GameState implements Serializable {
     private float reputation;
     private int money;
 
+    private float chefSpeed;
+
     public enum scenarioState {LIVE, COMPLETED, FAILED};
     private scenarioState scenarioStatus;
     // CREATE VARAIBLE FOR CURRENT ORDERS
@@ -86,6 +90,7 @@ public class GameState implements Serializable {
         this.time = 0;
         this.reputation = 60;
         this.money = 0;
+        this.chefSpeed = 0.5f;
         this.scenarioStatus = scenarioState.LIVE;
     }
 
@@ -116,6 +121,19 @@ public class GameState implements Serializable {
     }
     public void giveReputation(float amount){
         this.setReputation(this.getReputation()+amount);
+    }
+
+    public float getChefSpeed() {
+        return this.chefSpeed;
+    }
+    public void setChefSpeed(float newSpeed){
+        if(isFinished()){return;}
+        this.chefSpeed = newSpeed;
+    }
+
+    public void multiplyChefSpeed(float multiplier){
+        if(isFinished()){return;}
+        this.chefSpeed *= multiplier;
     }
 
     public static int getMAX_CHEF_COUNT() {
@@ -194,17 +212,22 @@ public class GameState implements Serializable {
     public boolean load(String saveName){
         GameSave save = new GameSave();
         boolean loadSuccess = save.load(saveName);
-        if (loadSuccess) {
-            this.setTime(save.time);
-            this.setReputation(save.reputation);
-            this.setMoney(save.money);
-            this.setScenarioStatus(save.scenarioStatus);
-            //setup chefs
-            for (int i = 0; i<this.chefs.size(); i++){
-                this.chefs.get(i).b2body.setTransform(save.chefLocations.get(i), 0);
-            }
+        if (!loadSuccess){
+            this.getHud().addMessage("Failed to Load Game");
+            return false;
         }
-        return loadSuccess;
+        this.setTime(save.time);
+        this.setReputation(save.reputation);
+        this.setMoney(save.money);
+        this.setScenarioStatus(save.scenarioStatus);
+        this.setChefSpeed(save.chefSpeed);
+        //setup chefs
+        for (int i = 0; i<this.chefs.size(); i++){
+            this.chefs.get(i).b2body.setTransform(save.chefLocations.get(i), 0);
+        }
+        this.getHud().clearMessages();
+        this.getHud().addMessage("Game Loaded");
+        return true;
     }
     public boolean save(String saveName){
         GameSave save = new GameSave();
@@ -215,10 +238,18 @@ public class GameState implements Serializable {
         save.scenarioStatus = this.getScenarioStatus();
         save.reputation = this.getReputation();
         save.money = this.getMoney();
+        save.chefSpeed = this.chefSpeed;
         for (Chef chef : chefs){
             save.chefLocations.add(chef.b2body.getPosition());
         }
-        return save.save(saveName);
+        boolean success = save.save(saveName);
+        if (success = false){
+            this.getHud().addMessage("Failed to Save");
+            return false;
+        } else {
+            this.getHud().addMessage("Saved Game");
+            return true;
+        }
     }
 
 }
