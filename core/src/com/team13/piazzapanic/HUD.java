@@ -113,7 +113,7 @@ public class HUD implements Disposable, Serializable {
         for (Map.Entry<String, Float> message : screenMessages.entrySet()){
             if (message.getValue() > 0) {
                 message.setValue(message.getValue()-dt);
-                String messageLine = String.format("(%.0f) "+message.getKey(), message.getValue()+1);
+                String messageLine = String.format("(%.0f) ", message.getValue()+1)+message.getKey();
                 this.playerInfoTable.add(new Label(messageLine, new Label.LabelStyle(this.font, Color.RED)));
                 this.playerInfoTable.row();
             }
@@ -125,7 +125,7 @@ public class HUD implements Disposable, Serializable {
         this.screenMessages.put(message, displayTime);
     }
     public void addMessage(String message){
-        this.addMessage(message, 10f);
+        this.addMessage(message, 5f);
     }
 
     public void showScenarioComplete(float reputation){
