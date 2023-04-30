@@ -75,6 +75,8 @@ public class GameState implements Serializable {
     private float reputation;
     private int money;
 
+    private float chefSpeed;
+
     public enum scenarioState {LIVE, COMPLETED, FAILED};
     private scenarioState scenarioStatus;
     // CREATE VARAIBLE FOR CURRENT ORDERS
@@ -86,6 +88,7 @@ public class GameState implements Serializable {
         this.time = 0;
         this.reputation = 60;
         this.money = 0;
+        this.chefSpeed = 0.5f;
         this.scenarioStatus = scenarioState.LIVE;
     }
 
@@ -116,6 +119,19 @@ public class GameState implements Serializable {
     }
     public void giveReputation(float amount){
         this.setReputation(this.getReputation()+amount);
+    }
+
+    public float getChefSpeed() {
+        return this.chefSpeed;
+    }
+    public void setChefSpeed(float newSpeed){
+        if(isFinished()){return;}
+        this.chefSpeed = newSpeed;
+    }
+
+    public void multiplyChefSpeed(float multiplier){
+        if(isFinished()){return;}
+        this.chefSpeed *= multiplier;
     }
 
     public static int getMAX_CHEF_COUNT() {

@@ -72,7 +72,6 @@ public class PlayScreen implements Screen {
     private int choppingBoardCost;
     private int ovenCost;
     private int panCost;
-    private float velocityIncrement = 0.5f;
 
     /**
      * PlayScreen constructor initializes the game instance, sets initial conditions for scenarioComplete and createdOrder,
@@ -194,16 +193,16 @@ public class PlayScreen implements Screen {
                 float yVelocity = 0;
 
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                    yVelocity += this.velocityIncrement;
+                    yVelocity += this.gameState.getChefSpeed();
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    xVelocity -= this.velocityIncrement;
+                    xVelocity -= this.gameState.getChefSpeed();
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                    yVelocity -= this.velocityIncrement;
+                    yVelocity -= this.gameState.getChefSpeed();
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    xVelocity += this.velocityIncrement;
+                    xVelocity += this.gameState.getChefSpeed();
                 }
                 this.gameState.getControlledChef().b2body.setLinearVelocity(xVelocity, yVelocity);
             }
@@ -266,29 +265,9 @@ public class PlayScreen implements Screen {
                                 break;
                             case "Sprites.PowerUpStation":
                                 PowerUpStation pus = (PowerUpStation) tile;
-                                PowerUp pUp = pus.getPowerUp();
-                                // check the power up type
-                                if(pUp instanceof FreeRecipe){
-                                    //free recipe
-                                    if(this.gameState.getTime() > 10) {
-                                        this.gameState.getControlledChef().setInHandsRecipe(ordersArray.get(0).recipe);
-                                        this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsRecipe());
-                                    }
-                                } else if(pUp instanceof MoneyBoost){
-                                    //MoneyBoost
-                                    this.gameState.giveMoney(100);
-                                } else if(pUp instanceof ReputationBoost){
-                                    //ReputationBoost
-                                } else if(pUp instanceof SpeedBoost){
-                                    //speed boost
-                                    this.velocityIncrement = 1.5f;
-                                } else if(pUp instanceof TimeSaver){
-                                    //time saver (10 seconds)
-                                    int decrementTime = 10;
-                                    if(this.gameState.getTime() > decrementTime)
-                                        this.gameState.decrementTime(10);
-                                }
-                                break;
+                                PowerUp.EFFECT effect = pus.getPowerUp();
+                                gameState.giveMoney(-50);
+                                PowerUp.apply(gameState, effect);
                         }
                     } else {
                         switch (tileName) {
