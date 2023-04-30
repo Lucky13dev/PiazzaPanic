@@ -25,7 +25,7 @@ public class HUD implements Disposable, Serializable {
     public Table gameStatsTable;
     public Table playerInfoTable;
 
-    Map<Label, Float> screenMessages;
+    Map<String, Float> screenMessages;
 
     Label timeLabelT;
     Label timeLabel;
@@ -80,11 +80,11 @@ public class HUD implements Disposable, Serializable {
         stage.addActor(gameStatsTable);
 
         screenMessages = new HashMap<>();
-        screenMessages.put(new Label("Game Started", new Label.LabelStyle(this.font, Color.RED)), 5f);
+        screenMessages.put("Game Started", 5f);
         playerInfoTable = new Table();
         playerInfoTable.setFillParent(true);
-        for (Label message : screenMessages.keySet()){
-            playerInfoTable.add(message).padTop(2).padLeft(2);
+        for (String message : screenMessages.keySet()){
+            playerInfoTable.add(new Label(message, new Label.LabelStyle(this.font, Color.RED))).padTop(2).padLeft(2);
             playerInfoTable.row();
         }
         playerInfoTable.center().bottom();
@@ -110,10 +110,11 @@ public class HUD implements Disposable, Serializable {
 
         //update player messages
         this.playerInfoTable.clear();
-        for (Map.Entry<Label, Float> message : screenMessages.entrySet()){
+        for (Map.Entry<String, Float> message : screenMessages.entrySet()){
             if (message.getValue() > 0) {
                 message.setValue(message.getValue()-dt);
-                this.playerInfoTable.add(message.getKey());
+                String messageLine = String.format("(%.0f) "+message.getKey(), message.getValue()+1);
+                this.playerInfoTable.add(new Label(messageLine, new Label.LabelStyle(this.font, Color.RED)));
                 this.playerInfoTable.row();
             }
         }
@@ -121,7 +122,7 @@ public class HUD implements Disposable, Serializable {
 
     //adds a new message to the hud for the display time specified
     public void addMessage(String message, Float displayTime){
-        this.screenMessages.put(new Label(message, new Label.LabelStyle(this.font, Color.RED)), displayTime);
+        this.screenMessages.put(message, displayTime);
     }
     public void addMessage(String message){
         this.addMessage(message, 10f);
