@@ -13,6 +13,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.team13.piazzapanic.MainGame;
 
+
+import java.io.Serializable;
+//import jdk.internal.util.SystemProps;
+
 /**
  * Chef class extends {@link Sprite} and represents a chef in the game.
  * It has fields for the world it exists in, a Box2D body, the initial X and Y
@@ -22,7 +26,7 @@ import com.team13.piazzapanic.MainGame;
  * and completed dish station.
  */
 
-public class Chef extends Sprite{
+public class Chef extends Sprite implements Serializable {
     private final static Texture TEXTURE_NORMAL_CHEF = new Texture("Chef/Chef_normal.png");
     private final static Texture TEXTURE_BUNS_CHEF = new Texture("Chef/Chef_holding_buns.png");
     private final static Texture TEXTURE_BUNS_TOASTED_CHEF = new Texture("Chef/Chef_holding_buns_toasted.png");
@@ -45,7 +49,8 @@ public class Chef extends Sprite{
     private final static Texture TEXTURE_SLICED_POTATO_CHEF = new Texture("Chef/Chef_holding_sliced_potato.png");
     private final static Texture TEXTURE_COOKED_POTATO_CHEF = new Texture("Chef/Chef_holding_cooked_potato.png");
     private final static Texture TEXTURE_JACKET_POTATO_CHEF = new Texture("Chef/Chef_holding_baked_potato.png");
-    private static class Identifier{
+    
+    private static class Identifier implements Serializable{
         public Sprite sprite;
         private Identifier(Orientation orientation){
             Texture identifierTexture = new Texture("Chef/chefIdentifier.png");
