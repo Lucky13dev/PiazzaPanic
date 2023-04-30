@@ -266,8 +266,13 @@ public class PlayScreen implements Screen {
                             case "Sprites.PowerUpStation":
                                 PowerUpStation pus = (PowerUpStation) tile;
                                 PowerUp.EFFECT effect = pus.getPowerUp();
-                                gameState.giveMoney(-50);
-                                PowerUp.apply(gameState, effect);
+                                if (gameState.getMoney() >= 50){
+                                    gameState.giveMoney(-50);
+                                    PowerUp.apply(gameState, effect);
+                                }
+                                else {
+                                    this.gameState.getHud().addMessage("PowerUps cost $50");
+                                }
                         }
                     } else {
                         switch (tileName) {
