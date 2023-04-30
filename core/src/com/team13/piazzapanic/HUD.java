@@ -35,6 +35,7 @@ public class HUD implements Disposable, Serializable {
     Label moneyLabelT;
     Label orderNumL;
     Label orderNumLT;
+    BitmapFont font;
 
     public HUD(SpriteBatch sb){
         this.scenarioComplete = Boolean.FALSE;
@@ -42,8 +43,8 @@ public class HUD implements Disposable, Serializable {
         float fontX = 0.5F;
         float fontY = 0.3F;
 
-        BitmapFont font = new BitmapFont();
-        font.getData().setScale(fontX, fontY);
+        this.font = new BitmapFont();
+        this.font.getData().setScale(fontX, fontY);
         Viewport viewport = new FitViewport(MainGame.V_WIDTH, MainGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
@@ -52,14 +53,14 @@ public class HUD implements Disposable, Serializable {
         gameStatsTable.setFillParent(true);
 
         timeLabel = new Label(String.format(this.timeString), new Label.LabelStyle(font, Color.WHITE));
-        timeLabelT = new Label("TIME", new Label.LabelStyle(font, Color.BLACK));
-        orderNumLT = new Label("ORDER", new Label.LabelStyle(font, Color.BLACK));
-        orderNumL = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
-        moneyLabel = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
-        moneyLabelT = new Label("MONEY", new Label.LabelStyle(font, Color.BLACK));
+        timeLabelT = new Label("TIME", new Label.LabelStyle(this.font, Color.BLACK));
+        orderNumLT = new Label("ORDER", new Label.LabelStyle(this.font, Color.BLACK));
+        orderNumL = new Label(String.format("%d", 0), new Label.LabelStyle(this.font, Color.WHITE));
+        moneyLabel = new Label(String.format("%d", 0), new Label.LabelStyle(this.font, Color.WHITE));
+        moneyLabelT = new Label("MONEY", new Label.LabelStyle(this.font, Color.BLACK));
 
-        reputationLabel = new Label(String.format("%d", 30), new Label.LabelStyle(font, Color.WHITE));
-        reputationLabelT = new Label("REP", new Label.LabelStyle(font, Color.BLACK));
+        reputationLabel = new Label(String.format("%d", 30), new Label.LabelStyle(this.font, Color.WHITE));
+        reputationLabelT = new Label("REP", new Label.LabelStyle(this.font, Color.BLACK));
 
 
         gameStatsTable.add(timeLabelT).padTop(2).padLeft(2);
@@ -79,8 +80,7 @@ public class HUD implements Disposable, Serializable {
         stage.addActor(gameStatsTable);
 
         screenMessages = new HashMap<>();
-        screenMessages.put(new Label("Game Started", new Label.LabelStyle(font, Color.RED)), 5f);
-        screenMessages.put(new Label("TEST", new Label.LabelStyle(font, Color.RED)), 10f);
+        screenMessages.put(new Label("Game Started", new Label.LabelStyle(this.font, Color.RED)), 5f);
         playerInfoTable = new Table();
         playerInfoTable.setFillParent(true);
         for (Label message : screenMessages.keySet()){
@@ -95,8 +95,9 @@ public class HUD implements Disposable, Serializable {
      * Updates the time label.
      *
      * @param time The current game time in seconds.
+     * @param dt Delta time since last call in seconds.
      */
-    public void update(int time){
+    public void update(int time, float dt){
         //update time label
         int minutes = time / 60;
         int seconds = time % 60;
@@ -104,17 +105,26 @@ public class HUD implements Disposable, Serializable {
 
         this.timeString = String.format("%02d:%02d", minutes, seconds);
 
-        timeLabel.setText(timeString);
-        stage.addActor(gameStatsTable);
+        this.timeLabel.setText(timeString);
+        this.stage.addActor(gameStatsTable);
 
         //update player messages
-        playerInfoTable.clear();
+        this.playerInfoTable.clear();
         for (Map.Entry<Label, Float> message : screenMessages.entrySet()){
-            if (message.getValue() > time) {
-                playerInfoTable.add(message.getKey());
-                playerInfoTable.row();
+            if (message.getValue() > 0) {
+                message.setValue(message.getValue()-dt);
+                this.playerInfoTable.add(message.getKey());
+                this.playerInfoTable.row();
             }
         }
+    }
+
+    //adds a new message to the hud for the display time specified
+    public void addMessage(String message, Float displayTime){
+        this.screenMessages.put(new Label(message, new Label.LabelStyle(this.font, Color.RED)), displayTime);
+    }
+    public void addMessage(String message){
+        this.addMessage(message, 10f);
     }
 
     public void showScenarioComplete(float reputation){

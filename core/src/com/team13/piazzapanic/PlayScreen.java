@@ -383,7 +383,7 @@ public class PlayScreen implements Screen {
             this.gameState.getHud().showScenarioFailed();
         }
 
-        this.gameState.getHud().update(currentTimeInSeconds);
+        this.gameState.getHud().update(currentTimeInSeconds, dt);
         this.gameState.getHud().updateReputation(currentReputationInt);
 
         gamecam.update();
