@@ -59,6 +59,8 @@ public class PlayScreen implements Screen {
     //private Chef controlledChef;
 
     public ArrayList<Order> ordersArray;
+    public ArrayList<Order> queuedOrders;
+    public int currentOrder;
 
     public PlateStation plateStation;
     public static float trayX;
@@ -116,7 +118,9 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        ordersArray = new ArrayList<>();
+        this.ordersArray = new ArrayList<>();
+        this.queuedOrders = new ArrayList<>();
+        this.currentOrder = 0;
 
     }
 
@@ -170,6 +174,11 @@ public class PlayScreen implements Screen {
             System.out.println("Loaded Game. Timestamp:"+gameState.getTime());
         }
 
+        // Switch order
+        if(Gdx.input.isKeyJustPressed(Input.Keys.Q) && this.ordersArray.size() > 0){
+            // cycle through the orders
+            this.currentOrder = ((this.currentOrder) + 1) % this.ordersArray.size();
+        }
 
         int controlledChefIndex = this.gameState.getChefs().indexOf(this.gameState.getControlledChef());
         // Switch between chefs
@@ -354,9 +363,9 @@ public class PlayScreen implements Screen {
                             case "Sprites.CompletedDishStation":
                                 if (this.gameState.getControlledChef().getInHandsRecipe() != null){
                                     System.out.println(this.gameState.getControlledChef().getInHandsRecipe().getClass());
-                                    if(this.gameState.getControlledChef().getInHandsRecipe().getClass().equals(ordersArray.get(0).recipe.getClass())){
+                                    if(this.gameState.getControlledChef().getInHandsRecipe().getClass().equals(ordersArray.get(this.currentOrder).recipe.getClass())){
                                         this.gameState.getControlledChef().dropItemOn(tile);
-                                        ordersArray.get(0).orderComplete = true;
+                                        ordersArray.get(this.currentOrder).orderComplete = true;
                                         this.gameState.getControlledChef().setChefSkin(null);
                                         if(ordersArray.size()==1){
                                             this.gameState.setScenarioStatus(GameState.scenarioState.COMPLETED);
@@ -443,7 +452,7 @@ public class PlayScreen implements Screen {
             else{
                 order = new Order(PlateStation.jacketPotatoRecipe, potato_recipe);
             }
-            ordersArray.add(order);
+            this.ordersArray.add(order);
             randomNum = ThreadLocalRandom.current().nextInt(1, 2 + 1);
         }
         this.gameState.getHud().updateOrder(Boolean.FALSE, 1);
@@ -459,14 +468,14 @@ public class PlayScreen implements Screen {
             return;
         }
         if(ordersArray.size() != 0) {
-            if (ordersArray.get(0).orderComplete) {
+            if (ordersArray.get(this.currentOrder).orderComplete) {
                 this.gameState.giveMoney(100);
                 this.gameState.giveReputation(30);
-                ordersArray.remove(0);
+                ordersArray.remove(this.currentOrder);
                 this.gameState.getHud().updateOrder(Boolean.FALSE, ordersArray.size());
                 return;
             }
-            ordersArray.get(0).create(trayX, trayY, game.batch);
+            ordersArray.get(this.currentOrder).create(trayX, trayY, game.batch);
         }
     }
 
