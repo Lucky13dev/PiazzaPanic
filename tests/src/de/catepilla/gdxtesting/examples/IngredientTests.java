@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith (GdxTestRunner.class)
 public class IngredientTests {
 
+
     /**
      * Testing Ingredient.java
      *
@@ -24,7 +25,7 @@ public class IngredientTests {
 
     @Test
     public void IngredientPreparedStatus(){
-        Ingredient ingredient = new Onion(1,0, 0);
+        Ingredient ingredient = new Onion(0,0, 0);
 
         assertEquals(false, ingredient.isPrepared());
 
@@ -36,7 +37,7 @@ public class IngredientTests {
 
     @Test
     public void IngredientCookedStatus(){
-        Ingredient ingredient = new Onion(1,0, 0);
+        Ingredient ingredient = new Onion(0,0, 0);
 
         assertEquals(false, ingredient.isCooked());
 
@@ -48,7 +49,7 @@ public class IngredientTests {
 
     @Test
     public void IngredientBakedStatus(){
-        Ingredient ingredient = new Onion(1,0,0);
+        Ingredient ingredient = new Onion(0,0,0);
 
         assertEquals(false, ingredient.isBaked());
 
