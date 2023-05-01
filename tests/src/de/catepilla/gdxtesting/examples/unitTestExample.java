@@ -63,7 +63,7 @@ public class unitTestExample {
 	public void ChefV2Test() { //TODO fix later
 		Chef chef = new Chef(0, 0);
 
-		assertEquals(chef.getV2(), new Vector2(0, 0));
+		assertEquals(chef.startVector, new Vector2(0, 0));
 	}
 	@Test
 	public void ChefTouchingFixtureTest() {

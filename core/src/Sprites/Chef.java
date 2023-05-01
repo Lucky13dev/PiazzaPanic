@@ -119,9 +119,10 @@ public class Chef extends Sprite{
     public Chef(float startX, float startY) {
         this.currentTexture = TEXTURE_NORMAL_CHEF;
 
-        this.world = world;
+        //this.world = world;
         this.orientation = Orientation.DOWN;
 
+        //This line has been moved to PlayScreen to avoid world being initialised in the constructor.
         //this.defineChef(world, startX/MainGame.PPM, startY/MainGame.PPM);
 
         float chefWidth = 13 / MainGame.PPM;
