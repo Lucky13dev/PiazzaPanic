@@ -63,6 +63,7 @@ public class MainGame extends Game {
 				this.gameMode.setGameMode(GameTypes.SET);
 				this.gameMode.setNumOfOrders(5);
 				playScreen.setMode(this.gameMode);
+
 			}
 		}
 

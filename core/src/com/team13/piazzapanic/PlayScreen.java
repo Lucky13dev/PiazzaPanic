@@ -123,6 +123,12 @@ public class PlayScreen implements Screen {
 
     public void setMode(GameMode gameMode){
         this.gameMode = gameMode;
+        // Set the reputation
+        if(this.gameMode.getGameMode() == GameTypes.NORMAL)
+            this.gameState.setReputation(50);
+        else if(this.gameMode.getGameMode() == GameTypes.HARD)
+            this.gameState.setReputation(40);
+        // default 60
     }
 
     @Override
