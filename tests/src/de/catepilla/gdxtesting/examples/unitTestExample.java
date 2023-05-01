@@ -45,14 +45,18 @@ public class unitTestExample {
 
 	//Not sure on how to compare the getter value to the chef instance
 
-//	@Test
-//	public void ChefSetBoundsTest() {
-//		World world;
-//		world =new World(new Vector2(0,0), true);
-//		Chef chef = new Chef(world, 0, 0);
-//
-//		assertArrayEquals(chef.getBoundingRectangle(),(0, 0, chef.getWidth(), chef.getHeight()));
-//	}
+	@Test
+	public void ChefSetBoundsTest() {
+		Chef chef = new Chef(0,0);
+		chef.getBoundingRectangle();
+
+		assertEquals(chef.getBoundingRectangle().x, 0,0);
+		assertEquals(chef.getBoundingRectangle().x, 0,0);
+		assertEquals(chef.getBoundingRectangle().y,0,0);
+		assertEquals(chef.getBoundingRectangle().height,chef.getHeight(),0);
+		assertEquals(chef.getBoundingRectangle().width,chef.getWidth(),0);
+
+	}
 	@Test
 	public void ChefOnChefCollisionTest() {
 		Chef chef = new Chef( 0, 0);
