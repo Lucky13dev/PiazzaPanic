@@ -4,7 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import PowerUps.*;
+import com.team13.piazzapanic.GameState.POWERUP;
 
 import java.util.Random;
 
@@ -26,20 +26,20 @@ public class PowerUpStation extends InteractiveTileObject{
      * Generates a random number to determine which of the 5 power ups to pick up.
      * @return A random power up.
      */
-    public PowerUp.EFFECT getPowerUp(){
+    public POWERUP getPowerUp(){
         Random rand = new Random();
         int num = rand.nextInt(5);
         switch(num){
             case 0:
-                return PowerUp.EFFECT.FREE_RECIPE;
+                return POWERUP.FREE_RECIPE;
             case 1:
-                return PowerUp.EFFECT.MONEY_BOOST;
+                return POWERUP.MONEY_BOOST;
             case 2:
-                return PowerUp.EFFECT.REPUTATION_BOOST;
+                return POWERUP.REPUTATION_BOOST;
             case 3:
-                return PowerUp.EFFECT.SPEED_BOOST;
+                return POWERUP.SPEED_BOOST;
             case 4:
-                return PowerUp.EFFECT.TIME_SAVER;
+                return POWERUP.TIME_SAVER;
             default:
                 return null;
         }

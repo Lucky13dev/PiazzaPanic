@@ -79,9 +79,11 @@ public class GameState implements Serializable {
 
     private float chefSpeed;
 
+    public enum POWERUP {FREE_RECIPE, MONEY_BOOST, REPUTATION_BOOST, SPEED_BOOST, TIME_SAVER}
+
     public enum scenarioState {LIVE, COMPLETED, FAILED};
     private scenarioState scenarioStatus;
-    // CREATE VARAIBLE FOR CURRENT ORDERS
+    // CREATE VARIABLE FOR CURRENT ORDERS
 
     // METHODS
 
@@ -251,5 +253,32 @@ public class GameState implements Serializable {
             return true;
         }
     }
+
+    public void applyPowerUp(POWERUP powerUp){
+        switch (powerUp){
+            case FREE_RECIPE:
+                //later
+                this.getHud().addMessage("Recipe Skipped");
+                return;
+            case REPUTATION_BOOST:
+                this.giveReputation(100);
+                this.getHud().addMessage("+100 Reputation");
+                return;
+            case MONEY_BOOST:
+                this.giveMoney(100);
+                this.getHud().addMessage("+100 Money");
+                return;
+            case SPEED_BOOST:
+                this.multiplyChefSpeed(1.5f);
+                this.getHud().addMessage("+50% Chef Speed");
+                return;
+            case TIME_SAVER:
+                if (this.getTime() > 10){
+                    this.decrementTime(10);
+                    this.getHud().addMessage("-10s Game Time");
+                }
+                return;
+        }
+    };
 
 }

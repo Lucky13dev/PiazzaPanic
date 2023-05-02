@@ -1,7 +1,6 @@
 package com.team13.piazzapanic;
 
 import Ingredients.Ingredient;
-import PowerUps.*;
 import Recipe.Recipe;
 import Sprites.*;
 import Recipe.Order;
@@ -285,10 +284,10 @@ public class PlayScreen implements Screen {
                                 break;
                             case "Sprites.PowerUpStation":
                                 PowerUpStation pus = (PowerUpStation) tile;
-                                PowerUp.EFFECT effect = pus.getPowerUp();
+                                GameState.POWERUP effect = pus.getPowerUp();
                                 if (gameState.getMoney() >= 50){
                                     gameState.giveMoney(-50);
-                                    PowerUp.apply(gameState, effect);
+                                    this.gameState.applyPowerUp(effect);
                                 }
                                 else {
                                     this.gameState.getHud().addMessage("PowerUps cost $50");
