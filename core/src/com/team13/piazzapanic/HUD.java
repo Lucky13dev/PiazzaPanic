@@ -11,147 +11,167 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-public class HUD implements Disposable {
+
+public class HUD implements Disposable, Serializable {
     public Stage stage;
     private Boolean scenarioComplete;
 
-    public Integer getScore() {
-        return score;
-    }
-
-    private Integer score;
-
     public String timeString;
 
-    public Table table;
+    public Table gameStatsTable;
+    public Table playerInfoTable;
+
+    Map<String, Float> screenMessages;
 
     Label timeLabelT;
     Label timeLabel;
-
-    Label scoreLabel;
-    Label scoreLabelT;
+    Label reputationLabel;
+    Label reputationLabelT;
+    Label moneyLabel;
+    Label moneyLabelT;
     Label orderNumL;
     Label orderNumLT;
+    BitmapFont font;
 
     public HUD(SpriteBatch sb){
         this.scenarioComplete = Boolean.FALSE;
-        score = 0;
         this.timeString = "00:00";
         float fontX = 0.5F;
         float fontY = 0.3F;
 
-        BitmapFont font = new BitmapFont();
-        font.getData().setScale(fontX, fontY);
+        this.font = new BitmapFont();
+        this.font.getData().setScale(fontX, fontY);
         Viewport viewport = new FitViewport(MainGame.V_WIDTH, MainGame.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
-        table = new Table();
-        table.left().top();
-        table.setFillParent(true);
+        gameStatsTable = new Table();
+        gameStatsTable.left().top();
+        gameStatsTable.setFillParent(true);
 
         timeLabel = new Label(String.format(this.timeString), new Label.LabelStyle(font, Color.WHITE));
-        timeLabelT = new Label("TIME", new Label.LabelStyle(font, Color.BLACK));
-        orderNumLT = new Label("ORDER", new Label.LabelStyle(font, Color.BLACK));
-        orderNumL = new Label(String.format("%d", 0), new Label.LabelStyle(font, Color.WHITE));
+        timeLabelT = new Label("TIME", new Label.LabelStyle(this.font, Color.BLACK));
+        orderNumLT = new Label("ORDER", new Label.LabelStyle(this.font, Color.BLACK));
+        orderNumL = new Label(String.format("%d", 0), new Label.LabelStyle(this.font, Color.WHITE));
+        moneyLabel = new Label(String.format("%d", 0), new Label.LabelStyle(this.font, Color.WHITE));
+        moneyLabelT = new Label("MONEY", new Label.LabelStyle(this.font, Color.BLACK));
 
-        scoreLabel = new Label(String.format("%d", score), new Label.LabelStyle(font, Color.WHITE));
-        scoreLabelT = new Label("MONEY", new Label.LabelStyle(font, Color.BLACK));
+        reputationLabel = new Label(String.format("%d", 30), new Label.LabelStyle(this.font, Color.WHITE));
+        reputationLabelT = new Label("REP", new Label.LabelStyle(this.font, Color.BLACK));
 
 
-        table.add(timeLabelT).padTop(2).padLeft(2);
-        table.add(scoreLabelT).padTop(2).padLeft(2);
-        table.add(orderNumLT).padTop(2).padLeft(2);
-        table.row();
-        table.add(timeLabel).padTop(2).padLeft(2);
-        table.add(scoreLabel).padTop(2).padLeft(2);
-        table.add(orderNumL).padTop(2).padLeft(2);
+        gameStatsTable.add(timeLabelT).padTop(2).padLeft(2);
+        gameStatsTable.add(moneyLabelT).padTop(2).padLeft(2);
+        gameStatsTable.add(orderNumLT).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(timeLabel).padTop(2).padLeft(2);
+        gameStatsTable.add(moneyLabel).padTop(2).padLeft(2);
+        gameStatsTable.add(orderNumL).padTop(2).padLeft(2);
 
-        table.left().top();
-        stage.addActor(table);
+        gameStatsTable.row();
+        gameStatsTable.add(reputationLabelT).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(reputationLabel).padTop(2).padLeft(2);
+
+        gameStatsTable.left().top();
+        stage.addActor(gameStatsTable);
+
+        screenMessages = new HashMap<>();
+        screenMessages.put("Game Started", 5f);
+        playerInfoTable = new Table();
+        playerInfoTable.setFillParent(true);
+        for (String message : screenMessages.keySet()){
+            playerInfoTable.add(new Label(message, new Label.LabelStyle(this.font, Color.RED))).padTop(2).padLeft(2);
+            playerInfoTable.row();
+        }
+        playerInfoTable.center().bottom();
+        stage.addActor(playerInfoTable);
     }
 
     /**
      * Updates the time label.
      *
      * @param time The current game time in seconds.
+     * @param dt Delta time since last call in seconds.
      */
-    public void updateTime(int time){
+    public void update(int time, float dt){
+        //update time label
         int minutes = time / 60;
         int seconds = time % 60;
-        table.left().top();
+        gameStatsTable.left().top();
 
         this.timeString = String.format("%02d:%02d", minutes, seconds);
 
-        timeLabel.setText(timeString);
-        stage.addActor(table);
+        this.timeLabel.setText(timeString);
+        this.stage.addActor(gameStatsTable);
 
+        //update player messages
+        this.playerInfoTable.clear();
+        for (Map.Entry<String, Float> message : screenMessages.entrySet()){
+            if (message.getValue() > 0) {
+                message.setValue(message.getValue()-dt);
+                String messageLine = message.getKey()+String.format(" (%.0f)", message.getValue()+1);
+                this.playerInfoTable.add(new Label(messageLine, new Label.LabelStyle(this.font, Color.RED)));
+                this.playerInfoTable.row();
+            }
+        }
     }
 
-    public void showScenarioComplete(){
+    //adds a new message to the hud for the display time specified
+    public void addMessage(String message, Float displayTime){
+        this.screenMessages.put(message, displayTime);
+    }
+    public void addMessage(String message){
+        this.addMessage(message, 5f);
+    }
+    public void clearMessages(){
+        this.screenMessages = new HashMap<>();
+    }
+
+    public void showScenarioComplete(float reputation){
+        gameStatsTable.clear();
+        gameStatsTable.add(timeLabelT).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(timeLabel).padTop(2).padLeft(2);
         timeLabel.setColor(Color.GREEN);
-        timeLabel.setText(String.format("TIME: " + this.timeString + " MONEY: %d", score));
+        timeLabel.setText(String.format("TIME: " + this.timeString + " Reputation: %d", (int) reputation));
         timeLabelT.setText("SCENARIO COMPLETE");
-        table.center().top();
-        stage.addActor(table);
+        gameStatsTable.center().top();
+        stage.addActor(gameStatsTable);
+    }
+    public void showScenarioFailed(){
+        gameStatsTable.clear();
+        gameStatsTable.add(timeLabelT).padTop(2).padLeft(2);
+        gameStatsTable.row();
+        gameStatsTable.add(timeLabel).padTop(2).padLeft(2);
+        timeLabel.setColor(Color.GREEN);
+        timeLabel.setText(String.format("You lost all your reputation."));
+        timeLabelT.setText("SCENARIO FAILED");
+        gameStatsTable.center().top();
+        stage.addActor(gameStatsTable);
     }
 
     /**
-     * Buy an entity (e.g. Oven, Pan, etc.) and update the score.
-     * @param cost The cost of the entity.
+     * Update the money value displayed on the hud.
+     * @param newBalance The new value to show in the money field.
      */
-    public void buyEntity(int cost){
-        score -= cost;
-
-        table.left().top();
-        scoreLabel.setText(String.format("%d", score));
-        stage.addActor(table);
+    public void updateMoney(int newBalance){
+        gameStatsTable.left().top();
+        moneyLabel.setText(String.format("%d",newBalance));
+        stage.addActor(gameStatsTable);
     }
 
     /**
-     * Calculates the user's score per order and updates the label.
-     *
-     * @param scenarioComplete Whether the game scenario has been completed.
-     * @param expectedTime The expected time an order should be completed in.
-     * @param currentTime The current game time.
+     * Update the money value displayed on the hud.
+     * @param newReputation The new value to show in the money field.
      */
-    public void updateScore(Boolean scenarioComplete, Integer expectedTime, Integer currentTime){
-        int addScore;
-
-        if(this.scenarioComplete == Boolean.FALSE){
-            // ALWAYS BOOST SCORE BY 100 for now
-            if (currentTime <= expectedTime) {
-                addScore = 100;
-            }
-            else{
-                /*
-                addScore = 100 - (5 * (currentTime -expectedTime));
-                if(addScore < 0){
-                    addScore = 0;
-                }
-                */
-                addScore = 100;
-            }
-            score += addScore;
-        }
-
-
-        if(scenarioComplete==Boolean.TRUE){
-            scoreLabel.setColor(Color.GREEN);
-            scoreLabel.setText("");
-            scoreLabelT.setText("");
-            scoreLabelT.remove();
-            scoreLabel.remove();
-            table.center().top();
-            stage.addActor(table);
-            this.scenarioComplete = Boolean.TRUE;
-            return;
-        }
-
-        table.left().top();
-        scoreLabel.setText(String.format("%d", score));
-        stage.addActor(table);
-
+    public void updateReputation(int newReputation){
+        gameStatsTable.left().top();
+        reputationLabel.setText(String.format("%d",newReputation));
+        stage.addActor(gameStatsTable);
     }
 
     /**
@@ -164,15 +184,15 @@ public class HUD implements Disposable {
         if(scenarioComplete==Boolean.TRUE){
             orderNumL.remove();
             orderNumLT.remove();
-            table.center().top();
-            stage.addActor(table);
+            gameStatsTable.center().top();
+            stage.addActor(gameStatsTable);
             return;
         }
 
-        table.left().top();
+        gameStatsTable.left().top();
         orderNumL.setText(String.format("%d", orderNum));
         orderNumLT.setText("ORDER");
-        stage.addActor(table);
+        stage.addActor(gameStatsTable);
 
     }
 

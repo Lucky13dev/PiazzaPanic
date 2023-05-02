@@ -1,7 +1,6 @@
 package com.team13.piazzapanic;
 
 import Ingredients.Ingredient;
-import Ingredients.PizzaBase;
 import PowerUps.*;
 import Recipe.Recipe;
 import Sprites.*;
@@ -20,7 +19,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -62,16 +60,14 @@ public class PlayScreen implements Screen {
     //private Chef controlledChef;
 
     public ArrayList<Order> ordersArray;
+    public ArrayList<Order> queuedOrders;
+    public int currentOrder;
 
     public PlateStation plateStation;
-
-
-    public Boolean scenarioComplete;
-
     public static float trayX;
     public static float trayY;
     private int numOfOrders;
-    private String gameMode = "";
+    private GameMode gameMode;
     // Types of game modes
     private final String ENDLESS = "endless";
     private final String SETMODE = "setMode";
@@ -79,7 +75,6 @@ public class PlayScreen implements Screen {
     private int choppingBoardCost;
     private int ovenCost;
     private int panCost;
-    private float velocityIncrement = 0.5f;
 
     /**
      * PlayScreen constructor initializes the game instance, sets initial conditions for scenarioComplete and createdOrder,
@@ -95,7 +90,6 @@ public class PlayScreen implements Screen {
         this.panCost = 0;
         this.gameState = new GameState();
         this.game = game;
-        scenarioComplete = Boolean.FALSE;
         gamecam = new OrthographicCamera();
         // FitViewport to maintain aspect ratio whilst scaling to screen size
         gameport = new FitViewport(MainGame.V_WIDTH / MainGame.PPM, MainGame.V_HEIGHT / MainGame.PPM, gamecam);
@@ -129,13 +123,20 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        ordersArray = new ArrayList<>();
+        this.ordersArray = new ArrayList<>();
+        this.queuedOrders = new ArrayList<>();
+        this.currentOrder = 0;
 
     }
 
-    public void setMode(String gameMode, int numOfOrders){
-        this.numOfOrders = numOfOrders;
+    public void setMode(GameMode gameMode){
         this.gameMode = gameMode;
+        // Set the reputation
+        if(this.gameMode.getGameMode() == GameTypes.NORMAL)
+            this.gameState.setReputation(50);
+        else if(this.gameMode.getGameMode() == GameTypes.HARD)
+            this.gameState.setReputation(40);
+        // default 60
     }
 
     @Override
@@ -165,6 +166,25 @@ public class PlayScreen implements Screen {
      */
 
     public void handleInput(float dt){
+
+        if (gameState.isFinished()){return;}//Don't handle inputs if game is finished
+
+        //handle saving and loading
+        if (Gdx.input.isKeyJustPressed(Input.Keys.COMMA)){
+            gameState.save("Save");
+            System.out.println("Saved Game. Timestamp:"+gameState.getTime());
+        }
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)){
+            gameState.load("Save");
+            System.out.println("Loaded Game. Timestamp:"+gameState.getTime());
+        }
+
+        // Switch order
+        if(Gdx.input.isKeyJustPressed(Input.Keys.Q) && this.ordersArray.size() > 0){
+            // cycle through the orders
+            this.currentOrder = ((this.currentOrder) + 1) % this.ordersArray.size();
+        }
+
         int controlledChefIndex = this.gameState.getChefs().indexOf(this.gameState.getControlledChef());
         // Switch between chefs
         if ((Gdx.input.isKeyJustPressed(Input.Keys.R))) {
@@ -193,16 +213,16 @@ public class PlayScreen implements Screen {
                 float yVelocity = 0;
 
                 if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                    yVelocity += this.velocityIncrement;
+                    yVelocity += this.gameState.getChefSpeed();
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                    xVelocity -= this.velocityIncrement;
+                    xVelocity -= this.gameState.getChefSpeed();
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                    yVelocity -= this.velocityIncrement;
+                    yVelocity -= this.gameState.getChefSpeed();
                 }
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                    xVelocity += this.velocityIncrement;
+                    xVelocity += this.gameState.getChefSpeed();
                 }
                 this.gameState.getControlledChef().b2body.setLinearVelocity(xVelocity, yVelocity);
             }
@@ -265,29 +285,14 @@ public class PlayScreen implements Screen {
                                 break;
                             case "Sprites.PowerUpStation":
                                 PowerUpStation pus = (PowerUpStation) tile;
-                                PowerUp pUp = pus.getPowerUp();
-                                // check the power up type
-                                if(pUp instanceof FreeRecipe){
-                                    //free recipe
-                                    if(this.gameState.getTime() > 10) {
-                                        this.gameState.getControlledChef().setInHandsRecipe(ordersArray.get(0).recipe);
-                                        this.gameState.getControlledChef().setChefSkin(this.gameState.getControlledChef().getInHandsRecipe());
-                                    }
-                                } else if(pUp instanceof MoneyBoost){
-                                    //MoneyBoost
-                                    this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
-                                } else if(pUp instanceof ReputationBoost){
-                                    //ReputationBoost
-                                } else if(pUp instanceof SpeedBoost){
-                                    //speed boost
-                                    this.velocityIncrement = 1.5f;
-                                } else if(pUp instanceof TimeSaver){
-                                    //time saver (10 seconds)
-                                    int decrementTime = 10;
-                                    if(this.gameState.getTime() > decrementTime)
-                                        this.gameState.decrementTime(10);
+                                PowerUp.EFFECT effect = pus.getPowerUp();
+                                if (gameState.getMoney() >= 50){
+                                    gameState.giveMoney(-50);
+                                    PowerUp.apply(gameState, effect);
                                 }
-                                break;
+                                else {
+                                    this.gameState.getHud().addMessage("PowerUps cost $50");
+                                }
                         }
                     } else {
                         switch (tileName) {
@@ -301,13 +306,17 @@ public class PlayScreen implements Screen {
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null){
                                     if(this.gameState.getControlledChef().getInHandsIngredient().prepareTime > 0){
                                         ChoppingBoard board = (ChoppingBoard) tile;
-                                        if(this.gameState.getHud().getScore() >= this.choppingBoardCost && !board.isUnlocked()){
+                                        if(this.gameState.getMoney() >= this.choppingBoardCost && !board.isUnlocked()){
                                             // Buy the station
                                             board.setUnlocked();
-                                            this.gameState.getHud().buyEntity(this.choppingBoardCost);
+                                            this.gameState.giveMoney(-this.choppingBoardCost);
+                                            this.gameState.getHud().addMessage("Unlocked Chopping Board for $"+choppingBoardCost);
                                             choppingBoardCost += 50;
                                         }
-                                        if(board.isUnlocked()) {
+                                        else if(!board.isUnlocked()){
+                                            this.gameState.getHud().addMessage("Chopping Board Locked. Get $"+choppingBoardCost+" to Unlock.");
+                                        }
+                                        else {
                                             this.gameState.getControlledChef().setIsControllable(false);
                                         }
                                     }
@@ -323,40 +332,48 @@ public class PlayScreen implements Screen {
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null) {
                                     if (this.gameState.getControlledChef().getInHandsIngredient().isPrepared() && this.gameState.getControlledChef().getInHandsIngredient().cookTime > 0){
                                         Pan pan = (Pan) tile;
-                                        if(this.gameState.getHud().getScore() >= this.panCost && !pan.isUnlocked()){
+                                        if(this.gameState.getMoney() >= this.panCost && !pan.isUnlocked()){
                                             pan.setUnlocked();
-                                            this.gameState.getHud().buyEntity(this.panCost);
+                                            this.gameState.giveMoney(-this.panCost);
+                                            this.gameState.getHud().addMessage("Unlocked Pan for $"+panCost);
                                             panCost += 50;
                                         }
-                                        if(pan.isUnlocked())
+                                        else if(!pan.isUnlocked()){
+                                            this.gameState.getHud().addMessage("Pan Locked. Get $"+panCost+" to Unlock.");
+                                        }
+                                        else {
                                             this.gameState.getControlledChef().setIsControllable(false);
+                                        }
                                     }
                                 }
 
                                 break;
                             case "Sprites.Oven":
                                 if(this.gameState.getControlledChef().getInHandsIngredient() != null){
-                                    if(this.gameState.getControlledChef().getInHandsIngredient().isCooked() && this.gameState.getControlledChef().getInHandsIngredient().bakeTime > 0){
+                                    if(this.gameState.getControlledChef().getInHandsIngredient().isCooked() && this.gameState.getControlledChef().getInHandsIngredient().bakeTime > 0) {
                                         Oven oven = (Oven) tile;
-                                        if(this.gameState.getHud().getScore() >= this.ovenCost && !oven.isUnlocked()){
+                                        if (this.gameState.getMoney() >= this.ovenCost && !oven.isUnlocked()) {
                                             oven.setUnlocked();
-                                            this.gameState.getHud().buyEntity(this.ovenCost);
+                                            this.gameState.giveMoney(-this.ovenCost);
+                                            this.gameState.getHud().addMessage("Unlocked Oven for $" + ovenCost);
                                             ovenCost += 50;
-                                        }
-                                        if(oven.isUnlocked())
+                                        } else if (!oven.isUnlocked()) {
+                                            this.gameState.getHud().addMessage("Oven Locked. Get $" + ovenCost + " to Unlock.");
+                                        } else {
                                             this.gameState.getControlledChef().setIsControllable(false);
+                                        }
                                     }
                                 }
                                 break;
                             case "Sprites.CompletedDishStation":
                                 if (this.gameState.getControlledChef().getInHandsRecipe() != null){
                                     System.out.println(this.gameState.getControlledChef().getInHandsRecipe().getClass());
-                                    if(this.gameState.getControlledChef().getInHandsRecipe().getClass().equals(ordersArray.get(0).recipe.getClass())){
+                                    if(this.gameState.getControlledChef().getInHandsRecipe().getClass().equals(ordersArray.get(this.currentOrder).recipe.getClass())){
                                         this.gameState.getControlledChef().dropItemOn(tile);
-                                        ordersArray.get(0).orderComplete = true;
+                                        ordersArray.get(this.currentOrder).orderComplete = true;
                                         this.gameState.getControlledChef().setChefSkin(null);
                                         if(ordersArray.size()==1){
-                                            scenarioComplete = Boolean.TRUE;
+                                            this.gameState.setScenarioStatus(GameState.scenarioState.COMPLETED);
                                         }
                                     }
                                 }
@@ -378,22 +395,33 @@ public class PlayScreen implements Screen {
 
         //Increment the time
         this.gameState.incrementTime(dt);
+        this.gameState.giveReputation(-dt);
 
         int currentTimeInSeconds = (int) this.gameState.getTime();
+        int currentReputationInt = (int) this.gameState.getReputation();
 
-        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.equals(this.SETMODE)){
-            this.createOrder(this.numOfOrders);
+        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.getGameMode() == GameTypes.SET){
+            this.createOrder(this.gameMode.getNumOfOrders());
         }
         // If the gameMode is endless, keep adding orders forever
-        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && this.gameMode.equals(this.ENDLESS)){
+        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && (this.gameMode.getGameMode() == GameTypes.EASY || this.gameMode.getGameMode() == GameTypes.NORMAL || this.gameMode.getGameMode() == GameTypes.HARD)){
             this.createOrder(1);
         }
 
-        //update the state of the HUD
-        if (this.scenarioComplete){
-            this.gameState.getHud().showScenarioComplete();
+        if (currentReputationInt < 0) {
+            this.gameState.setScenarioStatus(GameState.scenarioState.FAILED);
         }
-        this.gameState.getHud().updateTime(currentTimeInSeconds);
+
+        //update the state of the HUD
+        if (this.gameState.isCompleted()){
+            this.gameState.getHud().showScenarioComplete(this.gameState.getReputation());
+        }
+        else if(this.gameState.isFailed()){
+            this.gameState.getHud().showScenarioFailed();
+        }
+
+        this.gameState.getHud().update(currentTimeInSeconds, dt);
+        this.gameState.getHud().updateReputation(currentReputationInt);
 
         gamecam.update();
         renderer.setView(gamecam);
@@ -429,7 +457,7 @@ public class PlayScreen implements Screen {
             else{
                 order = new Order(PlateStation.jacketPotatoRecipe, potato_recipe);
             }
-            ordersArray.add(order);
+            this.ordersArray.add(order);
             randomNum = ThreadLocalRandom.current().nextInt(1, 2 + 1);
         }
         this.gameState.getHud().updateOrder(Boolean.FALSE, 1);
@@ -439,19 +467,20 @@ public class PlayScreen implements Screen {
      * Updates the orders as they are completed, or if the game scenario has been completed.
      */
     public void updateOrder(){
-        if(scenarioComplete==Boolean.TRUE) {
-            this.gameState.getHud().updateScore(Boolean.TRUE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
+        if(this.gameState.isCompleted()) {
+            this.gameState.giveMoney(100);
             this.gameState.getHud().updateOrder(Boolean.TRUE, 0);
             return;
         }
         if(ordersArray.size() != 0) {
-            if (ordersArray.get(0).orderComplete) {
-                this.gameState.getHud().updateScore(Boolean.FALSE, (6 - ordersArray.size()) * 35, (int)this.gameState.getTime());
-                ordersArray.remove(0);
+            if (ordersArray.get(this.currentOrder).orderComplete) {
+                this.gameState.giveMoney(100);
+                this.gameState.giveReputation(30);
+                ordersArray.remove(this.currentOrder);
                 this.gameState.getHud().updateOrder(Boolean.FALSE, ordersArray.size());
                 return;
             }
-            ordersArray.get(0).create(trayX, trayY, game.batch);
+            ordersArray.get(this.currentOrder).create(trayX, trayY, game.batch);
         }
     }
 
