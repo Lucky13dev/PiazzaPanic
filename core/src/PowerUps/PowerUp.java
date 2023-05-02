@@ -2,6 +2,9 @@ package PowerUps;
 
 import com.team13.piazzapanic.GameState;
 
+/**
+ * A class that contains all the power ups and their respective effects.
+ */
 public class PowerUp {
     public enum EFFECT {FREE_RECIPE, MONEY_BOOST, REPUTATION_BOOST, SPEED_BOOST, TIME_SAVER}
 
