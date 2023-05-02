@@ -53,7 +53,7 @@ public class PlayScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
 
     private final World world;
-    private final GameState gameState;
+    public final GameState gameState;
 
     //private Chef controlledChef;
 
@@ -64,8 +64,6 @@ public class PlayScreen implements Screen {
     public PlateStation plateStation;
     public static float trayX;
     public static float trayY;
-    private int numOfOrders;
-    private GameMode gameMode;
     // Types of game modes
     private final String ENDLESS = "endless";
     private final String SETMODE = "setMode";
@@ -125,16 +123,6 @@ public class PlayScreen implements Screen {
         this.queuedOrders = new ArrayList<>();
         this.currentOrder = 0;
 
-    }
-
-    public void setMode(GameMode gameMode){
-        this.gameMode = gameMode;
-        // Set the reputation
-        if(this.gameMode.getGameMode() == GameMode.GAME_TYPE.NORMAL)
-            this.gameState.setReputation(50);
-        else if(this.gameMode.getGameMode() == GameMode.GAME_TYPE.HARD)
-            this.gameState.setReputation(40);
-        // default 60
     }
 
     @Override
@@ -398,11 +386,11 @@ public class PlayScreen implements Screen {
         int currentTimeInSeconds = (int) this.gameState.getTime();
         int currentReputationInt = (int) this.gameState.getReputation();
 
-        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.getGameMode() == GameMode.GAME_TYPE.SET){
-            this.createOrder(this.gameMode.getNumOfOrders());
+        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameState.getGameMode().getGameMode() == GameMode.GAME_TYPE.SET){
+            this.createOrder(this.gameState.getGameMode().getNumOfOrders());
         }
         // If the gameMode is endless, keep adding orders forever
-        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && (this.gameMode.getGameMode() == GameMode.GAME_TYPE.EASY || this.gameMode.getGameMode() == GameMode.GAME_TYPE.NORMAL || this.gameMode.getGameMode() == GameMode.GAME_TYPE.HARD)){
+        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && (this.gameState.getGameMode().getGameMode() == GameMode.GAME_TYPE.EASY || this.gameState.getGameMode().getGameMode() == GameMode.GAME_TYPE.NORMAL || this.gameState.getGameMode().getGameMode() == GameMode.GAME_TYPE.HARD)){
             this.createOrder(1);
         }
 
