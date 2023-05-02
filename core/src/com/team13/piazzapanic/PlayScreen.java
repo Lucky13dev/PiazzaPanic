@@ -129,9 +129,13 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * Sets the game mode and the staring reputation.
+     * @param gameMode Used to determine the starting reputation.
+     */
     public void setMode(GameMode gameMode){
         this.gameMode = gameMode;
-        // Set the reputation
+        // Set the reputation depending on the difficulty
         if(this.gameMode.getGameMode() == GameTypes.NORMAL)
             this.gameState.setReputation(50);
         else if(this.gameMode.getGameMode() == GameTypes.HARD)
@@ -208,6 +212,7 @@ public class PlayScreen implements Screen {
                 }
             } while(!this.gameState.getChefs().get(controlledChefIndex).isControllable());
         }
+        // Move the current controllable chef
         if (this.gameState.getControlledChef().isControllable()) {
                 float xVelocity = 0;
                 float yVelocity = 0;
@@ -230,7 +235,7 @@ public class PlayScreen implements Screen {
                 this.gameState.getControlledChef().b2body.setLinearVelocity(0, 0);
             }
 
-
+        // Check if the player is trying to interact with something
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)){
                 if(this.gameState.getControlledChef().getTouchingFixture() != null){
                     InteractiveTileObject tile = (InteractiveTileObject) this.gameState.getControlledChef().getTouchingFixture().getUserData();

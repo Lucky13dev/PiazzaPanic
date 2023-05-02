@@ -15,7 +15,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * The HUD class draws/writes important game information to the screen.
+ */
 public class HUD implements Disposable, Serializable {
     public Stage stage;
     private Boolean scenarioComplete;

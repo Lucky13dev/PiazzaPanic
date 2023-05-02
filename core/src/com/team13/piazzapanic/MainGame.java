@@ -58,7 +58,7 @@ public class MainGame extends Game {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
 			isPlayScreen = !isPlayScreen;
 			// if the game mode is not set...
-			if(Objects.isNull(this.gameMode.getGameMode())){
+			if(this.gameMode.getGameMode() == null){
 				// Default gameMode
 				this.gameMode.setGameMode(GameTypes.SET);
 				this.gameMode.setNumOfOrders(5);
@@ -67,7 +67,7 @@ public class MainGame extends Game {
 		}
 
 		// Set the game mode
-		if(Objects.isNull(this.gameMode.getGameMode())) {
+		if(this.gameMode.getGameMode() == null) {
 			// set the number of orders
 			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
 				this.gameMode.setGameMode(GameTypes.SET);
@@ -99,7 +99,7 @@ public class MainGame extends Game {
 				playScreen.setMode(this.gameMode);
 				isPlayScreen = !isPlayScreen;
 			}
-			// set the game mode to endless with a difficulty
+			// set the game mode to endless with a difficulty (Easy, Normal or Hard)
 			else if (Gdx.input.isKeyJustPressed(Input.Keys.E)){
 				this.gameMode.setGameMode(GameTypes.EASY);
 				this.gameMode.setNumOfOrders(0);
@@ -119,7 +119,7 @@ public class MainGame extends Game {
 				isPlayScreen = !isPlayScreen;
 			}
 		}
-
+		// set the appropriate screen
 		if (isPlayScreen) {
 			setScreen(playScreen);
 		} else {

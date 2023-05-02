@@ -209,6 +209,13 @@ public class GameState implements Serializable {
         this.hud = hud;
     }
 
+    /**
+     * Load the latest save by updating the game state variables
+     * to the same as the previous save.
+     * @param saveName The name of the save to load.
+     * @return True or False depending on whether the game has
+     * successfully loaded or not.
+     */
     public boolean load(String saveName){
         GameSave save = new GameSave();
         boolean loadSuccess = save.load(saveName);
@@ -229,6 +236,14 @@ public class GameState implements Serializable {
         this.getHud().addMessage("Game Loaded");
         return true;
     }
+
+    /**
+     * Save the current state of the game by storing
+     * the game state variables.
+     * @param saveName The name of the save to load.
+     * @return True or False depending on whether the game
+     * has successfully saved or not.
+     */
     public boolean save(String saveName){
         GameSave save = new GameSave();
 
