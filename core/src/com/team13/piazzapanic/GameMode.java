@@ -1,5 +1,9 @@
 package com.team13.piazzapanic;
 
+/**
+ * A class used to store the information about the game mode.
+ * Contains getters and setters for the game type and number of orders.
+ */
 public class GameMode {
 
     public enum GAME_TYPE {SET, EASY, NORMAL, HARD;}
