@@ -81,6 +81,7 @@ public class HUD implements Disposable, Serializable {
 
         screenMessages = new HashMap<>();
         screenMessages.put("Game Started", 5f);
+        screenMessages.put("Press ',' to save, '.' to load.", 5.5f);
         playerInfoTable = new Table();
         playerInfoTable.setFillParent(true);
         for (String message : screenMessages.keySet()){
