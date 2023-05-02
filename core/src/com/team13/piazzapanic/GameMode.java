@@ -2,14 +2,15 @@ package com.team13.piazzapanic;
 
 public class GameMode {
 
-    private GameTypes gameMode;
+    public enum GAME_TYPE {SET, EASY, NORMAL, HARD;}
+    private GAME_TYPE gameMode;
     private int numOfOrders;
 
-    public void setGameMode(GameTypes gm){
+    public void setGameMode(GAME_TYPE gm){
         this.gameMode = gm;
     }
 
-    public GameTypes getGameMode(){
+    public GAME_TYPE getGameMode(){
         return this.gameMode;
     }
 

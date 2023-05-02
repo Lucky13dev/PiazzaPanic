@@ -7,7 +7,6 @@ import Recipe.Order;
 import Tools.B2WorldCreator;
 import Tools.WorldContactListener;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -131,9 +130,9 @@ public class PlayScreen implements Screen {
     public void setMode(GameMode gameMode){
         this.gameMode = gameMode;
         // Set the reputation
-        if(this.gameMode.getGameMode() == GameTypes.NORMAL)
+        if(this.gameMode.getGameMode() == GameMode.GAME_TYPE.NORMAL)
             this.gameState.setReputation(50);
-        else if(this.gameMode.getGameMode() == GameTypes.HARD)
+        else if(this.gameMode.getGameMode() == GameMode.GAME_TYPE.HARD)
             this.gameState.setReputation(40);
         // default 60
     }
@@ -399,11 +398,11 @@ public class PlayScreen implements Screen {
         int currentTimeInSeconds = (int) this.gameState.getTime();
         int currentReputationInt = (int) this.gameState.getReputation();
 
-        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.getGameMode() == GameTypes.SET){
+        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameMode.getGameMode() == GameMode.GAME_TYPE.SET){
             this.createOrder(this.gameMode.getNumOfOrders());
         }
         // If the gameMode is endless, keep adding orders forever
-        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && (this.gameMode.getGameMode() == GameTypes.EASY || this.gameMode.getGameMode() == GameTypes.NORMAL || this.gameMode.getGameMode() == GameTypes.HARD)){
+        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && (this.gameMode.getGameMode() == GameMode.GAME_TYPE.EASY || this.gameMode.getGameMode() == GameMode.GAME_TYPE.NORMAL || this.gameMode.getGameMode() == GameMode.GAME_TYPE.HARD)){
             this.createOrder(1);
         }
 
