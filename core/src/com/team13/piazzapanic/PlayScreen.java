@@ -119,9 +119,9 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
-        this.ordersArray = new ArrayList<>();
+        this.ordersArray = gameState.getOrdersList();
         this.queuedOrders = new ArrayList<>();
-        this.currentOrder = 0;
+        this.currentOrder = gameState.getCurrentOrder();
 
     }
 
@@ -169,6 +169,7 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.Q) && this.ordersArray.size() > 0){
             // cycle through the orders
             this.currentOrder = ((this.currentOrder) + 1) % this.ordersArray.size();
+            this.gameState.setCurrentOrder(this.currentOrder);
         }
 
         int controlledChefIndex = this.gameState.getChefs().indexOf(this.gameState.getControlledChef());

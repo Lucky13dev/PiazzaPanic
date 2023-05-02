@@ -43,5 +43,6 @@ public class PowerUpStation extends InteractiveTileObject{
             default:
                 return null;
         }
+
     }
 }

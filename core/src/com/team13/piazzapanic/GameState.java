@@ -1,5 +1,6 @@
 package com.team13.piazzapanic;
 
+import Recipe.Order;
 import Sprites.*;
 import com.badlogic.gdx.math.Vector2;
 
@@ -72,6 +73,16 @@ public class GameState implements Serializable {
     private float time;
     transient HUD hud;
 
+    private int currentOrder;
+
+    public void setCurrentOrder(int currentOrder) {
+        this.currentOrder = currentOrder;
+    }
+
+    public int getCurrentOrder() {
+        return currentOrder;
+    }
+
     private Difficulty gameDifficulty;
     public enum Difficulty {EASY, MEDIUM, HARD};
     private float reputation;
@@ -84,15 +95,23 @@ public class GameState implements Serializable {
     public enum scenarioState {LIVE, COMPLETED, FAILED};
     private scenarioState scenarioStatus;
 
+    private ArrayList<Order> ordersList;
+
+    public ArrayList<Order> getOrdersList() {
+        return ordersList;
+    }
+
     private GameMode gameMode;
 
     public GameState(GameMode mode){
         this.chefs = new ArrayList<>();
+        this.currentOrder = 0;
         this.time = 0;
         this.money = 0;
         this.chefSpeed = 0.5f;
         this.scenarioStatus = scenarioState.LIVE;
         this.gameMode = mode;
+        this.ordersList = new ArrayList<>();
         if (mode.getGameType() == null){this.reputation = 60;}
         else {
             switch (mode.getGameType()) {
@@ -292,6 +311,9 @@ public class GameState implements Serializable {
         switch (powerUp){
             case FREE_RECIPE:
                 //later
+                Chef controlledChef = this.getControlledChef();
+                controlledChef.setInHandsRecipe(this.ordersList.get(this.currentOrder).recipe);
+                controlledChef.setChefSkin(controlledChef.getInHandsRecipe());
                 this.getHud().addMessage("Recipe Skipped");
                 return;
             case REPUTATION_BOOST:
