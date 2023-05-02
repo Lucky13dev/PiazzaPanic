@@ -19,6 +19,9 @@ package de.catepilla.gdxtesting;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.team13.piazzapanic.PlayScreen;
+import com.team13.piazzapanic.StartScreen;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
@@ -31,6 +34,8 @@ import static org.mockito.Mockito.mock;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
+
+import com.team13.piazzapanic.MainGame;
 
 public class GdxTestRunner extends BlockJUnit4ClassRunner implements ApplicationListener {
 
@@ -46,6 +51,10 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
 
 	@Override
 	public void create() {
+		//MainGame mainGame = new MainGame();
+		//SpriteBatch batch = new SpriteBatch();
+		//StartScreen startScreen = new StartScreen(mainGame);
+		//PlayScreen playScreen = new PlayScreen(mainGame);
 	}
 
 	@Override

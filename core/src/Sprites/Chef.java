@@ -119,13 +119,14 @@ public class Chef extends Sprite implements Serializable {
      * @param startY starting Y position
      */
 
-    public Chef(World world, float startX, float startY) {
+    public Chef(float startX, float startY) {
         this.currentTexture = TEXTURE_NORMAL_CHEF;
 
-        this.world = world;
+        //this.world = world;
         this.orientation = Orientation.DOWN;
 
-        this.defineChef(startX/MainGame.PPM, startY/MainGame.PPM);
+        //This line has been moved to PlayScreen to avoid world being initialised in the constructor.
+        //this.defineChef(world, startX/MainGame.PPM, startY/MainGame.PPM);
 
         float chefWidth = 13 / MainGame.PPM;
         float chefHeight = 20 / MainGame.PPM;
@@ -315,7 +316,7 @@ public class Chef extends Sprite implements Serializable {
      * of the chef object.
      */
 
-    public void defineChef(float x, float y) {
+    public void defineChef(World world, float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(x, y);
         bodyDef.type = BodyDef.BodyType.DynamicBody;

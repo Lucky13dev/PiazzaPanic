@@ -32,18 +32,9 @@ public class GameStateTests {
 
     @Test
     public void TextChefIndex() {
-        World world;
-        TiledMap map;
-        PlayScreen screen;
-        MainGame maingame = new MainGame();
-        screen = new PlayScreen(maingame);
-        world = new World(new Vector2(0,0), true);
-        TmxMapLoader mapLoader = new TmxMapLoader(new InternalFileHandleResolver());
-        map = mapLoader.load("Kitchen.tmx");
-        new B2WorldCreator(world, map, screen);
 
         GameState gameState = new GameState();
-        gameState.addChef(new Chef(world, 31.5F,65));
+        gameState.addChef(new Chef(31.5F,65));
         gameState.setControlledChef(1);
         Chef controlledChef = gameState.getControlledChef();
         assertEquals(1, controlledChef);
