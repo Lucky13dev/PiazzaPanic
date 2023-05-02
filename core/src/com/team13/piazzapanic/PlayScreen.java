@@ -84,7 +84,7 @@ public class PlayScreen implements Screen {
         this.choppingBoardCost = 0;
         this.ovenCost = 0;
         this.panCost = 0;
-        this.gameState = new GameState();
+        this.gameState = new GameState(new GameMode());
         this.game = game;
         gamecam = new OrthographicCamera();
         // FitViewport to maintain aspect ratio whilst scaling to screen size
@@ -386,11 +386,11 @@ public class PlayScreen implements Screen {
         int currentTimeInSeconds = (int) this.gameState.getTime();
         int currentReputationInt = (int) this.gameState.getReputation();
 
-        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameState.getGameMode().getGameMode() == GameMode.GAME_TYPE.SET){
+        if(currentTimeInSeconds == 5 && ordersArray.size() == 0 && this.gameState.getGameMode().getGameType() == GameMode.GAME_TYPE.SET){
             this.createOrder(this.gameState.getGameMode().getNumOfOrders());
         }
         // If the gameMode is endless, keep adding orders forever
-        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && (this.gameState.getGameMode().getGameMode() == GameMode.GAME_TYPE.EASY || this.gameState.getGameMode().getGameMode() == GameMode.GAME_TYPE.NORMAL || this.gameState.getGameMode().getGameMode() == GameMode.GAME_TYPE.HARD)){
+        if(currentTimeInSeconds >= 5 && ordersArray.size() < 6 && (this.gameState.getGameMode().getGameType() == GameMode.GAME_TYPE.EASY || this.gameState.getGameMode().getGameType() == GameMode.GAME_TYPE.NORMAL || this.gameState.getGameMode().getGameType() == GameMode.GAME_TYPE.HARD)){
             this.createOrder(1);
         }
 

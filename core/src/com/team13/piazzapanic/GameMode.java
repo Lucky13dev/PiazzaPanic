@@ -6,11 +6,11 @@ public class GameMode {
     private GAME_TYPE gameMode;
     private int numOfOrders;
 
-    public void setGameMode(GAME_TYPE gm){
+    public void setGameType(GAME_TYPE gm){
         this.gameMode = gm;
     }
 
-    public GAME_TYPE getGameMode(){
+    public GAME_TYPE getGameType(){
         return this.gameMode;
     }
 

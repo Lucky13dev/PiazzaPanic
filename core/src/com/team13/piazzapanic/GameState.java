@@ -86,23 +86,30 @@ public class GameState implements Serializable {
 
     private GameMode gameMode;
 
-    public GameState(){
+    public GameState(GameMode mode){
         this.chefs = new ArrayList<>();
         this.time = 0;
-        this.reputation = 60;
         this.money = 0;
         this.chefSpeed = 0.5f;
         this.scenarioStatus = scenarioState.LIVE;
+        this.gameMode = mode;
+        if (mode.getGameType() == null){this.reputation = 60;}
+        else {
+            switch (mode.getGameType()) {
+                case EASY:
+                    this.reputation = 60;
+                case NORMAL:
+                    this.reputation = 50;
+                case HARD:
+                    this.reputation = 40;
+                default:
+                    this.reputation = 60;
+            }
+        }
     }
 
-    public void setMode(GameMode gameMode){
+    public void setGameMode(GameMode gameMode){
         this.gameMode = gameMode;
-        // Set the reputation
-        if(this.gameMode.getGameMode() == GameMode.GAME_TYPE.NORMAL)
-            this.setReputation(50);
-        else if(this.gameMode.getGameMode() == GameMode.GAME_TYPE.HARD)
-            this.setReputation(40);
-        // default 60
     }
     public GameMode getGameMode(){
         return this.gameMode;
