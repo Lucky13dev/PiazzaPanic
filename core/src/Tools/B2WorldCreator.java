@@ -62,7 +62,6 @@ public class B2WorldCreator {
                 bdef.position.set(position_x / MainGame.PPM, position_y / MainGame.PPM);
                 bdef.type = BodyDef.BodyType.StaticBody;
 
-                //System.out.println(mapObject.getName());
 
                 if (mapObject.getName().equals("bin")) {
                     new Bin(world, map, bdef, rectangle);

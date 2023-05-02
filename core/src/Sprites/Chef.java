@@ -114,7 +114,6 @@ public class Chef extends Sprite implements Serializable {
 
     /**
      * Chef class constructor that initializes all the fields
-     * @param world the world the chef exists in
      * @param startX starting X position
      * @param startY starting Y position
      */
