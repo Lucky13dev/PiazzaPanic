@@ -2,6 +2,7 @@ package de.catepilla.gdxtesting.examples;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.team13.piazzapanic.GameMode;
 import com.team13.piazzapanic.GameState;
 import com.team13.piazzapanic.MainGame;
 import com.team13.piazzapanic.PlayScreen;
@@ -20,7 +21,7 @@ public class ScenarioCompletionTest {
     public void zeroOrdersRemainingTest(){
         MainGame game = new MainGame();
         PlayScreen playScreen = new PlayScreen(game);
-        GameState gameState = new GameState();
+        GameState gameState = new GameState(new GameMode());
 
         if(playScreen.ordersArray.size()==0) {
             assertEquals(gameState.getScenarioStatus(), GameState.scenarioState.COMPLETED);
@@ -30,7 +31,7 @@ public class ScenarioCompletionTest {
     public void OrdersRemainingTest(){
         MainGame game = new MainGame();
         PlayScreen playScreen = new PlayScreen(game);
-        GameState gameState = new GameState();
+        GameState gameState = new GameState(new GameMode());
 
         if(playScreen.ordersArray.size()==1) {
             assertEquals(gameState.getScenarioStatus(), GameState.scenarioState.LIVE);
