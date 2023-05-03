@@ -1,6 +1,9 @@
 package de.catepilla.gdxtesting.examples;
 
+import PowerUps.PowerUp;
+import Sprites.PowerUpStation;
 import de.catepilla.gdxtesting.GdxTestRunner;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(GdxTestRunner.class)
