@@ -1,15 +1,11 @@
 package de.catepilla.gdxtesting.examples;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+
 import com.team13.piazzapanic.GameMode;
-import com.team13.piazzapanic.GameTypes;
 import com.team13.piazzapanic.MainGame;
 import de.catepilla.gdxtesting.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,9 +24,9 @@ public class GameModeTests {
         MainGame mainGame = new MainGame();
         GameMode gameMode = new GameMode();
 
-        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setGameType(GameMode.GAME_TYPE.SET);
         gameMode.setNumOfOrders(1);
-        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getGameType(), GameMode.GAME_TYPE.SET);
         assertEquals(gameMode.getNumOfOrders(), 1);
     }
 
@@ -40,9 +36,9 @@ public class GameModeTests {
         MainGame mainGame = new MainGame();
         GameMode gameMode = new GameMode();
 
-        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setGameType(GameMode.GAME_TYPE.SET);
         gameMode.setNumOfOrders(2);
-        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getGameType(), GameMode.GAME_TYPE.SET);
         assertEquals(gameMode.getNumOfOrders(), 2);
     }
 
@@ -51,9 +47,9 @@ public class GameModeTests {
         MainGame mainGame = new MainGame();
         GameMode gameMode = new GameMode();
 
-        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setGameType(GameMode.GAME_TYPE.SET);
         gameMode.setNumOfOrders(3);
-        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getGameType(), GameMode.GAME_TYPE.SET);
         assertEquals(gameMode.getNumOfOrders(), 3);
     }
 
@@ -62,9 +58,9 @@ public class GameModeTests {
         MainGame mainGame = new MainGame();
         GameMode gameMode = new GameMode();
 
-        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setGameType(GameMode.GAME_TYPE.SET);
         gameMode.setNumOfOrders(4);
-        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getGameType(), GameMode.GAME_TYPE.SET);
         assertEquals(gameMode.getNumOfOrders(), 4);
     }
 
@@ -73,9 +69,9 @@ public class GameModeTests {
         MainGame mainGame = new MainGame();
         GameMode gameMode = new GameMode();
 
-        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setGameType(GameMode.GAME_TYPE.SET);
         gameMode.setNumOfOrders(5);
-        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getGameType(), GameMode.GAME_TYPE.SET);
         assertEquals(gameMode.getNumOfOrders(), 5);
     }
 
@@ -84,9 +80,9 @@ public class GameModeTests {
         MainGame mainGame = new MainGame();
         GameMode gameMode = new GameMode();
 
-        gameMode.setGameMode(GameTypes.EASY);
+        gameMode.setGameType(GameMode.GAME_TYPE.EASY);
         gameMode.setNumOfOrders(0);
-        assertEquals(gameMode.getGameMode(), GameTypes.EASY);
+        assertEquals(gameMode.getGameType(), GameMode.GAME_TYPE.EASY);
         assertEquals(gameMode.getNumOfOrders(), 0);
     }
 
@@ -95,9 +91,9 @@ public class GameModeTests {
         MainGame mainGame = new MainGame();
         GameMode gameMode = new GameMode();
 
-        gameMode.setGameMode(GameTypes.NORMAL);
+        gameMode.setGameType(GameMode.GAME_TYPE.NORMAL);
         gameMode.setNumOfOrders(0);
-        assertEquals(gameMode.getGameMode(), GameTypes.NORMAL);
+        assertEquals(gameMode.getGameType(), GameMode.GAME_TYPE.NORMAL);
         assertEquals(gameMode.getNumOfOrders(), 0);
     }
 
@@ -106,9 +102,9 @@ public class GameModeTests {
         MainGame mainGame = new MainGame();
         GameMode gameMode = new GameMode();
 
-        gameMode.setGameMode(GameTypes.HARD);
+        gameMode.setGameType(GameMode.GAME_TYPE.HARD);
         gameMode.setNumOfOrders(0);
-        assertEquals(gameMode.getGameMode(), GameTypes.HARD);
+        assertEquals(gameMode.getGameType(), GameMode.GAME_TYPE.HARD);
         assertEquals(gameMode.getNumOfOrders(), 0);
     }
 

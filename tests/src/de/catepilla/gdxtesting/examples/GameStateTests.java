@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.team13.piazzapanic.GameMode;
 import com.team13.piazzapanic.GameState;
 import com.team13.piazzapanic.MainGame;
 import com.team13.piazzapanic.PlayScreen;
@@ -24,7 +25,7 @@ public class GameStateTests {
 
     @Test
     public void TestMaxChefs() {
-        GameState gameState = new GameState();
+        GameState gameState = new GameState(new GameMode());
         int max_count = GameState.getMAX_CHEF_COUNT();
         int expected_max_count = 5;
         assertEquals(expected_max_count, max_count);
@@ -33,7 +34,7 @@ public class GameStateTests {
     @Test
     public void TextChefIndex() {
 
-        GameState gameState = new GameState();
+        GameState gameState = new GameState(new GameMode());
         gameState.addChef(new Chef(31.5F,65));
         gameState.setControlledChef(1);
         Chef controlledChef = gameState.getControlledChef();
