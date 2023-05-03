@@ -2,10 +2,15 @@ package de.catepilla.gdxtesting.examples;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.team13.piazzapanic.GameMode;
+import com.team13.piazzapanic.GameTypes;
 import com.team13.piazzapanic.MainGame;
 import de.catepilla.gdxtesting.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Objects;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(GdxTestRunner.class)
@@ -13,34 +18,93 @@ public class GameModeTests {
 
     /**
      * Tests on the Game Modes.
-     * Currently not possible to test due to MainGame.numOfOrders and MainGame.gameMode having private access.
+     * Currently not
      */
-//    @Test
-//    public void setGameModeTest() {
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
-//            assertEquals(MainGame.numOfOrders,1);
-//            assertEquals(MainGame.gameMode,"setMode");
-//        }
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
-//            assertEquals(MainGame.numOfOrders,2);
-//            assertEquals(MainGame.gameMode,"setMode");
-//        }
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
-//            assertEquals(MainGame.numOfOrders,3);
-//            assertEquals(MainGame.gameMode,"setMode");
-//        }
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)){
-//            assertEquals(MainGame.numOfOrders,4);
-//            assertEquals(MainGame.gameMode,"setMode");
-//        }
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)){
-//            assertEquals(MainGame.numOfOrders,5);
-//            assertEquals(MainGame.gameMode,"setMode");
-//        }
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
-//            assertEquals(MainGame.numOfOrders,0);
-//            assertEquals(MainGame.gameMode,"endless");
-//        }
-//    }
-        //REMOVE LATER: line376 onwards on PlayScreen might be testable
+
+    @Test
+    public void setGameMode1Test() {
+        MainGame mainGame = new MainGame();
+        GameMode gameMode = new GameMode();
+
+        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setNumOfOrders(1);
+        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getNumOfOrders(), 1);
+        }
+
+
+    @Test
+    public void setGameMode2Test() {
+        MainGame mainGame = new MainGame();
+        GameMode gameMode = new GameMode();
+
+        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setNumOfOrders(2);
+        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getNumOfOrders(), 2);
+    }
+    @Test
+    public void setGameMode3Test() {
+        MainGame mainGame = new MainGame();
+        GameMode gameMode = new GameMode();
+
+        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setNumOfOrders(3);
+        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getNumOfOrders(), 3);
+    }
+    @Test
+    public void setGameMode4Test() {
+        MainGame mainGame = new MainGame();
+        GameMode gameMode = new GameMode();
+
+        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setNumOfOrders(4);
+        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getNumOfOrders(), 4);
+    }
+    @Test
+    public void setGameMode5Test() {
+        MainGame mainGame = new MainGame();
+        GameMode gameMode = new GameMode();
+
+        gameMode.setGameMode(GameTypes.SET);
+        gameMode.setNumOfOrders(5);
+        assertEquals(gameMode.getGameMode(), GameTypes.SET);
+        assertEquals(gameMode.getNumOfOrders(), 5);
+    }
+    @Test
+    public void setGameModeEndlessEasyTest() {
+        MainGame mainGame = new MainGame();
+        GameMode gameMode = new GameMode();
+
+        gameMode.setGameMode(GameTypes.EASY);
+        gameMode.setNumOfOrders(0);
+        assertEquals(gameMode.getGameMode(), GameTypes.EASY);
+        assertEquals(gameMode.getNumOfOrders(), 0);
+        }
+
+    @Test
+    public void setGameModeEndlessNormalTest() {
+        MainGame mainGame = new MainGame();
+        GameMode gameMode = new GameMode();
+
+        gameMode.setGameMode(GameTypes.NORMAL);
+        gameMode.setNumOfOrders(0);
+        assertEquals(gameMode.getGameMode(), GameTypes.NORMAL);
+        assertEquals(gameMode.getNumOfOrders(), 0);
+    }
+
+    @Test
+    public void setGameModeEndlessHardTest() {
+        MainGame mainGame = new MainGame();
+        GameMode gameMode = new GameMode();
+
+        gameMode.setGameMode(GameTypes.HARD);
+        gameMode.setNumOfOrders(0);
+        assertEquals(gameMode.getGameMode(), GameTypes.HARD);
+        assertEquals(gameMode.getNumOfOrders(), 0);
+    }
+
 }
+        //REMOVE LATER: line376 onwards on PlayScreen might be testable

@@ -132,4 +132,13 @@ public class MainGame extends Game {
 		super.dispose();
 		batch.dispose();
 	}
+
+	//Getters for gameMode and numOfOrders for testing purposes.
+	public GameMode getGameMode() {
+		return gameMode;
+	}
+
+	public int getNumOfOrders() {
+		return numOfOrders;
+	}
 }
