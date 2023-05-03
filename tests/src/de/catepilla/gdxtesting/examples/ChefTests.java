@@ -85,11 +85,14 @@ public class ChefTests {
 		assertEquals(chef.isControllable(), true);
 	}
 
+	/**
+	 * TODO Following tests are commented out due to them requiring major code refactors.
+	 */
 //	@Test
 //	public void SetPositionTest() {
 //		Chef chef = new Chef(0,0);
 //		int dt = 0;
-//		//chef.update(dt); //need to access the update method,
+//		//chef.update(dt); /** need to access the update method **/
 //		chef.setPosition(0,0);
 //		assertEquals(chef.b2body.getPosition().x,chef.b2body.getPosition().x - chef.getWidth() / 2,0);
 //		assertEquals(chef.b2body.getPosition().y,chef.b2body.getPosition().y - chef.getWidth() / 2,0);
@@ -102,7 +105,7 @@ public class ChefTests {
 //		assertEquals(chef.);
 //	}
 
-	//Orientation is private
+	/**Orientation is private**/
 
 //	@Test
 //	public void EmptyHandsTest() {
@@ -111,7 +114,7 @@ public class ChefTests {
 //			boolean emptyHands = true;
 //		}
 //
-	//inhandsingredient is private
+	/**inhandsingredient is private**/
 
 //	@Test
 //	public void DropItemOnTest() {
@@ -122,7 +125,7 @@ public class ChefTests {
 //		Onion ing = new Onion(prepareTime, cookTime, bakeTime);
 //		Chef.dropItemOn(station, ing);
 //	};
-	 //needs refactoring of interactiveTileObject, which is possible but will take too long and might cause issues.
+	 /**needs refactoring of interactiveTileObject, which is possible but will take too long and might cause issues.**/
 
 //	@Test
 //	public void Test() {

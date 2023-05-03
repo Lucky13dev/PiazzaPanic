@@ -6,6 +6,9 @@ import de.catepilla.gdxtesting.GdxTestRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Tests the FR_POWERUPS requirement.
+ */
 @RunWith(GdxTestRunner.class)
 public class PowerUpTests {
 
