@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.catepilla.gdxtesting.examples.InteractiveTileObjectTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-05-03T10:12:33" hostname="JACKS-GAMING-PC" time="0.0">
+  <properties/>
+  <testcase name="InteractiveTileObjectTest" classname="de.catepilla.gdxtesting.examples.InteractiveTileObjectTests" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

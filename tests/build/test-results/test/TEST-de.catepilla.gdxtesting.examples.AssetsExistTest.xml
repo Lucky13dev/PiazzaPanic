@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.catepilla.gdxtesting.examples.AssetsExistTest" tests="33" skipped="0" failures="0" errors="0" timestamp="2023-05-03T10:12:32" hostname="JACKS-GAMING-PC" time="0.535">
+  <properties/>
+  <testcase name="LettuceFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.003"/>
+  <testcase name="ChefHoldingChoppedLettuceFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="BurgerRecipeFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingFrontFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="StartImageFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="OnionFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChoppedLettuceFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingMeatFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingBunsFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingSaladFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefIdentifierFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingBunsToastedFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="BurgerFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="TileSetFilesExist" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="BurgerBunsFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingTomatoFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingPattyFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="SaladFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="KitchenFilesExist" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="MeatFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefNormalFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChoppedTomatoFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingOnionFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="TomatoFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="SaladRecipeFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChoppedOnionFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="PattyFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="CookedPattyFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingLettuceFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ToastedBurgerBunsFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingChoppedOnionFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingBurgerFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <testcase name="ChefHoldingChoppedTomatoFileExists" classname="de.catepilla.gdxtesting.examples.AssetsExistTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

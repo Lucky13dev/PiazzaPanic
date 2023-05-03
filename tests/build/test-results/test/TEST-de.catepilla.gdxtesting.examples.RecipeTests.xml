@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.catepilla.gdxtesting.examples.RecipeTests" tests="6" skipped="0" failures="5" errors="0" timestamp="2023-05-03T10:12:33" hostname="JACKS-GAMING-PC" time="0.091">
+  <properties/>
+  <testcase name="RecipeCreateTest" classname="de.catepilla.gdxtesting.examples.RecipeTests" time="0.001"/>
+  <testcase name="SaladRecipeTest" classname="de.catepilla.gdxtesting.examples.RecipeTests" time="0.009">
+    <failure message="java.lang.AssertionError: expected:&lt;[Ingredients.Lettuce@7aec5af, Ingredients.Tomato@6ed40efc, Ingredients.Onion@366383dd]&gt; but was:&lt;[Ingredients.Lettuce@16f3162c, Ingredients.Tomato@67813ae0, Ingredients.Onion@29ec7b02]&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;[Ingredients.Lettuce@7aec5af, Ingredients.Tomato@6ed40efc, Ingredients.Onion@366383dd]&gt; but was:&lt;[Ingredients.Lettuce@16f3162c, Ingredients.Tomato@67813ae0, Ingredients.Onion@29ec7b02]&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at de.catepilla.gdxtesting.examples.RecipeTests.SaladRecipeTest(RecipeTests.java:60)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at de.catepilla.gdxtesting.GdxTestRunner.render(GdxTestRunner.java:68)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication.mainLoop(HeadlessApplication.java:128)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication$1.run(HeadlessApplication.java:93)
+</failure>
+  </testcase>
+  <testcase name="CookedPizzaRecipeTest" classname="de.catepilla.gdxtesting.examples.RecipeTests" time="0.003">
+    <failure message="java.lang.AssertionError: expected:&lt;[]&gt; but was:&lt;[Ingredients.RawPizza@df75ca4, Ingredients.RawPizza@63cf21c0]&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;[]&gt; but was:&lt;[Ingredients.RawPizza@df75ca4, Ingredients.RawPizza@63cf21c0]&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at de.catepilla.gdxtesting.examples.RecipeTests.CookedPizzaRecipeTest(RecipeTests.java:79)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at de.catepilla.gdxtesting.GdxTestRunner.render(GdxTestRunner.java:68)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication.mainLoop(HeadlessApplication.java:128)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication$1.run(HeadlessApplication.java:93)
+</failure>
+  </testcase>
+  <testcase name="JacketPotatoRecipeTest" classname="de.catepilla.gdxtesting.examples.RecipeTests" time="0.008">
+    <failure message="java.lang.AssertionError: expected:&lt;[]&gt; but was:&lt;[Ingredients.CookedPotato@7116284f, Ingredients.Cheese@463348b5, Ingredients.CookedPotato@5c68a092, Ingredients.Cheese@7eed7e2d]&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;[]&gt; but was:&lt;[Ingredients.CookedPotato@7116284f, Ingredients.Cheese@463348b5, Ingredients.CookedPotato@5c68a092, Ingredients.Cheese@7eed7e2d]&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at de.catepilla.gdxtesting.examples.RecipeTests.JacketPotatoRecipeTest(RecipeTests.java:70)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at de.catepilla.gdxtesting.GdxTestRunner.render(GdxTestRunner.java:68)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication.mainLoop(HeadlessApplication.java:128)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication$1.run(HeadlessApplication.java:93)
+</failure>
+  </testcase>
+  <testcase name="RawPizzaRecipeTest" classname="de.catepilla.gdxtesting.examples.RecipeTests" time="0.01">
+    <failure message="java.lang.AssertionError: expected:&lt;[Ingredients.PizzaBase@62d3f475, Ingredients.Tomato@7b26a48d, Ingredients.Cheese@6e2fb1d2]&gt; but was:&lt;[Ingredients.PizzaBase@1b8c77f5, Ingredients.Tomato@660148ad, Ingredients.Cheese@28cd8a2c]&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;[Ingredients.PizzaBase@62d3f475, Ingredients.Tomato@7b26a48d, Ingredients.Cheese@6e2fb1d2]&gt; but was:&lt;[Ingredients.PizzaBase@1b8c77f5, Ingredients.Tomato@660148ad, Ingredients.Cheese@28cd8a2c]&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at de.catepilla.gdxtesting.examples.RecipeTests.RawPizzaRecipeTest(RecipeTests.java:49)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at de.catepilla.gdxtesting.GdxTestRunner.render(GdxTestRunner.java:68)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication.mainLoop(HeadlessApplication.java:128)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication$1.run(HeadlessApplication.java:93)
+</failure>
+  </testcase>
+  <testcase name="BurgerRecipeTest" classname="de.catepilla.gdxtesting.examples.RecipeTests" time="0.008">
+    <failure message="java.lang.AssertionError: expected:&lt;[Ingredients.Bun@4334f493, Ingredients.Steak@2f1c8878]&gt; but was:&lt;[Ingredients.Bun@6b44eb5d, Ingredients.Steak@2886c8dc]&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;[Ingredients.Bun@4334f493, Ingredients.Steak@2f1c8878]&gt; but was:&lt;[Ingredients.Bun@6b44eb5d, Ingredients.Steak@2886c8dc]&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at de.catepilla.gdxtesting.examples.RecipeTests.BurgerRecipeTest(RecipeTests.java:38)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at de.catepilla.gdxtesting.GdxTestRunner.render(GdxTestRunner.java:68)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication.mainLoop(HeadlessApplication.java:128)
+	at com.badlogic.gdx.backends.headless.HeadlessApplication$1.run(HeadlessApplication.java:93)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

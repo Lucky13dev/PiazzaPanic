@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.catepilla.gdxtesting.examples.ChefTests" tests="9" skipped="0" failures="0" errors="0" timestamp="2023-05-03T10:12:32" hostname="JACKS-GAMING-PC" time="0.187">
+  <properties/>
+  <testcase name="ChefV2Test" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.051"/>
+  <testcase name="ChefIsControllableTest" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.001"/>
+  <testcase name="ChefOnChefCollisionTest" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.002"/>
+  <testcase name="ChefWidthTest" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.001"/>
+  <testcase name="ChefHeightTest" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.001"/>
+  <testcase name="ChefSetBoundsTest" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.002"/>
+  <testcase name="ChefInHandsIngredientTest" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.001"/>
+  <testcase name="ChefTouchingFixtureTest" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.001"/>
+  <testcase name="ChefInHandsRecipeTest" classname="de.catepilla.gdxtesting.examples.ChefTests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

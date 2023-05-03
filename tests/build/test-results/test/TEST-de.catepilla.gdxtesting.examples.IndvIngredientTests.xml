@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.catepilla.gdxtesting.examples.IndvIngredientTests" tests="10" skipped="0" failures="0" errors="0" timestamp="2023-05-03T10:12:32" hostname="JACKS-GAMING-PC" time="0.151">
+  <properties/>
+  <testcase name="TomatoTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.002"/>
+  <testcase name="PotatoTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.002"/>
+  <testcase name="SteakTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.003"/>
+  <testcase name="LettuceTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.001"/>
+  <testcase name="BunsTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.001"/>
+  <testcase name="CheeseTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.002"/>
+  <testcase name="OnionTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.001"/>
+  <testcase name="PizzaBaseTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.003"/>
+  <testcase name="CookedPotatoTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.003"/>
+  <testcase name="RawPizzaTest" classname="de.catepilla.gdxtesting.examples.IndvIngredientTests" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
