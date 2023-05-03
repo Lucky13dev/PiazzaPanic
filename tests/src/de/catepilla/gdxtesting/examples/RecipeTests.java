@@ -16,6 +16,9 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests the FR_RECIPE requirement.
+ */
 @RunWith(GdxTestRunner.class)
 public class RecipeTests {
 

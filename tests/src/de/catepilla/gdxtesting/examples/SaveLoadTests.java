@@ -10,6 +10,9 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests for the FR_SAVE and FR_LOAD requirements.
+ */
 @RunWith(GdxTestRunner.class)
 public class SaveLoadTests {
 

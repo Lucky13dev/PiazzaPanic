@@ -13,12 +13,14 @@ import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests the FR_DIFFICULTY requirement.
+ */
 @RunWith(GdxTestRunner.class)
 public class GameModeTests {
 
     /**
-     * Tests on the Game Modes.
-     * Currently not
+     * Tests on the Game Modes and Difficulties.
      */
 
     @Test
@@ -30,7 +32,7 @@ public class GameModeTests {
         gameMode.setNumOfOrders(1);
         assertEquals(gameMode.getGameMode(), GameTypes.SET);
         assertEquals(gameMode.getNumOfOrders(), 1);
-        }
+    }
 
 
     @Test
@@ -43,6 +45,7 @@ public class GameModeTests {
         assertEquals(gameMode.getGameMode(), GameTypes.SET);
         assertEquals(gameMode.getNumOfOrders(), 2);
     }
+
     @Test
     public void setGameMode3Test() {
         MainGame mainGame = new MainGame();
@@ -53,6 +56,7 @@ public class GameModeTests {
         assertEquals(gameMode.getGameMode(), GameTypes.SET);
         assertEquals(gameMode.getNumOfOrders(), 3);
     }
+
     @Test
     public void setGameMode4Test() {
         MainGame mainGame = new MainGame();
@@ -63,6 +67,7 @@ public class GameModeTests {
         assertEquals(gameMode.getGameMode(), GameTypes.SET);
         assertEquals(gameMode.getNumOfOrders(), 4);
     }
+
     @Test
     public void setGameMode5Test() {
         MainGame mainGame = new MainGame();
@@ -73,6 +78,7 @@ public class GameModeTests {
         assertEquals(gameMode.getGameMode(), GameTypes.SET);
         assertEquals(gameMode.getNumOfOrders(), 5);
     }
+
     @Test
     public void setGameModeEndlessEasyTest() {
         MainGame mainGame = new MainGame();
@@ -82,7 +88,7 @@ public class GameModeTests {
         gameMode.setNumOfOrders(0);
         assertEquals(gameMode.getGameMode(), GameTypes.EASY);
         assertEquals(gameMode.getNumOfOrders(), 0);
-        }
+    }
 
     @Test
     public void setGameModeEndlessNormalTest() {
@@ -107,4 +113,3 @@ public class GameModeTests {
     }
 
 }
-        //REMOVE LATER: line376 onwards on PlayScreen might be testable
